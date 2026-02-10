@@ -2,6 +2,7 @@
 @import 'tailwindcss';
 
 @layer base {
+
   *,
   *::before,
   *::after {
@@ -74,8 +75,8 @@
   --bg-glass: #0000003d;
   --bg-teal: #f0fdfa;
   --bg-tertiary: #f3f4f6;
-
   /* Theme colors from lib/theme.ts */
+  --range: #0BA0A1;
   --theme-active: #020409;
   --theme-error: #dc2626;
   --theme-warning: #eab308;
@@ -89,5 +90,35 @@
 @layer components {
   .container {
     @apply mx-auto;
+  }
+}
+
+@layer utilities {
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+
+    to {
+      height: var(--radix-accordion-content-height);
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--radix-accordion-content-height);
+    }
+
+    to {
+      height: 0;
+    }
+  }
+
+  .animate-accordion-down {
+    animation: accordion-down 0.2s ease-out;
+  }
+
+  .animate-accordion-up {
+    animation: accordion-up 0.2s ease-out;
   }
 }
