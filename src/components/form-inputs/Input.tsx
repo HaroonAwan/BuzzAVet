@@ -64,6 +64,7 @@ const FormInput = <
   const errorId = `error-${name}`;
   const isPassword = type === 'password';
   const isOtp = type === 'otp';
+  const isTextarea = type === 'textarea';
   const [showPassword, setShowPassword] = React.useState(false);
   const [isFocused, setIsFocused] = React.useState(false);
 
@@ -95,6 +96,63 @@ const FormInput = <
 
         const borderColor = getBorderColor();
         const inputType = isPassword && showPassword ? 'text' : type;
+
+        // Render Textarea
+        if (isTextarea) {
+          return (
+            <div className="flex flex-col gap-2">
+              {label && (
+                <label htmlFor={inputId} className="block text-sm font-medium">
+                  {label}
+                </label>
+              )}
+              <div className="relative">
+                <textarea
+                  {...field}
+                  id={inputId}
+                  disabled={disabled}
+                  placeholder={props.placeholder as string}
+                  className={cn(
+                    'flex h-27.5 w-full rounded-xl border bg-background px-3 py-2 text-sm resize-none',
+                    'border-(--theme-default-border)',
+                    'text-(--theme-text-default)',
+                    'placeholder:text-(--theme-placeholder)',
+                    'focus-visible:outline-none focus-visible:border-(--theme-active)',
+                    'disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-(--theme-disabled-bg)',
+                    className
+                  )}
+                  onFocus={(e) => {
+                    setIsFocused(true);
+                    props.onFocus?.(e as any);
+                  }}
+                  onBlur={(e) => {
+                    setIsFocused(false);
+                    field.onBlur();
+                    props.onBlur?.(e as any);
+                  }}
+                  style={{
+                    borderColor: borderColor,
+                    color: 'var(--theme-text-default)',
+                    ...(props.style as React.CSSProperties),
+                  }}
+                  aria-invalid={hasError}
+                  aria-describedby={hasError ? errorId : undefined}
+                />
+                {hasError && errorMessage && (
+                  <p
+                    id={errorId}
+                    className="text-[12px] absolute -bottom-4.5 right-1.5"
+                    style={{ color: theme.colors.error }}
+                    role="alert"
+                    aria-live="polite"
+                  >
+                    {errorMessage}
+                  </p>
+                )}
+              </div>
+            </div>
+          );
+        }
 
         // OTP-specific logic
         const otpValue = (field.value || '').toString().slice(0, OTP_LENGTH);

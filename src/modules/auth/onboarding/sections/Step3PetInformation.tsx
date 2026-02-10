@@ -14,6 +14,15 @@ import { Button } from '@/components/shared/Button';
 import { PET_GENDER_TYPES, PET_TYPE, PET_TYPE_TYPES } from '@/lib/enums';
 import { selectStep3Data, setStep3Data } from '@/apis/onBoarding/onBoardingSlice';
 import { useOnboarding } from '../hooks/useOnboarding';
+import {
+  ageRule,
+  breedRule,
+  genderRule,
+  nameRule,
+  petTypeRule,
+  photoRule,
+  weightRule,
+} from '@/lib/validationRules';
 
 interface Step3FormData {
   petName: string;
@@ -27,53 +36,14 @@ interface Step3FormData {
 
 // Validation schema for Step 3
 const step3Schema: yup.ObjectSchema<Step3FormData> = yup.object().shape({
-  petName: yup
-    .string()
-    .required('Pet name is required')
-    .min(1, 'Pet name cannot be empty')
-    .max(100, 'Pet name cannot exceed 100 characters')
-    .trim('Pet name cannot have leading or trailing spaces')
-    .test(
-      'alphabets-only',
-      'Pet name can only contain alphabets and spaces',
-      function (value: string | undefined) {
-        if (!value) return true;
-        return /^[a-zA-Z\s]*$/.test(value);
-      }
-    )
-    .test(
-      'max-spaces',
-      'Pet name cannot have consecutive spaces',
-      function (value: string | undefined) {
-        if (!value) return true;
-        return !/\s{2,}/.test(value);
-      }
-    ) as yup.StringSchema<string>,
-  petType: yup
-    .string()
-    .required('Please select a pet type')
-    .oneOf(
-      ['DOG', 'CAT', 'BIRD', 'OTHER'] as const,
-      'Invalid pet type'
-    ) as yup.StringSchema<PET_TYPE_TYPES>,
-  breed: yup.string().nullable() as yup.StringSchema<string>,
-  gender: yup.string().nullable() as yup.StringSchema<PET_GENDER_TYPES | null>,
-  age: yup
-    .number()
-    .typeError('Age must be a positive number')
-    .nullable()
-    .positive('Age must be a positive number')
-    .min(1, 'Age cannot be zero')
-    .max(100, 'Age cannot exceed 100 years')
-    .transform((value) => (isNaN(value) ? null : value)) as yup.NumberSchema<number | null>,
-  weight: yup
-    .number()
-    .typeError('Weight must be a positive number')
-    .nullable()
-    .positive('Weight must be a positive number')
-    .max(150, 'Weight cannot exceed 150 kg')
-    .transform((value) => (isNaN(value) ? null : value)) as yup.NumberSchema<number | null>,
-  photo: yup.mixed().nullable() as yup.MixedSchema<File | null>,
+  petName: nameRule,
+  petType: petTypeRule,
+  breed: breedRule,
+  gender: genderRule,
+  age: ageRule,
+
+  weight: weightRule,
+  photo: photoRule,
 }) as yup.ObjectSchema<Step3FormData>;
 
 const PetTypeIcon = ({ type, isSelected }: { type: PET_TYPE_TYPES; isSelected: boolean }) => {

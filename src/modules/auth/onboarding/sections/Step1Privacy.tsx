@@ -12,17 +12,12 @@ import { theme } from '@/lib/theme';
 import { useAppSelector } from '@/lib/hooks';
 import { selectCurrentUser } from '@/apis/auth/authSlice';
 import { selectStep1Data, setStep1Data } from '@/apis/onBoarding/onBoardingSlice';
+import { medicalDataConsentRule, termsAcceptedRule } from '@/lib/validationRules';
 
 // Validation schema for Step 1
 const step1Schema = yup.object().shape({
-  termsAccepted: yup
-    .boolean()
-    .oneOf([true], 'You must agree to the Terms of Service and Privacy Policy')
-    .required('You must agree to the Terms of Service and Privacy Policy'),
-  medicalDataConsent: yup
-    .boolean()
-    .oneOf([true], 'You must consent to the processing of medical data')
-    .required('You must consent to the processing of medical data'),
+  termsAccepted: termsAcceptedRule,
+  medicalDataConsent: medicalDataConsentRule,
 });
 
 interface Step1FormData {

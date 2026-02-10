@@ -1,13 +1,20 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
+import {
+  emailRule,
+  firstNameRule,
+  lastNameRule,
+  messageRule,
+  phoneNumberRule,
+} from '@/lib/validationRules';
 
 const getInTouchSchema = yup.object({
-  firstName: yup.string().required('First name is required'),
-  lastName: yup.string().required('Last name is required'),
-  email: yup.string().required('Email is required').email('Invalid email address'),
-  phoneNumber: yup.string().required('Phone number is required'),
-  message: yup.string().required('Message is required'),
+  firstName: firstNameRule,
+  lastName: lastNameRule,
+  email: emailRule,
+  phoneNumber: phoneNumberRule,
+  message: messageRule,
 });
 
 interface GetInTouchFormData {
@@ -26,6 +33,7 @@ export const useGetInTouch = () => {
     formState: { errors },
   } = useForm<GetInTouchFormData>({
     resolver: yupResolver(getInTouchSchema),
+    mode: 'onChange',
     defaultValues: {
       firstName: '',
       lastName: '',

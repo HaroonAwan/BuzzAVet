@@ -13,21 +13,10 @@ import { theme } from '@/lib/theme';
 import { cn } from '@/lib/utils';
 import { SOURCES, SOURCES_TYPES } from '@/lib/enums';
 import { selectStep2Data, setStep2Data } from '@/apis/onBoarding/onBoardingSlice';
+import { selectedServiceRule } from '@/lib/validationRules';
 
 const step2Schema = yup.object().shape({
-  selectedService: yup
-    .array()
-    .of(
-      yup
-        .string()
-        .oneOf(
-          ['IN_HOSPITAL', 'TELEMEDICINE', 'HOME_VISIT', 'PET_SERVICES'] as const,
-          'Invalid service selected'
-        )
-        .required()
-    )
-    .min(1, 'Please select at least one service')
-    .required('Please select at least one service'),
+  selectedService: selectedServiceRule,
 });
 
 interface Step2FormData {

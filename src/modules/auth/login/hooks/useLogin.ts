@@ -10,6 +10,7 @@ import { setCredentials } from '@/apis/auth/authSlice';
 import { getTimeZone } from '@/lib/timezone';
 import type { LoginRequest } from '@/types/auth';
 import { COOKIE_MAX_AGE } from '@/constants';
+import { emailRule, passwordRule } from '@/lib/validationRules';
 
 interface LoginFormData {
   email: string;
@@ -17,11 +18,8 @@ interface LoginFormData {
 }
 
 const loginSchema = yup.object({
-  email: yup.string().required('Email is required').email('Invalid email address'),
-  password: yup
-    .string()
-    .required('Password is required')
-    .min(6, 'Password must be at least 6 characters'),
+  email: emailRule,
+  password: passwordRule,
 });
 
 export function useLogin() {

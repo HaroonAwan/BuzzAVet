@@ -418,7 +418,7 @@ export function useOnboarding() {
             fileSize: response.fileSize ? Number(response.fileSize) : Number(file.size),
           };
           setUploadedPhotoData(photoData);
-          toast.success('Photo uploaded successfully!');
+          // toast.success('Photo uploaded successfully!');
         })
         .catch((error) => {
           toast.error('Failed to upload photo');

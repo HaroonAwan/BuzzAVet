@@ -13,17 +13,14 @@ import {
   useLazyGetCurrentUserQuery,
 } from '@/apis/auth/authApi';
 import { COOKIE_MAX_AGE } from '@/constants';
+import { verificationCodeRule } from '@/lib/validationRules';
 
 interface OtpFormData {
   verificationCode: string;
 }
 
 const otpSchema = yup.object({
-  verificationCode: yup
-    .string()
-    .required('Verification code is required')
-    .length(6, 'Verification code must be 6 digits')
-    .matches(/^\d{6}$/, 'Verification code must contain only numbers'),
+  verificationCode: verificationCodeRule,
 });
 
 /**

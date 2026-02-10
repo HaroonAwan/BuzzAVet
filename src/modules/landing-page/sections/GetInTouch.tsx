@@ -6,6 +6,8 @@ import PhoneIcon from '@/assets/images/landing-page/call.svg';
 import LocationIcon from '@/assets/images/landing-page/visit.svg';
 import { FormInput } from '@/components/form-inputs/Input';
 import { useGetInTouch } from '../hooks/useGetInTouch';
+import { PhoneNumberInput } from '@/components/form-inputs/PhoneNumberInput';
+import { Button } from '@/components/shared/Button';
 
 const GetInTouch = () => {
   const { control, handleSubmit, errors } = useGetInTouch();
@@ -87,6 +89,22 @@ const GetInTouch = () => {
               type="email"
               placeholder="Enter your email"
             />
+            <PhoneNumberInput
+              control={control}
+              name="phoneNumber"
+              label="Phone Number"
+              defaultCountry="PK"
+            />
+            <FormInput
+              control={control}
+              name="message"
+              label="Message"
+              type="textarea"
+              placeholder="How can we help you?"
+            />
+            <Button type="submit" variant="submit" size="lg">
+              Send Message
+            </Button>
           </form>
         </div>
       </div>

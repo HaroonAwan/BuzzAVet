@@ -36,7 +36,7 @@ import { theme } from '@/lib/theme';
  */
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   size?: 'lg' | 'md' | 'sm' | 'icon';
-  variant?: 'pill' | 'outline' | 'underline' | 'ghost';
+  variant?: 'pill' | 'outline' | 'underline' | 'ghost' | 'submit';
   icon?: React.ReactNode;
   iconPlacement?: 'start' | 'end' | 'center';
   iconVisibility?: 'always' | 'hover';
@@ -67,7 +67,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     // Size configurations
     const sizeConfig = {
       lg: {
-        padding: 'px-6 py-3',
+        padding: 'px-6 py-3.5',
         text: 'text-base',
         iconSize: 'h-5 w-5',
       },
@@ -94,6 +94,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       outline: 'rounded-[12px] transition-colors border',
       underline: 'transition-colors underline underline-offset-4',
       ghost: 'transition-colors',
+      submit: 'rounded-[12px] transition-colors',
     };
 
     const currentSize = sizeConfig[size];
@@ -146,6 +147,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
           return {
             backgroundColor: 'transparent',
             color: theme.colors.text.default,
+          };
+        case 'submit':
+          return {
+            backgroundColor: theme.colors.background.range,
+            color: 'white',
           };
         default:
           return {};
