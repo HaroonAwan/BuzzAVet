@@ -93,9 +93,9 @@ const weightRule = yup
 const photoRule = yup
   .mixed()
   .nullable()
-  .test('fileType', 'Unsupported file format. Only JPEG, PNG, and GIF are allowed.', (value) => {
+  .test('fileType', 'Unsupported file format. Only JPEG and PNG are allowed.', (value) => {
     if (!value) return true;
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    const allowedTypes = ['image/jpeg', 'image/png'];
     return allowedTypes.includes((value as File).type);
   })
   .test('fileSize', 'File size must be less than 2MB', (value) => {
