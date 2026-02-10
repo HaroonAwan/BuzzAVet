@@ -77,13 +77,13 @@ export function useLogin() {
       if (result.email) {
         document.cookie = `email=${result.email}; path=/; max-age=${COOKIE_MAX_AGE}; SameSite=Lax`;
       }
+
       await getCurrentUser(true).unwrap();
-      // Redirect to OTP if not verified, otherwise to home
-      if (result.isVerified) {
-        router.push('/');
-      } else {
-        router.push('/auth/register/email/otp');
-      }
+
+      // Use window.location.href for hard navigation to ensure cookies are sent to server
+      // This ensures middleware can read the cookies before rendering
+      const redirectUrl = result.isVerified ? '/' : '/auth/register/email/otp';
+      window.location.href = redirectUrl;
     } catch (err: any) {
       const errorMessage = err?.data?.message || '';
       if (errorMessage.includes('email')) {
