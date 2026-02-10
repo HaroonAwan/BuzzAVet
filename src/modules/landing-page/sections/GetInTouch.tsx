@@ -1,8 +1,97 @@
 import SectionsWrapper from '@/layouts/SectionsWrapper';
-import React from 'react';
+import { theme } from '@/lib/theme';
+import Image from 'next/image';
+import EmailIcon from '@/assets/images/landing-page/email.svg';
+import PhoneIcon from '@/assets/images/landing-page/call.svg';
+import LocationIcon from '@/assets/images/landing-page/visit.svg';
+import { FormInput } from '@/components/form-inputs/Input';
+import { useGetInTouch } from '../hooks/useGetInTouch';
 
 const GetInTouch = () => {
-  return <SectionsWrapper>GetInTouch</SectionsWrapper>;
+  const { control, handleSubmit, errors } = useGetInTouch();
+  return (
+    <SectionsWrapper noContainer className="bg-[#F9FAFB]">
+      <div className="flex gap-10 sm:gap-20 flex-col md:flex-row">
+        <div className="flex flex-col justify-start">
+          <div className="flex flex-col justify-between gap-7 mb-8">
+            <div className="flex flex-col gap-3">
+              <h1 className="font-semibold" style={{ color: theme.colors.background.range }}>
+                Get in Touch
+              </h1>
+              <h1 className="thirty-six font-semibold leading-tight">We'd Love to Hear From You</h1>
+            </div>
+            <p style={{ color: theme.colors.text.secondary }}>
+              Have questions or need assistance? Our friendly team is here to help. Reach out to us
+              through any of the channels below.
+            </p>
+          </div>
+          <div className="flex flex-col gap-6">
+            <div className="flex items-center gap-3">
+              <div className="bg-(--range) h-12 w-12 flex items-center justify-center rounded-2xl">
+                <Image src={EmailIcon} alt="icon" width={24} height={24} />
+              </div>
+              <p className="flex flex-col font-semibold">
+                Email Us
+                <span className="text-sm font-normal" style={{ color: theme.colors.text.tertiary }}>
+                  support@buzzavet.com
+                </span>
+              </p>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="bg-(--range) h-12 w-12 flex items-center justify-center rounded-2xl">
+                <Image src={PhoneIcon} alt="icon" width={24} height={24} />
+              </div>
+              <p className="flex flex-col font-semibold">
+                Call Us
+                <span className="text-sm font-normal" style={{ color: theme.colors.text.tertiary }}>
+                  1-800-BUZZ-VET (24/7)
+                </span>
+              </p>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="bg-(--range) h-12 w-12 flex items-center justify-center rounded-2xl">
+                <Image src={LocationIcon} alt="icon" width={24} height={24} />
+              </div>
+              <p className="flex flex-col font-semibold">
+                Visit Us
+                <span className="text-sm font-normal" style={{ color: theme.colors.text.tertiary }}>
+                  123 Pet Care Avenue
+                </span>
+                <span className="text-sm font-normal" style={{ color: theme.colors.text.tertiary }}>
+                  Toronto, ON M5V 3A8, Canada
+                </span>
+              </p>
+            </div>
+          </div>
+        </div>
+        <div className="flex items-start justify-start md:w-[47%] shrink-0 rounded-3xl overflow-hidden bg-white SHADOW">
+          <form className="flex flex-col gap-5 p-8" onSubmit={handleSubmit}>
+            <div className="flex items-center gap-4">
+              <FormInput
+                control={control}
+                name="firstName"
+                label="First Name"
+                placeholder="Enter your first name"
+              />
+              <FormInput
+                control={control}
+                name="lastName"
+                label="Last Name"
+                placeholder="Enter your last name"
+              />
+            </div>
+            <FormInput
+              control={control}
+              name="email"
+              label="Email"
+              type="email"
+              placeholder="Enter your email"
+            />
+          </form>
+        </div>
+      </div>
+    </SectionsWrapper>
+  );
 };
 
 export default GetInTouch;
