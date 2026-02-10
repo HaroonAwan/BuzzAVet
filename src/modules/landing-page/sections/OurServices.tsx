@@ -1,0 +1,86 @@
+import SectionsWrapper from '@/layouts/SectionsWrapper';
+import InfoWrapper from '../layouts/InfoWrapper';
+import HospitalImage from '@/assets/images/auth/hospital.png';
+import TelemedicineImage from '@/assets/images/auth/telemed.png';
+import HomeVisitImage from '@/assets/images/auth/home.png';
+import PetServicesImage from '@/assets/images/auth/pet.png';
+import { theme } from '@/lib/theme';
+import Image from 'next/image';
+
+const OurServices = () => {
+  const services = [
+    {
+      id: 1,
+      title: 'Hospital Appointments',
+      icon: HospitalImage,
+      description:
+        'Book in-person appointments at our state-of-the-art veterinary hospitals with experienced professionals.',
+    },
+    {
+      id: 2,
+      title: 'Telemedicine',
+      icon: TelemedicineImage,
+      description:
+        'Connect with licensed vets online for consultations, follow-ups, and non-emergency care from home.',
+    },
+    {
+      id: 3,
+      title: 'Mobile Vet Services',
+      icon: HomeVisitImage,
+      description:
+        'Our mobile vet come to your home for convenient, stress-free care for your pets.',
+    },
+    {
+      id: 4,
+      title: 'Pet Services',
+      icon: PetServicesImage,
+      description:
+        'Comprehensive pet care including grooming, boarding, training, and wellness programs.',
+    },
+  ];
+
+  return (
+    <SectionsWrapper noContainer className="bg-[#F9FAFB]">
+      <InfoWrapper
+        sectionTitle="Our Services"
+        title="Complete Care for Your Beloved Pets"
+        subTitle="From routine checkups to emergency care, we offer a full range of veterinary services tailored to your pet's needs."
+      >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
+          {services.map((service) => (
+            <div
+              key={service.id}
+              className="flex flex-col items-center text-center p-8 bg-white rounded-2xl"
+            >
+              <div className="mb-5">
+                <div
+                  className="w-20 h-20 rounded-2xl flex items-center justify-center"
+                  style={{ backgroundColor: theme.colors.background.teal }}
+                >
+                  <Image
+                    src={service.icon}
+                    alt={service.title}
+                    width={48}
+                    height={48}
+                    className="object-contain"
+                  />
+                </div>
+              </div>
+              <h3
+                className="text-xl font-semibold mb-2"
+                style={{ color: theme.colors.text.default }}
+              >
+                {service.title}
+              </h3>
+              <p className="text-sm leading-relaxed" style={{ color: theme.colors.text.tertiary }}>
+                {service.description}
+              </p>
+            </div>
+          ))}
+        </div>
+      </InfoWrapper>
+    </SectionsWrapper>
+  );
+};
+
+export default OurServices;

@@ -1,0 +1,68 @@
+'use client';
+
+import ContentBodyWrapper from '@/layouts/ContentBodyWrapper';
+import { HospitalOrPetServicesCard } from '@/modules/home/layouts/HospitalOrPetServicesCard';
+import { Pagination } from '@/components/shared/Pagination';
+import { useSearchedOrDefaultHospitalsNearYou } from '../hooks/useSearchedOrDefaultHospitalsNearYou';
+import { theme } from '@/lib/theme';
+import { useEffect } from 'react';
+
+const SearchedOrDefaultHospitalsNearYou = () => {
+  const {
+    paginatedHospitals,
+    totalHospitals,
+    currentPage,
+    totalPages,
+    handleFavoriteToggle,
+    isNavbarExpanded,
+    viewType,
+    sectionRef,
+  } = useSearchedOrDefaultHospitalsNearYou();
+
+  return (
+    <ContentBodyWrapper>
+      <div className="flex flex-col gap-6">
+        <p className="font-semibold">{totalHospitals} Results Near you</p>
+        <h2 className="twenty-eight font-semibold">Other Hospitals Near You</h2>
+        {viewType === 'list' ? (
+          <>
+            <section
+              ref={sectionRef}
+              className="grid gap-5"
+              style={{
+                scrollMarginTop: isNavbarExpanded ? '230px' : '170px',
+                transition: 'scrollMarginTop 0.3s ease-in-out',
+                gridTemplateColumns: 'repeat(auto-fill, minmax(203px, 1fr))',
+              }}
+            >
+              {paginatedHospitals.map((hospital, index) => (
+                <HospitalOrPetServicesCard
+                  key={`${hospital.name}-${index}`}
+                  {...hospital}
+                  onFavoriteToggle={(favorite) => handleFavoriteToggle(index, favorite)}
+                  isDynamicWidth
+                />
+              ))}
+            </section>
+            <Pagination currentPage={currentPage} totalPages={totalPages} />
+          </>
+        ) : (
+          <div
+            ref={sectionRef as React.RefObject<HTMLDivElement | null>}
+            className="flex items-center justify-center py-20"
+            style={{
+              scrollMarginTop: isNavbarExpanded ? '230px' : '170px',
+              transition: 'scrollMarginTop 0.3s ease-in-out',
+            }}
+          >
+            <p className="text-lg font-medium" style={{ color: theme.colors.text.secondary }}>
+              Map will be integrated later
+            </p>
+          </div>
+        )}
+      </div>
+    </ContentBodyWrapper>
+  );
+};
+
+export default SearchedOrDefaultHospitalsNearYou;
