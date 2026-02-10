@@ -103,7 +103,7 @@ export function detectAndValidatePhoneNumber(
     result.formattedNumber = parsed.format('INTERNATIONAL');
 
     if (!isValid) {
-      result.error = 'Phone number length is incorrect for this country';
+      result.error = 'Phone number length is incorrect for any country';
       result.isValid = false;
       // Show unknown flag if validation fails
       result.flag = '🌐';
