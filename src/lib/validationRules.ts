@@ -38,7 +38,20 @@ const messageRule = yup
   .required('Required')
   .min(10, 'At least 10 characters long')
   .max(500, 'Cannot exceed 500 characters');
-const passwordRule = yup.string().required('Required');
+const passwordRule = yup
+  .string()
+  .required('Required')
+  .min(8, 'At least 8 characters long')
+  .test('has-number', 'Must contain at least 1 number', (value) => /\d/.test(value || ''))
+  .test('has-special-char', 'Must contain at least 1 special character', (value) =>
+    /[!@#$%^&*(),.?":{}|<>]/.test(value || '')
+  )
+  .test('has-uppercase', 'Must contain at least 1 uppercase letter', (value) =>
+    /[A-Z]/.test(value || '')
+  )
+  .test('has-lowercase', 'Must contain at least 1 lowercase letter', (value) =>
+    /[a-z]/.test(value || '')
+  );
 const confirmPasswordRule = yup
   .string()
   .required('Required')

@@ -33,6 +33,11 @@
 ## Password Rule
 
 - Required
+- Minimum 8 characters long
+- Must contain at least 1 number
+- Must contain at least 1 special character (!@#$%^&\*(),.?":{}|<>)
+- Must contain at least 1 uppercase letter
+- Must contain at least 1 lowercase letter
 
 ## Confirm Password Rule
 

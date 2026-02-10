@@ -115,7 +115,7 @@ const PhoneNumberInput = <
             )}
             <div className="relative">
               {/* Flag Icon Container */}
-              <div className="absolute left-3 top-1/2 -translate-y-1/2 flex items-center gap-1.5 pointer-events-none">
+              <div className="absolute left-3 top-[48%] -translate-y-1/2 flex items-center gap-1.5 pointer-events-none">
                 <span className="text-lg">{phoneInfo.flag}</span>
                 {/* {phoneInfo.countryCode && (
                   <span className="text-xs font-semibold text-gray-500">
