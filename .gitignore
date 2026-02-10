@@ -10,3 +10,6 @@ build
 .turbo
 .cursor
 prompts
+.env.*
+*.local
+.cursor
