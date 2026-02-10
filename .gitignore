@@ -12,5 +12,10 @@ build
 prompts
 .env.*
 *.local
-
 .cursor
+*.tsbuildinfo
+*.cache
+*.tmp
+*.bak
+*.swp
+*.swo

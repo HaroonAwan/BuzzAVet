@@ -77,13 +77,13 @@ export function useLogin() {
       if (result.email) {
         document.cookie = `email=${result.email}; path=/; max-age=${COOKIE_MAX_AGE}; SameSite=Lax`;
       }
+
       await getCurrentUser(true).unwrap();
-      // Redirect to OTP if not verified, otherwise to home
-      if (result.isVerified) {
-        router.push('/');
-      } else {
-        router.push('/auth/register/email/otp');
-      }
+
+      const redirectUrl = result.isVerified ? '/' : '/auth/register/email/otp';
+      setTimeout(() => {
+        window.location.href = redirectUrl;
+      }, 100);
     } catch (err: any) {
       const errorMessage = err?.data?.message || '';
       if (errorMessage.includes('email')) {
