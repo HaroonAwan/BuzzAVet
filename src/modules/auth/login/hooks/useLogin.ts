@@ -80,10 +80,10 @@ export function useLogin() {
 
       await getCurrentUser(true).unwrap();
 
-      // Use window.location.href for hard navigation to ensure cookies are sent to server
-      // This ensures middleware can read the cookies before rendering
       const redirectUrl = result.isVerified ? '/' : '/auth/register/email/otp';
-      window.location.href = redirectUrl;
+      setTimeout(() => {
+        window.location.href = redirectUrl;
+      }, 100);
     } catch (err: any) {
       const errorMessage = err?.data?.message || '';
       if (errorMessage.includes('email')) {
