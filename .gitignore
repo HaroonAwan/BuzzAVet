@@ -12,5 +12,4 @@ build
 prompts
 .env.*
 *.local
-
 .cursor
