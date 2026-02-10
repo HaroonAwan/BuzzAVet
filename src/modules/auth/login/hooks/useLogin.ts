@@ -78,7 +78,12 @@ export function useLogin() {
         document.cookie = `email=${result.email}; path=/; max-age=${COOKIE_MAX_AGE}; SameSite=Lax`;
       }
       await getCurrentUser(true).unwrap();
-      router.push('/');
+      // Redirect to OTP if not verified, otherwise to home
+      if (result.isVerified) {
+        router.push('/');
+      } else {
+        router.push('/auth/register/email/otp');
+      }
     } catch (err: any) {
       const errorMessage = err?.data?.message || '';
       if (errorMessage.includes('email')) {
