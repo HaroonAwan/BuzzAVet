@@ -94,25 +94,25 @@ export default function Step1Privacy() {
   }, [currentUser]);
 
   return (
-    <div className="w-full mt-3 flex-1 flex flex-col">
-      <h1 className="thirty-six font-semibold mb-4">Your privacy comes first.</h1>
+    <div className="mt-3 flex w-full flex-1 flex-col">
+      <h1 className="thirty-six mb-4 font-semibold">Your privacy comes first.</h1>
       <p className="mb-10" style={{ color: theme.colors.text.secondary }}>
         BuzzAVet is built on trust. We verify every provider and encrypt every record. Before we
         begin, please confirm you understand how we protect you.
       </p>
 
       {/* Feature Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6 mb-10">
+      <div className="mb-10 grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-6">
         {/* Encrypted Records Card */}
-        <div className="flex flex-col items-start gap-3 md:gap-4 p-4">
+        <div className="flex flex-col items-start gap-3 p-4 md:gap-4">
           <div
-            className="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
             style={{ backgroundColor: theme.colors.background.lightGreen }}
           >
             <EncryptedRecordsIcon size={24} />
           </div>
           <div>
-            <h3 className="text-[18px] font-semibold mb-1.5">Encrypted Records</h3>
+            <h3 className="mb-1.5 text-[18px] font-semibold">Encrypted Records</h3>
             <p className="text-sm" style={{ color: theme.colors.text.tertiary }}>
               Your pet's medical history is yours. We never share it without permission.
             </p>
@@ -120,15 +120,15 @@ export default function Step1Privacy() {
         </div>
 
         {/* Verified Vets Card */}
-        <div className="flex flex-col items-start gap-3 md:gap-4 p-4">
+        <div className="flex flex-col items-start gap-3 p-4 md:gap-4">
           <div
-            className="shrink-0 w-10 h-10 rounded-xl flex items-center justify-center"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl"
             style={{ backgroundColor: theme.colors.chip.alert.background }}
           >
             <VerifiedVetsIcon size={24} />
           </div>
           <div>
-            <h3 className="text-[18px] font-semibold mb-1.5">Verified Vets</h3>
+            <h3 className="mb-1.5 text-[18px] font-semibold">Verified Vets</h3>
             <p className="text-sm" style={{ color: theme.colors.text.tertiary }}>
               Every doctor and hospital on BuzzAVet is manually verified by our team.
             </p>

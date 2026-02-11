@@ -7,16 +7,16 @@ export const metadata: Metadata = {
 
 export default function TermsOfService() {
   return (
-    <div className="container mx-auto px-4 py-12 max-w-4xl">
+    <div className="container mx-auto max-w-4xl px-4 py-12">
       <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2">Terms & Conditions and User Agreement</h1>
+        <h1 className="mb-2 text-4xl font-bold">Terms & Conditions and User Agreement</h1>
         <p className="text-gray-600">Last updated: {new Date().toLocaleDateString()}</p>
       </div>
 
-      <div className="space-y-8 text-gray-700 leading-relaxed">
+      <div className="space-y-8 leading-relaxed text-gray-700">
         {/* Acceptance of the User Agreement */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">
             Acceptance of the User Agreement
           </h2>
           <p className="mb-4">
@@ -31,10 +31,10 @@ export default function TermsOfService() {
             collectively known as the "vee.vet Platform," along with all information, content, and
             services available through it.
           </p>
-          <h3 className="text-xl font-semibold mb-3 text-gray-900">
+          <h3 className="mb-3 text-xl font-semibold text-gray-900">
             Key Points on Agreement and Representation:
           </h3>
-          <ul className="list-disc pl-6 space-y-2">
+          <ul className="list-disc space-y-2 pl-6">
             <li>
               Any individual registering an account with vee.vet must warrant that they have the
               authority to act on behalf of the User and are authorized to bind the User to this
@@ -54,10 +54,10 @@ export default function TermsOfService() {
 
         {/* Mandatory Arbitration */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">
             Mandatory Arbitration and Dispute Resolution
           </h2>
-          <div className="bg-yellow-50 border-l-4 border-yellow-400 p-4 mb-4">
+          <div className="mb-4 border-l-4 border-yellow-400 bg-yellow-50 p-4">
             <p className="font-semibold text-gray-900">MANDATORY ARBITRATION NOTICE:</p>
             <p>
               Any disputes between you and vee.vet or any affiliated party will be resolved through
@@ -66,7 +66,7 @@ export default function TermsOfService() {
               class action or representative proceeding.
             </p>
           </div>
-          <ul className="list-disc pl-6 space-y-2">
+          <ul className="list-disc space-y-2 pl-6">
             <li>
               <strong className="text-gray-900">Venue for Arbitration:</strong> Arbitration
               proceedings will be administered by the American Arbitration Association (AAA) under
@@ -81,12 +81,12 @@ export default function TermsOfService() {
 
         {/* Amendments */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">Amendments to the Agreement</h2>
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">Amendments to the Agreement</h2>
           <p className="mb-4">
             Any text changes to this document will be shared with users through email within 24
             hours of the change with vee.vet reserving all rights to amend this User Agreement.
           </p>
-          <ul className="list-disc pl-6 space-y-2">
+          <ul className="list-disc space-y-2 pl-6">
             <li>
               A link to the Agreement is shown at login as well as various other places such as
               home/landing pages of our apps and websites. By completing the login process, you
@@ -104,11 +104,11 @@ export default function TermsOfService() {
 
         {/* Description of Platform and Services */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">
             Description of the Platform and Services
           </h2>
           <p className="mb-4">The vee.vet Platform is a marketplace connecting:</p>
-          <ul className="list-disc pl-6 space-y-2 mb-4">
+          <ul className="mb-4 list-disc space-y-2 pl-6">
             <li>
               <strong className="text-gray-900">Professionals:</strong> Licensed veterinarians and
               other qualified veterinary professionals such as vet technicians and students.
@@ -122,7 +122,7 @@ export default function TermsOfService() {
             Practices seek Professionals on a contract basis to perform Veterinary Services during
             temporary working arrangements called a "Shift".
           </p>
-          <ul className="list-disc pl-6 space-y-2">
+          <ul className="list-disc space-y-2 pl-6">
             <li>
               The Platform allows Practices to define Shifts and Professionals to offer their
               services for those Shifts.
@@ -154,14 +154,14 @@ export default function TermsOfService() {
 
         {/* Account Registration */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">
             Account Registration, Login, and Confidentiality
           </h2>
           <p className="mb-4">
             Access to the vee.vet Platform requires completing the registration process and meeting
             all specified requirements.
           </p>
-          <ul className="list-disc pl-6 space-y-2">
+          <ul className="list-disc space-y-2 pl-6">
             <li>
               vee.vet reserves the right to refuse, suspend, or terminate any account at any time in
               its sole discretion.
@@ -178,10 +178,10 @@ export default function TermsOfService() {
 
         {/* Accuracy of Information */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">
             Accuracy of Information and Background Checks
           </h2>
-          <ul className="list-disc pl-6 space-y-2">
+          <ul className="list-disc space-y-2 pl-6">
             <li>
               You must provide additional information and documents (e.g., professional licensing)
               during registration and throughout your use of the Platform.
@@ -204,13 +204,13 @@ export default function TermsOfService() {
 
         {/* Privacy Policy and Data License */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">
             Privacy Policy and Data License
           </h2>
           <p className="mb-4">
             Your use of the vee.vet Platform is governed by this "Terms & Conditions and User
             Agreement" and the separate vee.vet Privacy Policy, which is located at{' '}
-            <a href="/privacy-policy" className="text-blue-600 hover:text-blue-800 underline">
+            <a href="/privacy-policy" className="text-blue-600 underline hover:text-blue-800">
               /privacy-policy
             </a>{' '}
             and is hereby incorporated into and made a part of this "Terms & Conditions and User
@@ -228,12 +228,12 @@ export default function TermsOfService() {
 
         {/* Professional and Practice Responsibilities */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">
             Professional and Practice Responsibilities
           </h2>
 
-          <h3 className="text-xl font-semibold mb-3 text-gray-900">For Professionals:</h3>
-          <ul className="list-disc pl-6 space-y-2 mb-6">
+          <h3 className="mb-3 text-xl font-semibold text-gray-900">For Professionals:</h3>
+          <ul className="mb-6 list-disc space-y-2 pl-6">
             <li>
               You must be duly licensed in the jurisdiction where Veterinary Services are performed,
               as indicated through the Platform, with no active license disciplinary actions against
@@ -263,8 +263,8 @@ export default function TermsOfService() {
             Shift Pay.
           </p>
 
-          <h3 className="text-xl font-semibold mb-3 text-gray-900">For Practices:</h3>
-          <ul className="list-disc pl-6 space-y-2 mb-6">
+          <h3 className="mb-3 text-xl font-semibold text-gray-900">For Practices:</h3>
+          <ul className="mb-6 list-disc space-y-2 pl-6">
             <li>
               You must be duly authorized to operate and engage in the practice of veterinary
               medicine in the relevant jurisdiction.
@@ -290,14 +290,14 @@ export default function TermsOfService() {
 
         {/* Payments, Fees, and Compensation */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">
             Payments, Fees, and Compensation
           </h2>
 
-          <h3 className="text-xl font-semibold mb-3 text-gray-900">
+          <h3 className="mb-3 text-xl font-semibold text-gray-900">
             Professional Compensation (Shift Pay):
           </h3>
-          <ul className="list-disc pl-6 space-y-2 mb-6">
+          <ul className="mb-6 list-disc space-y-2 pl-6">
             <li>
               vee.vet acts as a pass-through entity, transferring Shift Pay from the Practice to the
               Professional. vee.vet does not retain these funds as its own income.
@@ -322,10 +322,10 @@ export default function TermsOfService() {
             </li>
           </ul>
 
-          <h3 className="text-xl font-semibold mb-3 text-gray-900">
+          <h3 className="mb-3 text-xl font-semibold text-gray-900">
             Payments to vee.vet (Shift Fees and Third-Party Fees):
           </h3>
-          <ul className="list-disc pl-6 space-y-2 mb-6">
+          <ul className="mb-6 list-disc space-y-2 pl-6">
             <li>
               vee.vet receives a Shift Fee for each Shift matched through the Platform. The Shift
               Fee is determined and displayed to the Practice at the time of Shift acceptance.
@@ -349,7 +349,7 @@ export default function TermsOfService() {
             </li>
           </ul>
 
-          <h3 className="text-xl font-semibold mb-3 text-gray-900">
+          <h3 className="mb-3 text-xl font-semibold text-gray-900">
             Direct Placement (Direct Hiring) Policy:
           </h3>
           <p>
@@ -363,14 +363,14 @@ export default function TermsOfService() {
 
         {/* Conduct and Prohibited Activities */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">
             Conduct and Prohibited Activities
           </h2>
           <p className="mb-4">
             As a condition of using the Platform, you agree to follow a basic set of conduct rules.
             You will not, for example:
           </p>
-          <ul className="list-disc pl-6 space-y-2">
+          <ul className="list-disc space-y-2 pl-6">
             <li>Share your Password or transfer/sell your account.</li>
             <li>
               Use the Platform in connection with discrimination (based on race, gender, religion,
@@ -481,12 +481,12 @@ export default function TermsOfService() {
 
         {/* Disclaimer of Warranties and Limitation of Liability */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">
             Disclaimer of Warranties and Limitation of Liability
           </h2>
 
-          <h3 className="text-xl font-semibold mb-3 text-gray-900">Warranty Disclaimers:</h3>
-          <ul className="list-disc pl-6 space-y-2 mb-6">
+          <h3 className="mb-3 text-xl font-semibold text-gray-900">Warranty Disclaimers:</h3>
+          <ul className="mb-6 list-disc space-y-2 pl-6">
             <li>The use of the vee.vet Platform, Services, and Content is at your SOLE RISK.</li>
             <li>They are provided on an "AS IS" AND/OR "AS AVAILABLE" basis.</li>
             <li>
@@ -504,8 +504,8 @@ export default function TermsOfService() {
             </li>
           </ul>
 
-          <h3 className="text-xl font-semibold mb-3 text-gray-900">Limitation of Liability:</h3>
-          <ul className="list-disc pl-6 space-y-2 mb-6">
+          <h3 className="mb-3 text-xl font-semibold text-gray-900">Limitation of Liability:</h3>
+          <ul className="mb-6 list-disc space-y-2 pl-6">
             <li>
               vee.vet shall not be liable for any punitive, indirect, incidental, special,
               consequential, or exemplary damages (including loss of profits, data, or goodwill).
@@ -521,12 +521,12 @@ export default function TermsOfService() {
             </li>
           </ul>
 
-          <h3 className="text-xl font-semibold mb-3 text-gray-900">Indemnity:</h3>
+          <h3 className="mb-3 text-xl font-semibold text-gray-900">Indemnity:</h3>
           <p className="mb-3">
             You agree to indemnify and hold harmless vee.vet from any liability, loss, cost, or
             claim (including reasonable attorneys' fees) arising out of or in connection with:
           </p>
-          <ul className="list-disc pl-6 space-y-2">
+          <ul className="list-disc space-y-2 pl-6">
             <li>Your use of the Platform or Services.</li>
             <li>Your violation of this Agreement or any third party's rights.</li>
             <li>
@@ -538,7 +538,7 @@ export default function TermsOfService() {
 
         {/* Limitation of Liability (Extended) */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">LIMITATION OF LIABILITY</h2>
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">LIMITATION OF LIABILITY</h2>
           <p className="mb-4">
             vee.vet, its affiliates and any of its, or their, directors, officers, employees or
             agents shall not, under any circumstances, be liable for direct, consequential,
@@ -557,8 +557,8 @@ export default function TermsOfService() {
 
         {/* Disclaimer of Warranties (Extended) */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">DISCLAIMER OF WARRANTIES</h2>
-          <div className="bg-gray-100 p-4 rounded">
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">DISCLAIMER OF WARRANTIES</h2>
+          <div className="rounded bg-gray-100 p-4">
             <p className="mb-3">
               YOU UNDERSTAND AND AGREE THAT THE SERVICES ARE PROVIDED ON AN "AS IS" AND "AS
               AVAILABLE" BASIS AND THAT VEE.VET DOES NOT ASSUME ANY RESPONSIBILITY FOR PROMPT OR
@@ -593,7 +593,7 @@ export default function TermsOfService() {
 
         {/* Binding Arbitration */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">BINDING ARBITRATION</h2>
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">BINDING ARBITRATION</h2>
           <p>
             Any controversy or claim between the parties or arising out of these Terms of Use or any
             use of the Services shall be determined by one disinterested arbitrator in binding
@@ -617,10 +617,10 @@ export default function TermsOfService() {
 
         {/* Waiver of Jury Trial */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">
             WAIVER OF JURY TRIAL AND CLASS ACTIONS
           </h2>
-          <div className="bg-gray-100 p-4 rounded">
+          <div className="rounded bg-gray-100 p-4">
             <p>
               BY ENTERING INTO THESE TERMS OF USE, YOU AND VEE.VET ACKNOWLEDGE AND AGREE TO WAIVE
               CERTAIN RIGHTS TO LITIGATE DISPUTES IN COURT, TO RECEIVE A JURY TRIAL OR TO
@@ -642,12 +642,12 @@ export default function TermsOfService() {
 
         {/* Relationship of Parties */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">Relationship of the Parties</h2>
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">Relationship of the Parties</h2>
           <p className="mb-4">
             The relationship between you and vee.vet is strictly that of independent contracting
             parties in a direct business relationship.
           </p>
-          <ul className="list-disc pl-6 space-y-2">
+          <ul className="list-disc space-y-2 pl-6">
             <li>
               This User Agreement is not an employment agreement and does not create an employment
               relationship between you and vee.vet.
@@ -669,7 +669,7 @@ export default function TermsOfService() {
 
         {/* Indemnification */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">INDEMNIFICATION</h2>
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">INDEMNIFICATION</h2>
           <p>
             By accepting these Terms of Use, you agree to indemnify and otherwise hold harmless
             vee.vet and its officers, employees, agents, subsidiaries, affiliates, licensors,
@@ -680,7 +680,7 @@ export default function TermsOfService() {
 
         {/* Jurisdiction */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">JURISDICTION</h2>
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">JURISDICTION</h2>
           <p>
             By accessing the Services, you and vee.vet agree that all matters relating to your
             access to, or use of, the Services shall be governed by the statutes and laws of the
@@ -696,7 +696,7 @@ export default function TermsOfService() {
 
         {/* Notices */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">NOTICES</h2>
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">NOTICES</h2>
           <p className="mb-4">
             vee.vet may deliver notice to you under these Terms of Use by means of e-mail, a general
             notice posted on the Platform, or by written communication delivered by first-class U.S.
@@ -705,7 +705,7 @@ export default function TermsOfService() {
             delivered by first-class postage prepaid U.S. mail or overnight courier to the following
             address:
           </p>
-          <div className="bg-gray-50 p-4 rounded border border-gray-200">
+          <div className="rounded border border-gray-200 bg-gray-50 p-4">
             <p className="font-semibold text-gray-900">Vets Unleashed LLC d/b/a vee.vet</p>
             <p>524 East Rollins Rd</p>
             <p>Suite B 1005</p>
@@ -716,7 +716,7 @@ export default function TermsOfService() {
 
         {/* Survival */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">SURVIVAL</h2>
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">SURVIVAL</h2>
           <p>
             The provisions of these Terms of Use entitled "Limitation of Liability," "Disclaimer of
             Warranties," "Indemnification," "Jurisdiction" and "General Provisions" will survive the
@@ -726,8 +726,8 @@ export default function TermsOfService() {
 
         {/* Disclaimer */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">DISCLAIMER</h2>
-          <div className="bg-gray-100 p-4 rounded">
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">DISCLAIMER</h2>
+          <div className="rounded bg-gray-100 p-4">
             <p>
               THE SERVICES ARE PROVIDED ON AN "AS IS" AND "AS AVAILABLE" BASIS, AND ALL USE OF THE
               SERVICES ARE "AT YOUR OWN RISK." VEE.VET MAKES NO REPRESENTATIONS OR WARRANTIES OF ANY
@@ -741,10 +741,10 @@ export default function TermsOfService() {
 
         {/* General Terms and Governing Law */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">
             General Terms and Governing Law
           </h2>
-          <ul className="list-disc pl-6 space-y-2 mb-4">
+          <ul className="mb-4 list-disc space-y-2 pl-6">
             <li>This Agreement constitutes the entire agreement between you and vee.vet.</li>
             <li>
               The relationship between the parties shall be governed by the laws of the State of
@@ -763,7 +763,7 @@ export default function TermsOfService() {
 
         {/* General Provisions */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">GENERAL PROVISIONS</h2>
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">GENERAL PROVISIONS</h2>
           <p>
             Except as provided in a particular "Legal Notice" on this Platform, these Terms of Use,
             along with the vee.vet Privacy Policy, constitute the entire agreement and understanding
@@ -784,7 +784,7 @@ export default function TermsOfService() {
 
         {/* Important Notice */}
         <section>
-          <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
+          <div className="rounded border-l-4 border-blue-400 bg-blue-50 p-4">
             <p className="mb-4 font-semibold text-gray-900">
               BY USING THE SERVICES, YOU ACKNOWLEDGE THAT YOU HAVE READ, ACCEPTED, AND AGREED TO BE
               BOUND BY THESE TERMS OF USE. IF YOU DO NOT AGREE TO THE TERMS OF USE, PLEASE DO NOT

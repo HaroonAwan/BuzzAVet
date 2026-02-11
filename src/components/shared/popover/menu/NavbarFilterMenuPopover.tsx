@@ -131,7 +131,7 @@ export function NavbarFilterMenuPopover({
       <div>
         <button
           onClick={() => toggleSection(id)}
-          className="w-full flex items-center justify-between py-3"
+          className="flex w-full items-center justify-between py-3"
         >
           <h4 className="text-sm font-semibold" style={{ color: theme.colors.text.default }}>
             {title}
@@ -167,9 +167,9 @@ export function NavbarFilterMenuPopover({
       <PopoverTrigger asChild>{trigger}</PopoverTrigger>
       <PopoverLayout align="end" side="bottom">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className={cn('w-127.5 max-h-[80vh] overflow-y-auto', className)}>
+          <div className={cn('max-h-[80vh] w-127.5 overflow-y-auto', className)}>
             {/* Header */}
-            <div className="flex items-center justify-between px-4 py-2 border-b sticky top-0 bg-white z-10">
+            <div className="sticky top-0 z-10 flex items-center justify-between border-b bg-white px-4 py-2">
               <Button variant="underline" className="px-0" onClick={handleClearAll}>
                 Clear all
               </Button>
@@ -191,7 +191,7 @@ export function NavbarFilterMenuPopover({
             </div>
 
             {/* Filter Content */}
-            <div className="p-4 space-y-8">
+            <div className="space-y-8 p-4">
               {/* Consultation Fee */}
               <div>
                 <h4 className="text-lg font-semibold">Consultation Fee</h4>
@@ -201,7 +201,7 @@ export function NavbarFilterMenuPopover({
                 {/* Histogram and Slider Container */}
                 <div className="relative">
                   {/* Histogram */}
-                  <div className="flex items-end gap-1 h-16.5">
+                  <div className="flex h-16.5 items-end gap-1">
                     {[
                       10, 20, 15, 30, 40, 50, 65, 50, 40, 25, 10, 5, 10, 40, 45, 50, 65, 34, 25, 15,
                     ].map((height, index, array) => {
@@ -233,7 +233,7 @@ export function NavbarFilterMenuPopover({
                       <div className="relative h-2" style={{ marginTop: '-4px' }}>
                         {/* Background Track - Full width gray track */}
                         <div
-                          className="absolute rounded-full w-full"
+                          className="absolute w-full rounded-full"
                           style={{
                             backgroundColor: theme.colors.border.default,
                             height: '2px',
@@ -268,7 +268,7 @@ export function NavbarFilterMenuPopover({
                             );
                             field.onChange({ ...field.value, min: newMin });
                           }}
-                          className="absolute w-full h-2 cursor-pointer slider-input"
+                          className="slider-input absolute h-2 w-full cursor-pointer"
                           style={{ zIndex: 10 }}
                         />
                         {/* Max Slider - Higher z-index when on right side of range */}
@@ -284,7 +284,7 @@ export function NavbarFilterMenuPopover({
                             );
                             field.onChange({ ...field.value, max: newMax });
                           }}
-                          className="absolute w-full h-2 cursor-pointer slider-input"
+                          className="slider-input absolute h-2 w-full cursor-pointer"
                           style={{ zIndex: 10 }}
                         />
                       </div>
@@ -292,10 +292,10 @@ export function NavbarFilterMenuPopover({
                   />
                 </div>
                 {/* Min/Max Inputs */}
-                <div className="flex items-center gap-4 mt-6">
+                <div className="mt-6 flex items-center gap-4">
                   <div className="flex-1">
                     <label
-                      className="text-xs mb-1.5 block text-center"
+                      className="mb-1.5 block text-center text-xs"
                       style={{ color: theme.colors.text.secondary }}
                     >
                       Minimum
@@ -310,7 +310,7 @@ export function NavbarFilterMenuPopover({
                             alt="Dollar Icon"
                             width={20}
                             height={20}
-                            className="absolute left-3 top-1/2 -translate-y-1/2"
+                            className="absolute top-1/2 left-3 -translate-y-1/2"
                           />
                           <Input
                             type="number"
@@ -336,7 +336,7 @@ export function NavbarFilterMenuPopover({
                   </span>
                   <div className="flex-1">
                     <label
-                      className="text-xs mb-1.5 block text-center"
+                      className="mb-1.5 block text-center text-xs"
                       style={{ color: theme.colors.text.secondary }}
                     >
                       Maximum
@@ -351,7 +351,7 @@ export function NavbarFilterMenuPopover({
                             alt="Dollar Icon"
                             width={20}
                             height={20}
-                            className="absolute left-3 top-1/2 -translate-y-1/2"
+                            className="absolute top-1/2 left-3 -translate-y-1/2"
                           />
                           <Input
                             type="number"
@@ -386,7 +386,7 @@ export function NavbarFilterMenuPopover({
 
               {/* Minimum Rating */}
               <div>
-                <h4 className="text-lg font-semibold mb-4">Minimum Rating</h4>
+                <h4 className="mb-4 text-lg font-semibold">Minimum Rating</h4>
                 <Controller
                   control={control}
                   name="minimumRating"
@@ -413,7 +413,7 @@ export function NavbarFilterMenuPopover({
 
               {/* Distance */}
               <div>
-                <h4 className="text-lg font-semibold mb-4">Distance</h4>
+                <h4 className="mb-4 text-lg font-semibold">Distance</h4>
                 <div className="flex items-center gap-3">
                   <Controller
                     control={control}
@@ -425,14 +425,14 @@ export function NavbarFilterMenuPopover({
                         max={100}
                         value={field.value}
                         onChange={(e) => field.onChange(parseInt(e.target.value, 10))}
-                        className="flex-1 h-2 rounded-full appearance-none cursor-pointer range-slider"
+                        className="range-slider h-2 flex-1 cursor-pointer appearance-none rounded-full"
                         style={{
                           background: `linear-gradient(to right, #14B8A6 0%, #14B8A6 ${((field.value - 0) / (100 - 0)) * 100}%, ${theme.colors.background.tertiary} ${((field.value - 0) / (100 - 0)) * 100}%, ${theme.colors.background.tertiary} 100%)`,
                         }}
                       />
                     )}
                   />
-                  <span className="text-sm min-w-15" style={{ color: theme.colors.text.secondary }}>
+                  <span className="min-w-15 text-sm" style={{ color: theme.colors.text.secondary }}>
                     {filters.distance} miles
                   </span>
                 </div>
@@ -447,7 +447,7 @@ export function NavbarFilterMenuPopover({
                   >
                     Emergency Services
                   </h4>
-                  <p className="text-xs mt-0.5" style={{ color: theme.colors.text.secondary }}>
+                  <p className="mt-0.5 text-xs" style={{ color: theme.colors.text.secondary }}>
                     Only show 24/7 emergency hospitals
                   </p>
                 </div>
@@ -523,12 +523,12 @@ export function NavbarFilterMenuPopover({
 
             {/* Footer */}
             <div
-              className="px-4 py-3 border-t sticky bottom-0 bg-white"
+              className="sticky bottom-0 border-t bg-white px-4 py-3"
               style={{ borderColor: theme.colors.border.default }}
             >
               <button
                 type="submit"
-                className="w-full px-4 py-3 text-sm font-semibold rounded-xl transition-opacity hover:opacity-90"
+                className="w-full rounded-xl px-4 py-3 text-sm font-semibold transition-opacity hover:opacity-90"
                 style={{
                   backgroundColor: theme.colors.active,
                   color: 'white',

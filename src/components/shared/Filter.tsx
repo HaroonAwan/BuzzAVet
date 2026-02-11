@@ -57,7 +57,7 @@ const Filter = React.forwardRef<HTMLButtonElement, FilterProps>(
         onClick={onClick}
         disabled={disabled}
         className={cn(
-          'relative inline-flex items-center cursor-pointer justify-center gap-2',
+          'relative inline-flex cursor-pointer items-center justify-center gap-2',
           'rounded-[12px] font-medium transition-colors',
           'focus-visible:outline-none',
           'disabled:pointer-events-none disabled:opacity-50',
@@ -79,7 +79,7 @@ const Filter = React.forwardRef<HTMLButtonElement, FilterProps>(
         <span>{children}</span>
         {hasCount && active && (
           <Badge
-            className="absolute h-5 w-5 -top-2 -right-2 flex items-center justify-center rounded-full p-1 text-xs font-medium"
+            className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full p-1 text-xs font-medium"
             style={{
               backgroundColor: theme.colors.active,
               color: 'white',

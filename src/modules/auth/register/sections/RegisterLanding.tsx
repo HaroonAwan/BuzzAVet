@@ -15,14 +15,14 @@ export default function RegisterLanding() {
   return (
     <>
       <div className="mb-8">
-        <h1 className="thirty-six font-semibold leading-tight mb-2">Create your account</h1>
+        <h1 className="thirty-six mb-2 leading-tight font-semibold">Create your account</h1>
         <p className={'text-base'} style={{ color: theme.colors.text.secondary }}>
           Join thousands of pet parents today,
         </p>
       </div>
 
       {/* Social login buttons */}
-      <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="flex flex-col items-center justify-between gap-4 md:flex-row">
         <Button
           type="button"
           size="lg"
@@ -39,7 +39,7 @@ export default function RegisterLanding() {
           size="lg"
           variant="outline"
           className="w-full md:w-[calc(50%-8px)]"
-          icon={<img src={AppleIcon.src} alt="Apple" className="w-5 h-5 mb-1" />}
+          icon={<img src={AppleIcon.src} alt="Apple" className="mb-1 h-5 w-5" />}
           iconPlacement="start"
         >
           Log In with Apple
@@ -47,10 +47,10 @@ export default function RegisterLanding() {
       </div>
 
       {/* OR divider */}
-      <div className="flex items-center gap-4 my-4">
-        <div className="w-full h-px bg-(--color-muted)" />
-        <p className="text-[12px] font-medium text-muted-foreground">OR</p>
-        <div className="w-full h-px bg-(--color-muted)" />
+      <div className="my-4 flex items-center gap-4">
+        <div className="h-px w-full bg-(--color-muted)" />
+        <p className="text-muted-foreground text-[12px] font-medium">OR</p>
+        <div className="h-px w-full bg-(--color-muted)" />
       </div>
 
       {/* Email button */}
@@ -68,7 +68,7 @@ export default function RegisterLanding() {
       </Link>
 
       {/* Login link footer */}
-      <div className="flex items-center justify-center mt-8">
+      <div className="mt-8 flex items-center justify-center">
         <p className={'text-base'} style={{ color: theme.colors.text.secondary }}>
           Already have an account?{' '}
           <Link

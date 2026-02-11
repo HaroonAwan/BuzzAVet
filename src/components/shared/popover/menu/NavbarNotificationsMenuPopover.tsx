@@ -65,7 +65,7 @@ export function NavbarNotificationsMenuPopover({
         <div className={cn('w-[320px]', className)}>
           {/* Header */}
           <div
-            className="flex items-center justify-between px-4 py-3 border-b"
+            className="flex items-center justify-between border-b px-4 py-3"
             style={{ borderColor: theme.colors.border.default }}
           >
             <h3 className="text-base font-semibold" style={{ color: theme.colors.text.default }}>
@@ -74,7 +74,7 @@ export function NavbarNotificationsMenuPopover({
             {onMarkAllRead && (
               <button
                 onClick={onMarkAllRead}
-                className="text-sm font-medium hover:opacity-70 transition-opacity"
+                className="text-sm font-medium transition-opacity hover:opacity-70"
                 style={{ color: theme.colors.text.link }}
               >
                 Mark all read
@@ -89,8 +89,8 @@ export function NavbarNotificationsMenuPopover({
                 key={notification.id}
                 onClick={() => onNotificationClick?.(notification.id)}
                 className={cn(
-                  'w-full flex flex-col gap-1 px-4 py-3 text-left',
-                  'hover:bg-gray-50 transition-colors',
+                  'flex w-full flex-col gap-1 px-4 py-3 text-left',
+                  'transition-colors hover:bg-gray-50',
                   'border-b last:border-b-0',
                   !notification.read && 'bg-blue-50/30'
                 )}
@@ -100,14 +100,14 @@ export function NavbarNotificationsMenuPopover({
               >
                 <div className="flex items-start justify-between gap-2">
                   <h4
-                    className="text-sm font-semibold flex-1"
+                    className="flex-1 text-sm font-semibold"
                     style={{ color: theme.colors.text.default }}
                   >
                     {notification.title}
                   </h4>
                   {!notification.read && (
                     <div
-                      className="w-2 h-2 rounded-full shrink-0 mt-1"
+                      className="mt-1 h-2 w-2 shrink-0 rounded-full"
                       style={{ backgroundColor: theme.colors.text.link }}
                     />
                   )}

@@ -12,14 +12,14 @@ interface ViewToggleProps {
 export function ViewToggle({ viewType, onViewChange }: ViewToggleProps) {
   return (
     <div
-      className="flex items-center gap-1 p-1 rounded-[12px]"
+      className="flex items-center gap-1 rounded-[12px] p-1"
       style={{ backgroundColor: theme.colors.background.tertiary }}
     >
       <button
         className={cn(
-          'p-2 hover:opacity-70 transition-opacity cursor-pointer rounded-[8px]',
-          viewType === 'list' && 'opacity-100 bg-white',
-          viewType === 'map' && 'opacity-50 bg-transparent'
+          'cursor-pointer rounded-[8px] p-2 transition-opacity hover:opacity-70',
+          viewType === 'list' && 'bg-white opacity-100',
+          viewType === 'map' && 'bg-transparent opacity-50'
         )}
         onClick={() => onViewChange('list')}
         aria-label="List view"
@@ -31,9 +31,9 @@ export function ViewToggle({ viewType, onViewChange }: ViewToggleProps) {
       </button>
       <button
         className={cn(
-          'p-2 hover:opacity-70 transition-opacity cursor-pointer rounded-[8px]',
-          viewType === 'map' && 'opacity-100 bg-white',
-          viewType === 'list' && 'opacity-50 bg-transparent'
+          'cursor-pointer rounded-[8px] p-2 transition-opacity hover:opacity-70',
+          viewType === 'map' && 'bg-white opacity-100',
+          viewType === 'list' && 'bg-transparent opacity-50'
         )}
         onClick={() => onViewChange('map')}
         aria-label="Map view"

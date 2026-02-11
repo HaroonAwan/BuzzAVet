@@ -75,7 +75,7 @@ export function ServiceTypeInput({
   const dropdownContent = showDropdown && (
     <div
       ref={dropdownRef}
-      className="fixed p-2 bg-white rounded-[12px] SHADOW z-100 overflow-hidden"
+      className="SHADOW fixed z-100 overflow-hidden rounded-[12px] bg-white p-2"
       style={{
         top: `${dropdownPosition.top}px`,
         left: `${dropdownPosition.left}px`,
@@ -97,7 +97,7 @@ export function ServiceTypeInput({
               variant="ghost"
               key={search.id}
               onClick={() => onSelect(search.service)}
-              className="w-full justify-start hover:opacity-80 transition-opacity"
+              className="w-full justify-start transition-opacity hover:opacity-80"
               icon={
                 <Image
                   src={ClockIcon}
@@ -123,14 +123,14 @@ export function ServiceTypeInput({
       <div
         ref={containerRef}
         className={cn(
-          'flex-1 flex items-center gap-3 px-4 py-3 relative',
-          !isExpanded && 'shrink-0 w-[263px]'
+          'relative flex flex-1 items-center gap-3 px-4 py-3',
+          !isExpanded && 'w-[263px] shrink-0'
         )}
       >
         <div className="shrink-0">
           <SearchIcon size={20} fill={theme.colors.text.tertiary} />
         </div>
-        <div className="flex-1 relative">
+        <div className="relative flex-1">
           <input
             ref={inputRef}
             type="text"
@@ -139,7 +139,7 @@ export function ServiceTypeInput({
             onFocus={onFocus}
             onClick={onClick}
             className={cn(
-              'w-full bg-transparent outline-none text-sm',
+              'w-full bg-transparent text-sm outline-none',
               isExpanded && 'font-medium'
             )}
             style={{
@@ -149,7 +149,7 @@ export function ServiceTypeInput({
           />
           {!value && !isServiceTypeFocused && (!isSearchExpanded || !isExpanded) && (
             <div
-              className="absolute inset-0 pointer-events-none flex items-center"
+              className="pointer-events-none absolute inset-0 flex items-center"
               style={{
                 color: theme.colors.placeholder,
               }}

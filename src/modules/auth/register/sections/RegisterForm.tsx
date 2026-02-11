@@ -23,7 +23,7 @@ export default function RegisterForm() {
   return (
     <>
       {/* back button */}
-      <div className="hidden md:flex justify-start mb-7">
+      <div className="mb-7 hidden justify-start md:flex">
         <Button
           type="button"
           size="lg"
@@ -38,7 +38,7 @@ export default function RegisterForm() {
       </div>
       {/* title */}
       <div className="mb-8">
-        <h1 className="thirty-six font-semibold leading-tight mb-2">Create Your Account</h1>
+        <h1 className="thirty-six mb-2 leading-tight font-semibold">Create Your Account</h1>
         <p className={'text-base'} style={{ color: theme.colors.text.secondary }}>
           Join thousands of pet parents today.
         </p>
@@ -74,7 +74,7 @@ export default function RegisterForm() {
           size="lg"
           variant="pill"
           disabled={isRegistering}
-          className="w-full mt-3"
+          className="mt-3 w-full"
         >
           {isRegistering ? 'Creating account...' : 'Continue'}
         </Button>

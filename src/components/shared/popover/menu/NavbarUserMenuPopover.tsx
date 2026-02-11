@@ -108,44 +108,44 @@ export function NavbarUserMenuPopover({
         <div className={cn('w-77.75 p-2', className)}>
           {/* User Info Section */}
           <div
-            className="flex items-center gap-3 p-3 rounded-xl"
+            className="flex items-center gap-3 rounded-xl p-3"
             style={{ backgroundColor: theme.colors.background.secondary }}
           >
             <Avatar name={userName} url={userAvatarUrl as string} size="lg" />
-            <div className="flex-1 min-w-0">
-              <h3 className="text-sm font-semibold truncate">{userName}</h3>
-              <p className="text-sm truncate" style={{ color: theme.colors.text.secondary }}>
+            <div className="min-w-0 flex-1">
+              <h3 className="truncate text-sm font-semibold">{userName}</h3>
+              <p className="truncate text-sm" style={{ color: theme.colors.text.secondary }}>
                 {userEmail}
               </p>
             </div>
           </div>
 
           {/* Main Menu Items */}
-          <div className="py-2 flex flex-col gap-1">
+          <div className="flex flex-col gap-1 py-2">
             {mainMenuItems.map((item) => (
               <button
                 key={item.label}
                 onClick={item.onClick}
                 className={cn(
-                  'w-full flex items-center gap-3 px-3 py-1.5 text-left',
-                  'hover:bg-gray-50 transition-colors'
+                  'flex w-full items-center gap-3 px-3 py-1.5 text-left',
+                  'transition-colors hover:bg-gray-50'
                 )}
               >
-                <span className="shrink-0 flex items-center justify-center">{item.icon}</span>
-                <span className="text-sm font-medium flex-1">{item.label}</span>
+                <span className="flex shrink-0 items-center justify-center">{item.icon}</span>
+                <span className="flex-1 text-sm font-medium">{item.label}</span>
               </button>
             ))}
           </div>
 
           {/* Secondary Menu Items with divider */}
           <div className="border-t" style={{ borderColor: theme.colors.border.default }}>
-            <div className="py-2 flex flex-col gap-1">
+            <div className="flex flex-col gap-1 py-2">
               {secondaryMenuItems.map((item) => (
                 <button
                   key={item.label}
                   onClick={item.onClick}
                   className={cn(
-                    'w-full flex items-center gap-3 px-3 py-1.5 text-left',
+                    'flex w-full items-center gap-3 px-3 py-1.5 text-left',
                     'transition-colors',
                     item.variant === 'danger' ? 'hover:bg-red-50' : 'hover:bg-gray-50'
                   )}
@@ -157,12 +157,12 @@ export function NavbarUserMenuPopover({
                   }}
                 >
                   <span
-                    className="shrink-0 flex items-center justify-center"
+                    className="flex shrink-0 items-center justify-center"
                     style={{ color: 'inherit' }}
                   >
                     {item.icon}
                   </span>
-                  <span className="text-sm font-medium flex-1">{item.label}</span>
+                  <span className="flex-1 text-sm font-medium">{item.label}</span>
                 </button>
               ))}
             </div>

@@ -40,12 +40,12 @@ const Hero = () => {
     setServiceTypeValue,
   } = useNavbar();
   return (
-    <div className="h-167 hero-banner-image ">
-      <div className="flex items-center justify-center container h-full z-10 relative">
-        <div className="flex flex-col items-center justify-center gap-10 h-full max-w-208.25">
+    <div className="hero-banner-image h-167">
+      <div className="relative z-10 container flex h-full items-center justify-center">
+        <div className="flex h-full max-w-208.25 flex-col items-center justify-center gap-10">
           {/* title and tag line */}
           <div className="flex flex-col items-center justify-center gap-6 text-center">
-            <h1 className="forty-eight font-semibold leading-tight text-center text-white flex flex-col">
+            <h1 className="forty-eight flex flex-col text-center leading-tight font-semibold text-white">
               <span>Comprehensive Vet</span>
               <span className="flex items-center gap-2">
                 Care.
@@ -71,7 +71,7 @@ const Hero = () => {
             </p>
           </div>
           {/* Search Section */}
-          <div className="SHADOW bg-white rounded-2xl flex flex-col w-full">
+          <div className="SHADOW flex w-full flex-col rounded-2xl bg-white">
             <ServiceCategories
               selectedCategory={selectedCategory}
               onCategorySelect={handleCategorySelect}
@@ -80,7 +80,7 @@ const Hero = () => {
               <div
                 className={cn(
                   'flex items-center gap-0 rounded-xl border bg-white',
-                  'transition-all duration-300 h-12'
+                  'h-12 transition-all duration-300'
                 )}
                 style={{
                   borderColor:
@@ -123,7 +123,7 @@ const Hero = () => {
                 />
 
                 <button
-                  className="flex cursor-pointer h-full items-center justify-center transition-opacity hover:opacity-90 shrink-0 w-12 rounded-xl"
+                  className="flex h-full w-12 shrink-0 cursor-pointer items-center justify-center rounded-xl transition-opacity hover:opacity-90"
                   style={{ backgroundColor: theme.colors.special.verifiedBadge }}
                   aria-label="Search"
                 >
@@ -133,7 +133,7 @@ const Hero = () => {
             </div>
           </div>
           {/* Why choose us section */}
-          <div className="flex items-center  justify-center gap-10">
+          <div className="flex items-center justify-center gap-10">
             <div className="flex items-center justify-center gap-2">
               <Image src={LicenseIcon} alt="License" width={24} height={24} />
               <p className="font-medium text-white">Licensed Vets</p>
@@ -155,13 +155,13 @@ const Hero = () => {
           </div>
         </div>
       </div>
-      <div className="max-w-175 w-full mx-auto relative">
+      <div className="relative mx-auto w-full max-w-175">
         <Image
           src={CatImage}
           alt="Cat"
           width={378}
           height={450}
-          className="absolute -bottom-15 right-full z-0"
+          className="absolute right-full -bottom-15 z-0"
         />
         <Image
           src={DogImage}

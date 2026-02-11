@@ -97,19 +97,19 @@ export default function Step4HealthSnapshot() {
   }, [isAnyUploading]);
 
   return (
-    <div className="w-full mt-3 flex-1 flex flex-col">
-      <h1 className="thirty-six font-semibold mb-10" style={{ color: theme.colors.text.default }}>
+    <div className="mt-3 flex w-full flex-1 flex-col">
+      <h1 className="thirty-six mb-10 font-semibold" style={{ color: theme.colors.text.default }}>
         Health Snapshot
       </h1>
-      <p className="text-base mb-6 max-w-142.5" style={{ color: theme.colors.text.secondary }}>
+      <p className="mb-6 max-w-142.5 text-base" style={{ color: theme.colors.text.secondary }}>
         Adding these details helps vets diagnose issues faster. You can skip this and add it later.
       </p>
 
       {/* Medical History Toggle */}
-      <div className="flex items-center justify-between mb-10 border-b pb-5">
+      <div className="mb-10 flex items-center justify-between border-b pb-5">
         <div>
           <label
-            className="block text-[18px] font-semibold mb-1.5 leading-6"
+            className="mb-1.5 block text-[18px] leading-6 font-semibold"
             style={{ color: theme.colors.text.default }}
           >
             Add medical history?
@@ -127,10 +127,10 @@ export default function Step4HealthSnapshot() {
 
       {/* Medical History Fields */}
       {enableMedicalHistory && (
-        <div className="space-y-6 mb-8">
+        <div className="mb-8 space-y-6">
           <div>
             <label
-              className="block text-sm font-medium mb-1"
+              className="mb-1 block text-sm font-medium"
               style={{ color: theme.colors.text.default }}
             >
               Known Allergies
@@ -144,7 +144,7 @@ export default function Step4HealthSnapshot() {
 
           <div>
             <label
-              className="block text-sm font-medium mb-1"
+              className="mb-1 block text-sm font-medium"
               style={{ color: theme.colors.text.default }}
             >
               Chronic Conditions
@@ -158,7 +158,7 @@ export default function Step4HealthSnapshot() {
 
           <div>
             <label
-              className="block text-sm font-medium mb-1"
+              className="mb-1 block text-sm font-medium"
               style={{ color: theme.colors.text.default }}
             >
               Previous Diagnosis
@@ -175,7 +175,7 @@ export default function Step4HealthSnapshot() {
       {/* Document Upload */}
       <div>
         <label
-          className="block text-sm font-semibold mb-2"
+          className="mb-2 block text-sm font-semibold"
           style={{ color: theme.colors.text.default }}
         >
           Upload Document (Max 5)
@@ -183,7 +183,7 @@ export default function Step4HealthSnapshot() {
 
         {/* Uploaded Documents List */}
         {uploadedDocuments.length > 0 && (
-          <div className="space-y-3 mb-4">
+          <div className="mb-4 space-y-3">
             {uploadedDocuments.map((doc, index) => (
               <DocumentUploadItem
                 key={index}
@@ -204,16 +204,16 @@ export default function Step4HealthSnapshot() {
               accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
               multiple
               onChange={handleFileChange}
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+              className="absolute inset-0 z-10 h-full w-full cursor-pointer opacity-0"
               id="document-upload"
               disabled={isAnyUploading}
             />
             <div
               className={cn(
-                'w-full min-h-30 border-2 border-dashed rounded-lg',
+                'min-h-30 w-full rounded-lg border-2 border-dashed',
                 'flex flex-col items-center justify-center gap-3 p-6',
                 'transition-colors',
-                isAnyUploading ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'
+                isAnyUploading ? 'cursor-not-allowed opacity-50' : 'cursor-pointer'
               )}
               style={{
                 borderColor: theme.colors.defaultBorder,
@@ -231,7 +231,7 @@ export default function Step4HealthSnapshot() {
               <AddPhotoIcon size={32} />
               <div className="text-center">
                 <p
-                  className="text-sm font-medium mb-1"
+                  className="mb-1 text-sm font-medium"
                   style={{ color: theme.colors.text.secondary }}
                 >
                   Upload Documents

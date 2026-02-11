@@ -156,10 +156,10 @@ const CustomSelect = <
             (selectValue as unknown as SelectOption).value === (option as SelectOption).value;
 
         return (
-          <div className="flex items-center justify-between w-full">
+          <div className="flex w-full items-center justify-between">
             <span>{(option as SelectOption).label}</span>
             {isSelected && (
-              <Check className="h-4 w-4 text-foreground shrink-0 ml-2" aria-hidden="true" />
+              <Check className="text-foreground ml-2 h-4 w-4 shrink-0" aria-hidden="true" />
             )}
           </div>
         );

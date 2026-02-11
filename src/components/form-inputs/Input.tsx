@@ -113,12 +113,12 @@ const FormInput = <
                   disabled={disabled}
                   placeholder={props.placeholder as string}
                   className={cn(
-                    'flex h-27.5 w-full rounded-xl border bg-background px-3 py-2 text-sm resize-none',
+                    'bg-background flex h-27.5 w-full resize-none rounded-xl border px-3 py-2 text-sm',
                     'border-(--theme-default-border)',
                     'text-(--theme-text-default)',
                     'placeholder:text-(--theme-placeholder)',
-                    'focus-visible:outline-none focus-visible:border-(--theme-active)',
-                    'disabled:cursor-not-allowed disabled:opacity-50 disabled:bg-(--theme-disabled-bg)',
+                    'focus-visible:border-(--theme-active) focus-visible:outline-none',
+                    'disabled:cursor-not-allowed disabled:bg-(--theme-disabled-bg) disabled:opacity-50',
                     className
                   )}
                   onFocus={(e) => {
@@ -141,7 +141,7 @@ const FormInput = <
                 {hasError && errorMessage && (
                   <p
                     id={errorId}
-                    className="text-[12px] absolute -bottom-4.5 right-1.5"
+                    className="absolute right-1.5 -bottom-4.5 text-[12px]"
                     style={{ color: theme.colors.error }}
                     role="alert"
                     aria-live="polite"
@@ -284,7 +284,7 @@ const FormInput = <
                 </label>
               )}
               <div className="relative">
-                <div className="flex gap-2 justify-between items-center">
+                <div className="flex items-center justify-between gap-2">
                   {Array.from({ length: OTP_LENGTH }).map((_, index) => (
                     <Input
                       key={index}
@@ -299,7 +299,7 @@ const FormInput = <
                       max={9}
                       disabled={disabled}
                       className={cn(
-                        'w-13 h-13 text-center text-xl font-semibold p-0 text-foreground',
+                        'text-foreground h-13 w-13 p-0 text-center text-xl font-semibold',
                         className
                       )}
                       onKeyDown={(e) => handleOtpKeyDown(index, e)}
@@ -320,7 +320,7 @@ const FormInput = <
                 {hasError && errorMessage && (
                   <p
                     id={errorId}
-                    className="text-[12px] absolute -bottom-4.5 right-1.5"
+                    className="absolute right-1.5 -bottom-4.5 text-[12px]"
                     style={{ color: theme.colors.error }}
                     role="alert"
                     aria-live="polite"
@@ -369,7 +369,7 @@ const FormInput = <
                 <button
                   type="button"
                   onClick={togglePasswordVisibility}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:opacity-70 transition-opacity focus:outline-none"
+                  className="absolute top-1/2 right-3 -translate-y-1/2 p-1 transition-opacity hover:opacity-70 focus:outline-none"
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                   tabIndex={0}
                 >
@@ -379,7 +379,7 @@ const FormInput = <
               {hasError && errorMessage && (
                 <p
                   id={errorId}
-                  className="text-[12px] absolute -bottom-4.5 right-1.5"
+                  className="absolute right-1.5 -bottom-4.5 text-[12px]"
                   style={{ color: theme.colors.error }}
                   role="alert"
                   aria-live="polite"

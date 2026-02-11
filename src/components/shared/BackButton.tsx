@@ -16,7 +16,7 @@ const BackButton = () => {
         iconPlacement="start"
         variant="ghost"
         onClick={handleBack}
-        className="text-base px-0 font-semibold"
+        className="px-0 text-base font-semibold"
       >
         Back
       </Button>

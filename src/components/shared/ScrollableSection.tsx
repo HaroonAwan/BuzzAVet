@@ -107,7 +107,7 @@ export const ScrollableSection: React.FC<ScrollableSectionProps> = ({
   }, [handleScroll, updateScrollState]);
 
   return (
-    <section className={cn('w-full flex flex-col gap-8', className)}>
+    <section className={cn('flex w-full flex-col gap-8', className)}>
       <div className="flex items-center justify-between gap-4">
         <h2 className="twenty-eight font-semibold">{title}</h2>
 
@@ -120,7 +120,7 @@ export const ScrollableSection: React.FC<ScrollableSectionProps> = ({
               iconPlacement="center"
               aria-label="Scroll left"
               disabled={!canScrollLeft}
-              className="rounded-xl h-14 w-14"
+              className="h-14 w-14 rounded-xl"
               style={{
                 borderColor: theme.colors.border.secondary,
                 backgroundColor: theme.colors.background.default,
@@ -135,7 +135,7 @@ export const ScrollableSection: React.FC<ScrollableSectionProps> = ({
               iconPlacement="center"
               aria-label="Scroll right"
               disabled={!canScrollRight}
-              className="rounded-xl h-14 w-14"
+              className="h-14 w-14 rounded-xl"
               style={{
                 borderColor: theme.colors.border.secondary,
                 backgroundColor: theme.colors.background.default,
@@ -149,7 +149,7 @@ export const ScrollableSection: React.FC<ScrollableSectionProps> = ({
 
       <div
         ref={scrollContainerRef}
-        className="overflow-x-auto overflow-y-hidden scrollbar-hide"
+        className="scrollbar-hide overflow-x-auto overflow-y-hidden"
         style={{
           scrollBehavior: 'smooth',
         }}

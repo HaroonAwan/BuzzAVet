@@ -9,8 +9,8 @@ interface InfoWrapperProps {
 
 const InfoWrapper: React.FC<InfoWrapperProps> = ({ children, title, sectionTitle, subTitle }) => {
   return (
-    <div className="flex flex-col gap-15 container">
-      <div className="flex flex-col text-center gap-3 leading-tight max-w-2xl mx-auto">
+    <div className="container flex flex-col gap-15">
+      <div className="mx-auto flex max-w-2xl flex-col gap-3 text-center leading-tight">
         <h1 className="font-semibold" style={{ color: theme.colors.background.range }}>
           {sectionTitle}
         </h1>

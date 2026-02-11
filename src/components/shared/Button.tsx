@@ -118,7 +118,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       return (
         <span
           className={cn(
-            'inline-flex items-center justify-center shrink-0',
+            'inline-flex shrink-0 items-center justify-center',
             currentSize.iconSize,
             iconVisibilityClass,
             iconSpacing
@@ -199,7 +199,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {isCenterIcon && icon && (
           <span
             className={cn(
-              'inline-flex items-center justify-center shrink-0',
+              'inline-flex shrink-0 items-center justify-center',
               currentSize.iconSize,
               iconVisibilityClass
             )}

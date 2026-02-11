@@ -4,7 +4,7 @@ import { initialTelemedicineDoctors } from '@/modules/home/sections/TopRatedTele
 const VeterinariansTab = () => {
   return (
     <div
-      className="gap-5 w-full"
+      className="w-full gap-5"
       style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',

@@ -88,7 +88,7 @@ export function NavigationProgress() {
 
   return (
     <div
-      className="fixed top-0 left-0 right-0 z-9999 pointer-events-none"
+      className="pointer-events-none fixed top-0 right-0 left-0 z-9999"
       style={{
         opacity: isVisible ? 1 : 0,
         transition: 'opacity 0.3s ease-out',

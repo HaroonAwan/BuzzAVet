@@ -195,14 +195,14 @@ const BookHospitalAppointment: React.FC<BookHospitalAppointmentProps> = ({
   };
 
   return (
-    <div className="w-full max-w-100 rounded-[14px] bg-white border h-fit">
+    <div className="h-fit w-full max-w-100 rounded-[14px] border bg-white">
       {/* Header */}
-      <h2 className="p-4 text-xl font-semibold leading-7 border-b">Book Appointment</h2>
+      <h2 className="border-b p-4 text-xl leading-7 font-semibold">Book Appointment</h2>
       {/* Consultation Fee and Next Available */}
-      <div className="bg-(--bg-teal) py-3 px-4 flex flex-col">
+      <div className="flex flex-col bg-(--bg-teal) px-4 py-3">
         <div className="flex items-center justify-between">
-          <span className="font-medium leading-none">Consultation Fee</span>
-          <span className="twenty-eight font-bold leading-8">${consultationFee}</span>
+          <span className="leading-none font-medium">Consultation Fee</span>
+          <span className="twenty-eight leading-8 font-bold">${consultationFee}</span>
         </div>
 
         <div className="flex items-center gap-2">
@@ -215,14 +215,14 @@ const BookHospitalAppointment: React.FC<BookHospitalAppointmentProps> = ({
       </div>
 
       {/* Form Fields */}
-      <div className="p-4 border-b">
-        <div className="border rounded-xl">
+      <div className="border-b p-4">
+        <div className="rounded-xl border">
           {/* Date and Time Row */}
           <div className="flex items-center border-b">
             {/* Select Date */}
             <div
               className={cn(
-                'relative h-19.5 w-1/2 flex flex-col border rounded-xl gap-2 padding-custom cursor-pointer'
+                'padding-custom relative flex h-19.5 w-1/2 cursor-pointer flex-col gap-2 rounded-xl border'
               )}
               style={{ borderColor: showCalendar ? theme.colors.active : 'transparent' }}
               onClick={(e) => {
@@ -234,7 +234,7 @@ const BookHospitalAppointment: React.FC<BookHospitalAppointmentProps> = ({
               ref={dateButtonRef}
             >
               <label
-                className="block text-sm cursor-pointer"
+                className="block cursor-pointer text-sm"
                 style={{ color: theme.colors.text.secondary }}
               >
                 Select Date
@@ -247,7 +247,7 @@ const BookHospitalAppointment: React.FC<BookHospitalAppointmentProps> = ({
                     className={`h-4 w-4 transition-transform duration-200 ${showCalendar ? 'rotate-180' : ''}`}
                   />
                 }
-                className="p-0 h-fit justify-between"
+                className="h-fit justify-between p-0"
               >
                 <div className="flex items-center gap-2">
                   <Image src={CalenderIcon} alt="Calendar Icon" width={20} height={20} />
@@ -258,7 +258,7 @@ const BookHospitalAppointment: React.FC<BookHospitalAppointmentProps> = ({
               {showCalendar && (
                 <div
                   ref={calendarRef}
-                  className="absolute left-0 top-full z-1000 mt-1 rounded-xl bg-white p-2 SHADOW"
+                  className="SHADOW absolute top-full left-0 z-1000 mt-1 rounded-xl bg-white p-2"
                 >
                   <Calendar
                     onChange={handleDateChange}
@@ -274,7 +274,7 @@ const BookHospitalAppointment: React.FC<BookHospitalAppointmentProps> = ({
             <div
               ref={timeContainerRef}
               className={cn(
-                'relative w-1/2 h-19.5 flex flex-col border rounded-xl gap-2 padding-custom cursor-pointer'
+                'padding-custom relative flex h-19.5 w-1/2 cursor-pointer flex-col gap-2 rounded-xl border'
               )}
               style={{ borderColor: timeFocused ? theme.colors.active : 'transparent' }}
               onClick={() => {
@@ -289,7 +289,7 @@ const BookHospitalAppointment: React.FC<BookHospitalAppointmentProps> = ({
                 Available Time
               </label>
               <div
-                className="p-0 h-fit w-full flex items-center gap-2"
+                className="flex h-fit w-full items-center gap-2 p-0"
                 onClick={(e) => e.stopPropagation()}
               >
                 <Image
@@ -344,14 +344,14 @@ const BookHospitalAppointment: React.FC<BookHospitalAppointmentProps> = ({
           {/* Preferred Veterinarian */}
           <div className="padding-custom relative">
             <p
-              className="block text-sm cursor-pointer mb-2"
+              className="mb-2 block cursor-pointer text-sm"
               style={{ color: theme.colors.text.secondary }}
             >
               Preferred Veterinarian
             </p>
             <div
               ref={vetButtonRef}
-              className="flex items-center justify-between cursor-pointer p-2 border rounded-lg"
+              className="flex cursor-pointer items-center justify-between rounded-lg border p-2"
               style={{
                 borderColor: showVetDropdown ? theme.colors.active : theme.colors.border.default,
               }}
@@ -368,11 +368,11 @@ const BookHospitalAppointment: React.FC<BookHospitalAppointmentProps> = ({
             {showVetDropdown && (
               <div
                 ref={vetDropdownRef}
-                className="absolute left-0 right-0 overflow-hidden top-full mt-1 z-1000 bg-white rounded-xl SHADOW mx-4"
+                className="SHADOW absolute top-full right-0 left-0 z-1000 mx-4 mt-1 overflow-hidden rounded-xl bg-white"
               >
                 {/* Any Available Vet Option */}
                 <div
-                  className="flex items-center justify-between p-3 cursor-pointer hover:bg-gray-50 border-b"
+                  className="flex cursor-pointer items-center justify-between border-b p-3 hover:bg-gray-50"
                   style={{
                     borderColor: theme.colors.border.default,
                   }}
@@ -385,16 +385,16 @@ const BookHospitalAppointment: React.FC<BookHospitalAppointmentProps> = ({
                     Any Available Vet
                   </span>
                   {selectedVeterinarian === 'any-available' && (
-                    <Check className="h-4 w-4 text-foreground shrink-0 ml-2" aria-hidden="true" />
+                    <Check className="text-foreground ml-2 h-4 w-4 shrink-0" aria-hidden="true" />
                   )}
                 </div>
 
                 {/* Veterinarian List */}
-                <div className="max-h-80 scrollbar-hide overflow-y-auto">
+                <div className="scrollbar-hide max-h-80 overflow-y-auto">
                   {veterinarians.map((vet) => (
                     <div
                       key={vet.id}
-                      className="flex items-center gap-3 justify-between w-full px-4 py-3 cursor-pointer hover:bg-gray-50"
+                      className="flex w-full cursor-pointer items-center justify-between gap-3 px-4 py-3 hover:bg-gray-50"
                       onClick={() => {
                         setSelectedVeterinarian(vet.id);
                         setShowVetDropdown(false);
@@ -404,22 +404,22 @@ const BookHospitalAppointment: React.FC<BookHospitalAppointmentProps> = ({
                           vet.id === selectedVeterinarian ? theme.colors.background.secondary : '',
                       }}
                     >
-                      <div className="flex flex-col gap-1.5 max-w-[90%]">
+                      <div className="flex max-w-[90%] flex-col gap-1.5">
                         <div className="flex items-center gap-3">
                           {/* Avatar */}
                           <Avatar size="md" url={vet.image} name={vet.name} className="shrink-0" />
 
                           {/* Vet Details */}
-                          <div className="min-w-0 ">
+                          <div className="min-w-0">
                             <div className="flex items-center gap-2">
                               <h4
-                                className="font-semibold text-sm truncate "
+                                className="truncate text-sm font-semibold"
                                 style={{ color: theme.colors.text.default }}
                               >
                                 {vet.name}
                               </h4>
                               <div className="flex items-center gap-1">
-                                <StarIcon className="shrink-0 mb-0.5" size={14} />
+                                <StarIcon className="mb-0.5 shrink-0" size={14} />
                                 <span
                                   className="text-xs font-semibold"
                                   style={{ color: theme.colors.text.default }}
@@ -429,7 +429,7 @@ const BookHospitalAppointment: React.FC<BookHospitalAppointmentProps> = ({
                               </div>
                             </div>
                             <p
-                              className="text-sm truncate"
+                              className="truncate text-sm"
                               style={{ color: theme.colors.text.secondary }}
                             >
                               {vet.specialty}
@@ -443,7 +443,7 @@ const BookHospitalAppointment: React.FC<BookHospitalAppointmentProps> = ({
                       {/* Checkmark */}
                       {selectedVeterinarian === vet.id && (
                         <Check
-                          className="h-4 w-4 text-foreground shrink-0 ml-2"
+                          className="text-foreground ml-2 h-4 w-4 shrink-0"
                           aria-hidden="true"
                         />
                       )}

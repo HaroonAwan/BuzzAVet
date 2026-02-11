@@ -144,7 +144,7 @@ const FormSelect = <
         return (
           <div className={cn('space-y-2', className)}>
             {label && (
-              <label htmlFor={selectId} className="block text-sm font-medium text-foreground">
+              <label htmlFor={selectId} className="text-foreground block text-sm font-medium">
                 {label}
               </label>
             )}

@@ -51,12 +51,12 @@ export const AppointmentCard: React.FC<AppointmentCardProps> = ({
   return (
     <article
       className={cn(
-        'bg-white rounded-[16px] p-5 flex justify-between gap-6 w-[540px] shrink-0',
+        'flex w-135 shrink-0 justify-between gap-6 rounded-2xl bg-white p-5',
         'border',
         className
       )}
     >
-      <div className="flex flex-col gap-2 max-w-[355px]">
+      <div className="flex max-w-88.75 flex-col gap-2">
         {/* Top chips row */}
         <div className="flex flex-wrap items-center gap-2">
           {chips.map((chip) => (
@@ -75,14 +75,14 @@ export const AppointmentCard: React.FC<AppointmentCardProps> = ({
           <div className="flex flex-col gap-1">
             <p className="font-semibold">{dateTimeLabel}</p>
             <div className="flex items-center gap-4">
-              <span className="font-semibold text-sm pr-4 border-r">{petName}</span>
+              <span className="border-r pr-4 text-sm font-semibold">{petName}</span>
               <span
                 className="flex items-center gap-2 text-sm"
                 style={{ color: theme.colors.text.tertiary }}
               >
                 Vet:
                 <span
-                  className="font-semibold text-sm h-6 w-6 flex items-center justify-center rounded-[6px]"
+                  className="flex h-6 w-6 items-center justify-center rounded-md text-sm font-semibold"
                   style={{
                     backgroundColor: theme.colors.background.lime,
                     color: theme.colors.text.default,
@@ -92,7 +92,7 @@ export const AppointmentCard: React.FC<AppointmentCardProps> = ({
                 </span>
               </span>
               <Link href={`/telemedicine/${vetName}`}>
-                <span className="font-semibold text-sm">{vetName}</span>
+                <span className="text-sm font-semibold">{vetName}</span>
               </Link>
             </div>
           </div>

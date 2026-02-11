@@ -46,15 +46,15 @@ const OurServices = () => {
         title="Complete Care for Your Beloved Pets"
         subTitle="From routine checkups to emergency care, we offer a full range of veterinary services tailored to your pet's needs."
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
+        <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {services.map((service) => (
             <div
               key={service.id}
-              className="flex flex-col items-center text-center p-8 bg-white rounded-2xl"
+              className="flex flex-col items-center rounded-2xl bg-white p-8 text-center"
             >
               <div className="mb-5">
                 <div
-                  className="w-20 h-20 rounded-2xl flex items-center justify-center"
+                  className="flex h-20 w-20 items-center justify-center rounded-2xl"
                   style={{ backgroundColor: theme.colors.background.teal }}
                 >
                   <Image
@@ -67,7 +67,7 @@ const OurServices = () => {
                 </div>
               </div>
               <h3
-                className="text-xl font-semibold mb-2"
+                className="mb-2 text-xl font-semibold"
                 style={{ color: theme.colors.text.default }}
               >
                 {service.title}

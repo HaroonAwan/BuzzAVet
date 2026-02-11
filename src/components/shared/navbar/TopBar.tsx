@@ -25,7 +25,7 @@ export function TopBar({ selectedCategory, onCategorySelect }: TopBarProps) {
 
       <ServiceCategories selectedCategory={selectedCategory} onCategorySelect={onCategorySelect} />
 
-      <div className="flex items-center gap-3 shrink-0">
+      <div className="flex shrink-0 items-center gap-3">
         <NavbarNotificationsMenuPopover
           trigger={
             <Button
@@ -34,7 +34,7 @@ export function TopBar({ selectedCategory, onCategorySelect }: TopBarProps) {
               iconPlacement="center"
               icon={<BellIcon fill={theme.icons.default} />}
               aria-label="Notifications"
-              className="w-12 h-12"
+              className="h-12 w-12"
             />
           }
           notifications={[]}
@@ -45,7 +45,7 @@ export function TopBar({ selectedCategory, onCategorySelect }: TopBarProps) {
         <NavbarUserMenuPopover
           trigger={
             <div
-              className="flex items-center justify-center gap-3 cursor-pointer"
+              className="flex cursor-pointer items-center justify-center gap-3"
               aria-label="User menu"
             >
               <Avatar name="Nauman Majeed" size="lg" />
@@ -55,7 +55,7 @@ export function TopBar({ selectedCategory, onCategorySelect }: TopBarProps) {
                 iconPlacement="center"
                 icon={<ChevronDownIcon size={20} style={{ color: theme.icons.default }} />}
                 aria-label="User menu"
-                className="w-5 h-5 p-0"
+                className="h-5 w-5 p-0"
               />
             </div>
           }

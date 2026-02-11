@@ -46,7 +46,7 @@ const Testimonials = () => {
         title="What Our Patients Say"
         subTitle="Don't just take our word for it - hear from the pet owners who trust us with their furry family members."
       >
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {testimonials.map((testimonial) => (
             <TestimonialCard key={testimonial.id} testimonial={testimonial} />
           ))}

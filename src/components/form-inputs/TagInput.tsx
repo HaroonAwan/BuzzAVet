@@ -52,9 +52,9 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
       <div
         ref={ref}
         className={cn(
-          'flex flex-wrap gap-2 p-2 min-h-[50px] rounded-md border',
-          'focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-0',
-          disabled && 'opacity-50 cursor-not-allowed',
+          'flex min-h-[50px] flex-wrap gap-2 rounded-md border p-2',
+          'focus-within:ring-2 focus-within:ring-offset-0 focus-within:outline-none',
+          disabled && 'cursor-not-allowed opacity-50',
           className
         )}
         style={{
@@ -66,7 +66,7 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
         {value.map((tag, index) => (
           <span
             key={`${tag}-${index}`}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium"
+            className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium"
             style={{
               backgroundColor: theme.colors.background.tertiary,
               color: theme.colors.text.default,
@@ -80,7 +80,7 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
                   e.stopPropagation();
                   handleRemoveTag(tag);
                 }}
-                className="ml-1 hover:opacity-70 cursor-pointer transition-opacity focus:outline-none"
+                className="ml-1 cursor-pointer transition-opacity hover:opacity-70 focus:outline-none"
                 aria-label={`Remove ${tag}`}
               >
                 <svg
@@ -110,7 +110,7 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
           onKeyDown={handleKeyDown}
           placeholder={value.length === 0 ? placeholder : ''}
           disabled={disabled}
-          className="flex-1 min-w-[120px] outline-none bg-transparent text-sm"
+          className="min-w-[120px] flex-1 bg-transparent text-sm outline-none"
           style={{ color: theme.colors.text.default }}
         />
       </div>

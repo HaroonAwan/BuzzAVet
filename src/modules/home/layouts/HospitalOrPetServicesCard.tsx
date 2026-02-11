@@ -61,8 +61,8 @@ export const HospitalOrPetServicesCard: React.FC<HospitalOrPetServicesCardProps>
     <Link href={`/services/${slug}/${name}`}>
       <article
         className={cn(
-          'bg-transparent rounded-[16px] flex flex-col gap-3',
-          isDynamicWidth ? 'min-w-[203px] grow shrink-0' : 'w-[203px]',
+          'flex flex-col gap-3 rounded-[16px] bg-transparent',
+          isDynamicWidth ? 'min-w-[203px] shrink-0 grow' : 'w-[203px]',
           'relative',
           className
         )}
@@ -71,7 +71,7 @@ export const HospitalOrPetServicesCard: React.FC<HospitalOrPetServicesCardProps>
         <Button
           variant="ghost"
           onClick={handleFavoriteClick}
-          className="absolute top-3 right-3 h-8 w-8 z-10 bg-(--bg-glass) overflow-hidden rounded-[8px] p-1.5"
+          className="absolute top-3 right-3 z-10 h-8 w-8 overflow-hidden rounded-[8px] bg-(--bg-glass) p-1.5"
           aria-label={favorite ? 'Remove from favorites' : 'Add to favorites'}
         >
           <FavoriteIcon favorite={favorite} size={20} />
@@ -79,9 +79,9 @@ export const HospitalOrPetServicesCard: React.FC<HospitalOrPetServicesCardProps>
 
         {/* Hospital image/logo */}
         {imageSrc && (
-          <div className="w-full h-51 rounded-[16px] overflow-hidden relative">
+          <div className="relative h-51 w-full overflow-hidden rounded-[16px]">
             <Image src={imageSrc} alt={name} fill className="object-cover" />
-            <div className="absolute bottom-0 left-0 right-0 gap-2 flex flex-wrap p-2">
+            <div className="absolute right-0 bottom-0 left-0 flex flex-wrap gap-2 p-2">
               {chips.map((chip) => (
                 <Chip key={chip.label} variant={chip.variant} size="sm">
                   {chip.label}
@@ -92,13 +92,13 @@ export const HospitalOrPetServicesCard: React.FC<HospitalOrPetServicesCardProps>
         )}
         <div className="flex flex-col gap-1">
           {/* Hospital name */}
-          <h3 className="font-semibold text-sm">{name}</h3>
+          <h3 className="text-sm font-semibold">{name}</h3>
 
           {/* Location */}
           {location && (
             <div className="flex items-center gap-1.5">
               <Image src={LocationIcon} alt="Location" width={16} height={16} />
-              <span className="text-xs line-clamp-1" style={{ color: theme.colors.text.secondary }}>
+              <span className="line-clamp-1 text-xs" style={{ color: theme.colors.text.secondary }}>
                 {location}
               </span>
             </div>
@@ -111,7 +111,7 @@ export const HospitalOrPetServicesCard: React.FC<HospitalOrPetServicesCardProps>
             </p>
             <div className="flex items-center gap-1.5">
               <StarIcon size={16} fill={theme.colors.special.verifiedBadge} />
-              <span className="font-semibold text-xs">{rating}</span>
+              <span className="text-xs font-semibold">{rating}</span>
             </div>
           </div>
           {servesInArea && (

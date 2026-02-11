@@ -2,7 +2,6 @@
 @import 'tailwindcss';
 
 @layer base {
-
   *,
   *::before,
   *::after {
@@ -76,7 +75,7 @@
   --bg-teal: #f0fdfa;
   --bg-tertiary: #f3f4f6;
   /* Theme colors from lib/theme.ts */
-  --range: #0BA0A1;
+  --range: #0ba0a1;
   --theme-active: #020409;
   --theme-error: #dc2626;
   --theme-warning: #eab308;

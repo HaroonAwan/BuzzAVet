@@ -4,6 +4,12 @@ import React, { useState, useEffect } from 'react';
 import { theme } from '@/lib/theme';
 import { cn } from '@/lib/utils';
 import { CrossIcon } from '@/assets/icon-components';
+import PDFIcon from '@/assets/images/file-formats/pdf.svg';
+import DocIcon from '@/assets/images/file-formats/doc.svg';
+import JPGIcon from '@/assets/images/file-formats/jpg.svg';
+import PNGIcon from '@/assets/images/file-formats/png.svg';
+import VideoIcon from '@/assets/images/file-formats/video.svg';
+import FileIcon from '@/assets/images/file-formats/file.svg';
 
 interface DocumentUploadItemProps {
   file: File;
@@ -23,6 +29,29 @@ export function DocumentUploadItem({
   onRemove,
 }: DocumentUploadItemProps) {
   const [dots, setDots] = useState('');
+
+  // Get file extension and return appropriate icon
+  const getFileIcon = () => {
+    const fileName = file.name.toLowerCase();
+
+    if (fileName.endsWith('.pdf')) {
+      return PDFIcon;
+    } else if (fileName.endsWith('.doc') || fileName.endsWith('.docx')) {
+      return DocIcon;
+    } else if (fileName.endsWith('.jpg') || fileName.endsWith('.jpeg')) {
+      return JPGIcon;
+    } else if (fileName.endsWith('.png')) {
+      return PNGIcon;
+    } else if (
+      fileName.endsWith('.mp4') ||
+      fileName.endsWith('.avi') ||
+      fileName.endsWith('.mov')
+    ) {
+      return VideoIcon;
+    }
+    // Default to file icon for unknown formats
+    return FileIcon;
+  };
 
   // Animate dots for "Uploading..." text
   useEffect(() => {
@@ -58,7 +87,7 @@ export function DocumentUploadItem({
 
   return (
     <div
-      className="flex items-center gap-3 p-3 rounded-lg border"
+      className="flex items-center gap-3 rounded-lg border p-3"
       style={{
         borderColor: theme.colors.defaultBorder,
         backgroundColor: theme.colors.background.secondary,
@@ -67,7 +96,7 @@ export function DocumentUploadItem({
       {/* File Icon with Progress */}
       <div className="relative shrink-0">
         {isUploading && (
-          <svg className="absolute inset-0 w-12 h-12 -rotate-90">
+          <svg className="absolute inset-0 h-12 w-12 -rotate-90">
             <circle
               cx="24"
               cy="24"
@@ -82,7 +111,7 @@ export function DocumentUploadItem({
           </svg>
         )}
         <div
-          className="w-12 h-12 rounded-full flex items-center justify-center"
+          className="flex h-12 w-12 items-center justify-center rounded-full"
           style={{
             backgroundColor: theme.colors.background.default,
             border: isUploading
@@ -90,23 +119,19 @@ export function DocumentUploadItem({
               : `2px solid ${theme.colors.defaultBorder}`,
           }}
         >
-          <svg width="20" height="24" viewBox="0 0 20 24" fill="none">
-            <path
-              d="M4 0C1.79086 0 0 1.79086 0 4V20C0 22.2091 1.79086 24 4 24H16C18.2091 24 20 22.2091 20 20V8L12 0H4Z"
-              fill={theme.colors.text.tertiary}
-              opacity="0.3"
-            />
-            <path
-              d="M12 0V6C12 7.10457 12.8954 8 14 8H20L12 0Z"
-              fill={theme.colors.text.tertiary}
-            />
-          </svg>
+          <img
+            src={getFileIcon().src}
+            alt="file-format"
+            width={24}
+            height={24}
+            className="object-contain"
+          />
         </div>
       </div>
 
       {/* File Info */}
-      <div className="flex-1 min-w-0">
-        <p className="text-sm font-medium truncate" style={{ color: theme.colors.text.default }}>
+      <div className="min-w-0 flex-1">
+        <p className="truncate text-sm font-medium" style={{ color: theme.colors.text.default }}>
           {file.name}
         </p>
         <div className="flex items-center gap-2 text-xs" style={{ color: theme.colors.text.muted }}>
@@ -116,15 +141,15 @@ export function DocumentUploadItem({
       </div>
 
       {/* Upload Status / Remove Button */}
-      <div className="flex items-center gap-2 shrink-0">
+      <div className="flex shrink-0 items-center gap-2">
         {isUploading && (
-          <span className="text-xs min-w-20" style={{ color: theme.colors.error }}>
+          <span className="min-w-20 text-xs" style={{ color: theme.colors.error }}>
             Uploading{dots}
           </span>
         )}
         <button
           onClick={onRemove}
-          className="p-1 hover:opacity-70 transition-opacity"
+          className="p-1 transition-opacity hover:opacity-70"
           disabled={isUploading}
           aria-label="Remove document"
         >

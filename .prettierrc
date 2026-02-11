@@ -16,5 +16,7 @@
 
   "quoteProps": "as-needed",
   "htmlWhitespaceSensitivity": "css",
-  "proseWrap": "preserve"
+  "proseWrap": "preserve",
+
+  "plugins": ["prettier-plugin-tailwindcss"]
 }

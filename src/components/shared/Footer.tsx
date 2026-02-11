@@ -55,21 +55,21 @@ const footerColumns: FooterColumn[] = [
 export default function Footer() {
   return (
     <footer
-      className="w-full px-15 pt-15 pb-6 gap-12 flex flex-col"
+      className="flex w-full flex-col gap-12 px-15 pt-15 pb-6"
       style={{ backgroundColor: theme.colors.background.tertiary }}
     >
       {/* Primary Links Section */}
       <div className="container mx-auto">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
+        <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-12">
           {footerColumns.map((column) => (
             <nav key={column.title} className="flex flex-col">
-              <h3 className="text-sm font-semibold mb-4">{column.title}</h3>
+              <h3 className="mb-4 text-sm font-semibold">{column.title}</h3>
               <ul className="flex flex-col gap-2">
                 {column.links.map((link) => (
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-sm hover:opacity-80 transition-opacity"
+                      className="text-sm transition-opacity hover:opacity-80"
                       style={{ color: theme.colors.text.secondary }}
                     >
                       {link.label}
@@ -85,7 +85,7 @@ export default function Footer() {
       {/* Bottom Section */}
       <div className="border-t" style={{ borderColor: theme.colors.border.default }}>
         <div className="container mx-auto">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4 md:gap-6">
+          <div className="flex flex-col items-center justify-between gap-4 md:flex-row md:gap-6">
             {/* Logo */}
             <div className="shrink-0">
               <Logo isUrl="/" />
@@ -100,14 +100,14 @@ export default function Footer() {
             <div className="flex items-center gap-6">
               <Link
                 href="#"
-                className="text-sm hover:opacity-80 transition-opacity"
+                className="text-sm transition-opacity hover:opacity-80"
                 style={{ color: theme.colors.text.secondary }}
               >
                 Privacy Policy
               </Link>
               <Link
                 href="#"
-                className="text-sm hover:opacity-80 transition-opacity"
+                className="text-sm transition-opacity hover:opacity-80"
                 style={{ color: theme.colors.text.secondary }}
               >
                 Terms & Conditions

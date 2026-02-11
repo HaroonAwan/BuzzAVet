@@ -115,7 +115,7 @@ const PhoneNumberInput = <
             )}
             <div className="relative">
               {/* Flag Icon Container */}
-              <div className="absolute left-3 top-[48%] -translate-y-1/2 flex items-center gap-1.5 pointer-events-none">
+              <div className="pointer-events-none absolute top-[48%] left-3 flex -translate-y-1/2 items-center gap-1.5">
                 <span className="text-lg">{phoneInfo.flag}</span>
                 {/* {phoneInfo.countryCode && (
                   <span className="text-xs font-semibold text-gray-500">
@@ -155,7 +155,7 @@ const PhoneNumberInput = <
               {(hasError || phoneInfo.error) && (
                 <p
                   id={errorId}
-                  className="text-[12px] absolute -bottom-4.5 right-1.5"
+                  className="absolute right-1.5 -bottom-4.5 text-[12px]"
                   style={{ color: theme.colors.error }}
                   role="alert"
                   aria-live="polite"

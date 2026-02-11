@@ -6,14 +6,14 @@ import React from 'react';
 const AboutBuzzAVet = () => {
   return (
     <SectionsWrapper>
-      <div className="flex gap-10 sm:gap-20 flex-col md:flex-row">
-        <div className="flex items-center justify-center h-120 md:w-[47%] shrink-0 rounded-3xl overflow-hidden">
+      <div className="flex flex-col gap-10 sm:gap-20 md:flex-row">
+        <div className="flex h-120 shrink-0 items-center justify-center overflow-hidden rounded-3xl md:w-[47%]">
           <Image
             src="https://images.unsplash.com/photo-1533738363-b7f9aef128ce?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
             alt="About BuzzAVet"
             width={620}
             height={480}
-            className="object-cover w-full h-full"
+            className="h-full w-full object-cover"
           />
         </div>
         <div className="flex flex-col justify-between">
@@ -22,7 +22,7 @@ const AboutBuzzAVet = () => {
               <h1 className="font-semibold" style={{ color: theme.colors.background.range }}>
                 About BuzzAVet
               </h1>
-              <h1 className="thirty-six font-semibold leading-tight">
+              <h1 className="thirty-six leading-tight font-semibold">
                 Your Pet's Health is Our Priority
               </h1>
             </div>
@@ -36,15 +36,15 @@ const AboutBuzzAVet = () => {
           </div>
           <div className="flex gap-6">
             <div className="flex flex-col gap-3">
-              <h1 className="text-[28px] font-bold leading-tight">10k+</h1>
+              <h1 className="text-[28px] leading-tight font-bold">10k+</h1>
               <p style={{ color: theme.colors.text.secondary }}>Happy Pets Treated</p>
             </div>
             <div className="flex flex-col gap-3">
-              <h1 className="text-[28px] font-bold leading-tight">500+</h1>
+              <h1 className="text-[28px] leading-tight font-bold">500+</h1>
               <p style={{ color: theme.colors.text.secondary }}>Licensed Vets</p>
             </div>
             <div className="flex flex-col gap-3">
-              <h1 className="text-[28px] font-bold leading-tight">24/7</h1>
+              <h1 className="text-[28px] leading-tight font-bold">24/7</h1>
               <p style={{ color: theme.colors.text.secondary }}>Available Support</p>
             </div>
           </div>

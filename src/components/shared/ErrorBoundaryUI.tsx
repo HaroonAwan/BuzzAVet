@@ -47,10 +47,10 @@ export function ErrorBoundaryUI({ error, errorInfo }: ErrorBoundaryUIProps) {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center p-4"
+      className="flex min-h-screen items-center justify-center p-4"
       style={{ backgroundColor: theme.colors.background.default }}
     >
-      <div className="max-w-2xl w-full text-center space-y-6">
+      <div className="w-full max-w-2xl space-y-6 text-center">
         {/* Main Error Message */}
         <div className="space-y-4">
           <h1 className="text-3xl font-bold" style={{ color: theme.colors.text.default }}>
@@ -73,7 +73,7 @@ export function ErrorBoundaryUI({ error, errorInfo }: ErrorBoundaryUIProps) {
           <div className="mt-8 text-left">
             <button
               onClick={() => setIsDevToolsOpen(!isDevToolsOpen)}
-              className="w-full text-left p-4 rounded-lg border transition-colors"
+              className="w-full rounded-lg border p-4 text-left transition-colors"
               style={{
                 backgroundColor: isDevToolsOpen
                   ? theme.colors.background.secondary
@@ -98,7 +98,7 @@ export function ErrorBoundaryUI({ error, errorInfo }: ErrorBoundaryUIProps) {
 
             {isDevToolsOpen && (
               <div
-                className="mt-2 p-4 rounded-lg border space-y-4"
+                className="mt-2 space-y-4 rounded-lg border p-4"
                 style={{
                   backgroundColor: theme.colors.background.secondary,
                   borderColor: theme.colors.border.default,
@@ -108,13 +108,13 @@ export function ErrorBoundaryUI({ error, errorInfo }: ErrorBoundaryUIProps) {
                 <div className="space-y-2">
                   <div>
                     <h3
-                      className="text-sm font-semibold mb-1"
+                      className="mb-1 text-sm font-semibold"
                       style={{ color: theme.colors.text.error }}
                     >
                       Error Name:
                     </h3>
                     <p
-                      className="text-sm font-mono p-2 rounded"
+                      className="rounded p-2 font-mono text-sm"
                       style={{
                         backgroundColor: theme.colors.background.default,
                         color: theme.colors.text.default,
@@ -126,13 +126,13 @@ export function ErrorBoundaryUI({ error, errorInfo }: ErrorBoundaryUIProps) {
 
                   <div>
                     <h3
-                      className="text-sm font-semibold mb-1"
+                      className="mb-1 text-sm font-semibold"
                       style={{ color: theme.colors.text.error }}
                     >
                       Error Message:
                     </h3>
                     <p
-                      className="text-sm font-mono p-2 rounded wrap-break-word"
+                      className="rounded p-2 font-mono text-sm wrap-break-word"
                       style={{
                         backgroundColor: theme.colors.background.default,
                         color: theme.colors.text.default,
@@ -147,13 +147,13 @@ export function ErrorBoundaryUI({ error, errorInfo }: ErrorBoundaryUIProps) {
                 {error.stack && (
                   <div>
                     <h3
-                      className="text-sm font-semibold mb-1"
+                      className="mb-1 text-sm font-semibold"
                       style={{ color: theme.colors.text.error }}
                     >
                       Stack Trace:
                     </h3>
                     <pre
-                      className="text-xs font-mono p-3 rounded overflow-auto max-h-64"
+                      className="max-h-64 overflow-auto rounded p-3 font-mono text-xs"
                       style={{
                         backgroundColor: theme.colors.background.default,
                         color: theme.colors.text.default,
@@ -169,13 +169,13 @@ export function ErrorBoundaryUI({ error, errorInfo }: ErrorBoundaryUIProps) {
                 {errorInfo?.componentStack && (
                   <div>
                     <h3
-                      className="text-sm font-semibold mb-1"
+                      className="mb-1 text-sm font-semibold"
                       style={{ color: theme.colors.text.error }}
                     >
                       Component Stack:
                     </h3>
                     <pre
-                      className="text-xs font-mono p-3 rounded overflow-auto max-h-64"
+                      className="max-h-64 overflow-auto rounded p-3 font-mono text-xs"
                       style={{
                         backgroundColor: theme.colors.background.default,
                         color: theme.colors.text.default,

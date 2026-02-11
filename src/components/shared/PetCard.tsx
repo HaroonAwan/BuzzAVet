@@ -17,7 +17,7 @@ interface PetCardProps {
 const PetCard = ({ data, onSelect, selectedPet }: PetCardProps) => {
   return (
     <article
-      className="border p-4 flex items-center gap-4 rounded-[14px] cursor-pointer relative"
+      className="relative flex cursor-pointer items-center gap-4 rounded-[14px] border p-4"
       onClick={onSelect}
       style={{
         borderColor: selectedPet ? 'var(--color-foreground)' : '',
@@ -33,7 +33,7 @@ const PetCard = ({ data, onSelect, selectedPet }: PetCardProps) => {
       </div>
       {selectedPet && (
         <Check
-          className="absolute top-1/2 -translate-y-1/2 right-4"
+          className="absolute top-1/2 right-4 -translate-y-1/2"
           size={16}
           color={'var(--color-foreground)'}
         />

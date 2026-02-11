@@ -20,7 +20,7 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ name, imageSrc, bgColor, cl
     <Link href={`/explore?category=${name}`}>
       <article
         className={cn(
-          'category-card-group group rounded-[16px] p-4 flex items-center justify-between w-[248px] h-20 shrink-0',
+          'category-card-group group flex h-20 w-[248px] shrink-0 items-center justify-between rounded-[16px] p-4',
           'cursor-pointer transition-all duration-500',
           className
         )}
@@ -29,10 +29,10 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ name, imageSrc, bgColor, cl
         }}
       >
         {/* Left side: Category name + GO text + Arrow */}
-        <div className="flex items-center gap-0.5 flex-1 min-w-0">
+        <div className="flex min-w-0 flex-1 items-center gap-0.5">
           {/* Category name */}
           <span
-            className="category-name-text font-semibold text-lg whitespace-nowrap shrink-0 text-left transition-colors duration-500"
+            className="category-name-text shrink-0 text-left text-lg font-semibold whitespace-nowrap transition-colors duration-500"
             style={{
               color: theme.colors.text.dark,
             }}
@@ -42,8 +42,8 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ name, imageSrc, bgColor, cl
           {/* GO text - appears on hover between name and arrow */}
           <span
             className={cn(
-              'font-semibold whitespace-nowrap opacity-0 w-0 overflow-hidden transition-all duration-500',
-              'group-hover:opacity-100 group-hover:w-auto group-hover:ml-1',
+              'w-0 overflow-hidden font-semibold whitespace-nowrap opacity-0 transition-all duration-500',
+              'group-hover:ml-1 group-hover:w-auto group-hover:opacity-100',
               'category-explore-text'
             )}
           >
@@ -51,18 +51,18 @@ const CategoryCard: React.FC<CategoryCardProps> = ({ name, imageSrc, bgColor, cl
           </span>
           {/* Arrow - moves right on hover */}
           <div
-            className={cn('transition-transform duration-500 shrink-0', 'group-hover:opacity-0')}
+            className={cn('shrink-0 transition-transform duration-500', 'group-hover:opacity-0')}
           >
-            <ChevronDownIcon size={24} className="-rotate-90 shrink-0" />
+            <ChevronDownIcon size={24} className="shrink-0 -rotate-90" />
           </div>
         </div>
 
         {/* Right side: Large illustrative icon */}
         <div
           className={cn(
-            'relative w-16 h-16 shrink-0 overflow-hidden',
+            'relative h-16 w-16 shrink-0 overflow-hidden',
             'opacity-100 transition-all duration-500',
-            'group-hover:opacity-0 group-hover:w-0 group-hover:h-0 group-hover:pointer-events-none'
+            'group-hover:pointer-events-none group-hover:h-0 group-hover:w-0 group-hover:opacity-0'
           )}
         >
           <Image src={imageSrc} alt={name} fill className="object-contain" />

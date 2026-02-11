@@ -11,14 +11,14 @@ import { Chip } from '@/components/shared/Chip';
 
 const HospitalHeaderSection = () => {
   return (
-    <div className="flex gap-4 justify-between">
+    <div className="flex justify-between gap-4">
       <div className="flex gap-6">
         <Avatar size="max" url="" name="Hospital Logo" />
         {/* content portion */}
         <div className="flex flex-col justify-between">
-          <h1 className="thirty-six font-semibold leading-none">Hospital Title Placeholder</h1>
-          <div className="flex gap-4 items-center">
-            <div className="border-r pr-4 gap-1 flex items-center">
+          <h1 className="thirty-six leading-none font-semibold">Hospital Title Placeholder</h1>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1 border-r pr-4">
               <StarIcon />
               <p className="text-sm font-bold">
                 4.5{' '}
@@ -27,17 +27,17 @@ const HospitalHeaderSection = () => {
                 </span>
               </p>
             </div>
-            <div className="border-r pr-4 gap-1 flex items-center">
+            <div className="flex items-center gap-1 border-r pr-4">
               <Image
                 src={LocationIcon}
                 alt="Location Icon"
                 width={18}
                 height={18}
-                className="object-contain black-filter"
+                className="black-filter object-contain"
               />
               <p className="text-sm">123 Veterinary Way, San Francisco, CA 94110</p>
             </div>
-            <div className="border-r pr-4 gap-1 flex items-center">
+            <div className="flex items-center gap-1 border-r pr-4">
               <Image
                 src={ClockIcon}
                 alt="Clock Icon"
@@ -52,9 +52,9 @@ const HospitalHeaderSection = () => {
               </div>
             </div>
           </div>
-          <div className="flex gap-4 items-center">
+          <div className="flex items-center gap-4">
             <Chip variant="success">
-              <div className="flex gap-1 items-center">
+              <div className="flex items-center gap-1">
                 <Image
                   src={FearFreeCertifiedIcon}
                   alt="Fear Free Certified Icon"
@@ -66,7 +66,7 @@ const HospitalHeaderSection = () => {
               </div>
             </Chip>
             <Chip variant="normal">
-              <div className="flex gap-1 items-center">
+              <div className="flex items-center gap-1">
                 <Image
                   src={FearFreeCertifiedIcon}
                   alt="Fear Free Certified Icon"
@@ -85,7 +85,7 @@ const HospitalHeaderSection = () => {
       <div className="flex gap-2">
         <Button
           size="sm"
-          className="h-fit font-medium text-[14px]"
+          className="h-fit text-[14px] font-medium"
           variant="outline"
           icon={<SharedIcon />}
           iconPlacement="start"

@@ -37,7 +37,7 @@ export default function HospitalAppointment() {
               />
             ))}
             <article
-              className="p-4 flex items-center font-medium text-sm justify-center gap-2 rounded-[14px] cursor-pointer relative"
+              className="relative flex cursor-pointer items-center justify-center gap-2 rounded-[14px] p-4 text-sm font-medium"
               style={{
                 border: '2px dashed #E5E7EB',
                 backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16'%3E%3Cdefs%3E%3Cpattern id='dashed' x='0' y='0' width='12' height='1' patternUnits='userSpaceOnUse'%3E%3Cline x1='0' y1='1' x2='8' y2='1' stroke='%23E5E7EB' stroke-width='2'/%3E%3C/pattern%3E%3C/defs%3E%3C/svg%3E")`,
@@ -48,7 +48,7 @@ export default function HospitalAppointment() {
               Add a Pet
             </article>
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <Button variant="ghost" style={{ color: theme.colors.error }}>
               Cancel
             </Button>

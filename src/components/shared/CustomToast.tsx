@@ -16,9 +16,9 @@ const CustomToast = ({ icon, title, message, onClick, buttonTitle }: CustomToast
     <div
       className={`${
         t.visible ? 'animate-custom-enter' : 'animate-custom-leave'
-      } max-w-md w-full bg-white rounded-lg pointer-events-auto flex SHADOW`}
+      } SHADOW pointer-events-auto flex w-full max-w-md rounded-lg bg-white`}
     >
-      <div className="flex-1 w-0 p-4">
+      <div className="w-0 flex-1 p-4">
         <div className="flex items-center">
           <div className="shrink-0 pt-0.5">
             <img

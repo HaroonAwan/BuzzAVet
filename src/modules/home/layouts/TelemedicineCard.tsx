@@ -50,7 +50,7 @@ export const TelemedicineCard: React.FC<TelemedicineCardProps> = ({
   return (
     <article
       className={cn(
-        'bg-white min-w-45 rounded-2xl flex flex-col gap-3',
+        'flex min-w-45 flex-col gap-3 rounded-2xl bg-white',
         'relative cursor-pointer',
         className
       )}
@@ -61,7 +61,7 @@ export const TelemedicineCard: React.FC<TelemedicineCardProps> = ({
         <Button
           variant="ghost"
           onClick={handleFavoriteClick}
-          className="absolute top-3 right-3 h-8 w-8 z-10 bg-(--bg-glass) overflow-hidden rounded-lg p-1.5"
+          className="absolute top-3 right-3 z-10 h-8 w-8 overflow-hidden rounded-lg bg-(--bg-glass) p-1.5"
           aria-label={favorite ? 'Remove from favorites' : 'Add to favorites'}
         >
           <FavoriteIcon favorite={favorite} size={20} />
@@ -70,14 +70,14 @@ export const TelemedicineCard: React.FC<TelemedicineCardProps> = ({
 
       {/* Doctor profile picture */}
       {imageSrc && (
-        <div className="w-full h-51 rounded-2xl overflow-hidden relative">
+        <div className="relative h-51 w-full overflow-hidden rounded-2xl">
           <Image src={imageSrc} alt={name} fill className="object-cover" />
         </div>
       )}
 
       <div className="flex flex-col gap-1">
         {/* Doctor name */}
-        <h3 className="font-semibold text-sm">{name}</h3>
+        <h3 className="text-sm font-semibold">{name}</h3>
 
         {/* Specialization */}
         <p className="text-xs font-medium">{specialization}</p>
@@ -94,12 +94,12 @@ export const TelemedicineCard: React.FC<TelemedicineCardProps> = ({
           </p>
           <div className="flex items-center gap-1.5">
             <StarIcon size={16} fill={theme.colors.special.verifiedBadge} />
-            <span className="font-semibold text-xs">{rating}</span>
+            <span className="text-xs font-semibold">{rating}</span>
           </div>
         </div>
 
         {/* Consultation fee */}
-        <p className="font-semibold text-sm">${fee}</p>
+        <p className="text-sm font-semibold">${fee}</p>
       </div>
     </article>
   );

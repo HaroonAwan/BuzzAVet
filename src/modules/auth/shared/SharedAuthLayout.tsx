@@ -36,13 +36,13 @@ export default function SharedAuthLayout({ children, className }: SharedAuthLayo
   const currentBanner = bannerMap[pathname] || authBannerImage;
 
   return (
-    <div className={cn('flex overflow-hidden h-screen', className)}>
+    <div className={cn('flex h-screen overflow-hidden', className)}>
       {/* Left side - Form area */}
-      <div className="w-full md:w-[54%] flex items-center justify-center bg-background min-h-screen overflow-y-auto">
+      <div className="bg-background flex min-h-screen w-full items-center justify-center overflow-y-auto md:w-[54%]">
         <div className="w-full max-w-119">
-          <div className="h-screen flex flex-col p-4 md:gap-32">
+          <div className="flex h-screen flex-col p-4 md:gap-32">
             {/* Logo section */}
-            <div className="flex justify-start h-20 w-full items-center">
+            <div className="flex h-20 w-full items-center justify-start">
               <Logo isUrl="/" />
             </div>
 
@@ -53,25 +53,25 @@ export default function SharedAuthLayout({ children, className }: SharedAuthLayo
       </div>
 
       {/* Right side - Branding/Image area (hidden on mobile) */}
-      <div className="hidden md:flex w-full md:w-[46%] relative overflow-hidden">
+      <div className="relative hidden w-full overflow-hidden md:flex md:w-[46%]">
         <Image
           src={currentBanner}
           alt="Vee.Vet Authentication Banner"
-          className="object-cover w-full h-full object-center absolute inset-0"
+          className="absolute inset-0 h-full w-full object-cover object-center"
           priority
         />
-        <div className="flex items-start z-15 gap-5 w-full leading-tight justify-end p-15 flex-col">
+        <div className="z-15 flex w-full flex-col items-start justify-end gap-5 p-15 leading-tight">
           <Image
             src={authStars}
             alt="Vee.Vet Authentication Stars"
-            className="object-cover object-center w-33 h-5"
+            className="h-5 w-33 object-cover object-center"
             priority
           />
-          <h1 className="text-white text-[28px] font-semibold">
+          <h1 className="text-[28px] font-semibold text-white">
             "BuzzAVet made finding a specialist for Bella so incredibly easy. I feel so much safer
             now."
           </h1>
-          <p className="text-white text-[16px]">— Sarah & Bella (Golden Retriever)</p>
+          <p className="text-[16px] text-white">— Sarah & Bella (Golden Retriever)</p>
         </div>
         <div
           className="absolute inset-0"

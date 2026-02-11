@@ -74,7 +74,7 @@ export function LocationInput({
   const dropdownContent = showDropdown && isExpanded && (
     <div
       ref={dropdownRef}
-      className="fixed p-2 bg-white rounded-[12px] SHADOW z-100 overflow-hidden"
+      className="SHADOW fixed z-100 overflow-hidden rounded-[12px] bg-white p-2"
       style={{
         top: `${dropdownPosition.top}px`,
         left: `${dropdownPosition.left}px`,
@@ -83,13 +83,13 @@ export function LocationInput({
     >
       <div
         onClick={onNearbyClick}
-        className="w-full flex items-center gap-4 p-3 text-left"
+        className="flex w-full items-center gap-4 p-3 text-left"
         style={{
           color: theme.colors.text.default,
         }}
       >
         <div
-          className="rounded-[10px] w-10 h-10 flex items-center justify-center"
+          className="flex h-10 w-10 items-center justify-center rounded-[10px]"
           aria-hidden="true"
           style={{
             backgroundColor: theme.colors.chip.normal.background,
@@ -103,7 +103,7 @@ export function LocationInput({
             className="object-contain"
           />
         </div>
-        <div className="flex flex-col items-start justify-center font-medium text-sm">
+        <div className="flex flex-col items-start justify-center text-sm font-medium">
           <span>Nearby</span>
           <span className="text-sm" style={{ color: theme.colors.text.secondary }}>
             Find what's around you
@@ -126,7 +126,7 @@ export function LocationInput({
               variant="ghost"
               key={search.id}
               onClick={() => onSelect(search.location)}
-              className="w-full justify-start hover:opacity-80 transition-opacity"
+              className="w-full justify-start transition-opacity hover:opacity-80"
               icon={
                 <Image
                   src={ClockIcon}
@@ -153,7 +153,7 @@ export function LocationInput({
         ref={containerRef}
         className={cn(
           'relative flex-1 border-r transition-all duration-300',
-          !isExpanded && 'shrink-0 max-w-60 w-full'
+          !isExpanded && 'w-full max-w-60 shrink-0'
         )}
         style={{
           borderRightColor:
@@ -162,7 +162,7 @@ export function LocationInput({
       >
         <div
           className={cn(
-            'flex items-center gap-3 cursor-text',
+            'flex cursor-text items-center gap-3',
             isExpanded ? 'px-4 py-3' : 'px-6 py-3'
           )}
           onClick={onClick}
@@ -185,7 +185,7 @@ export function LocationInput({
                 onChange={(e) => onChange(e.target.value)}
                 onFocus={onFocus}
                 placeholder="Enter location"
-                className="flex-1 bg-transparent outline-none text-sm font-medium placeholder:text-sm"
+                className="flex-1 bg-transparent text-sm font-medium outline-none placeholder:text-sm"
                 style={{
                   color: theme.colors.text.default,
                 }}
@@ -199,20 +199,20 @@ export function LocationInput({
                     e.stopPropagation();
                     onClear();
                   }}
-                  className="p-1 hover:opacity-70 transition-opacity"
+                  className="p-1 transition-opacity hover:opacity-70"
                   aria-label="Clear location"
                 />
               )}
             </>
           ) : (
-            <div className="flex-1 flex flex-col justify-center" ref={inputRef}>
+            <div className="flex flex-1 flex-col justify-center" ref={inputRef}>
               <span
                 className="text-xs leading-tight"
                 style={{ color: theme.colors.text.secondary }}
               >
                 Hospitals In
               </span>
-              <span className="text-sm font-semibold leading-tight">{value}</span>
+              <span className="text-sm leading-tight font-semibold">{value}</span>
             </div>
           )}
         </div>

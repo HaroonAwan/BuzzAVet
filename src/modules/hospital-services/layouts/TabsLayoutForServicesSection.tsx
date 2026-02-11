@@ -25,7 +25,7 @@ const TabsLayoutForServicesSection = ({
         {menu.map((item) => (
           <Button
             variant="underline"
-            className={cn('underline-offset-13 px-0')}
+            className={cn('px-0 underline-offset-13')}
             key={item}
             style={{
               textDecorationColor: activeTab === item ? 'currentColor' : 'transparent',
@@ -37,7 +37,7 @@ const TabsLayoutForServicesSection = ({
           </Button>
         ))}
       </div>
-      <div className="flex flex-col md:flex-row justify-between gap-10">
+      <div className="flex flex-col justify-between gap-10 md:flex-row">
         {children}
         {actionSection && actionSection}
       </div>

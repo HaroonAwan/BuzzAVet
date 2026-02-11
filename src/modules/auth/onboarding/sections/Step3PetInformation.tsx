@@ -165,28 +165,28 @@ export default function Step3PetInformation() {
   const isPhotoUploading = !uploadedPhotoData && photoUrl !== null;
 
   return (
-    <div className="w-full mt-3 flex-1 flex flex-col">
-      <h1 className="thirty-six font-semibold mb-10" style={{ color: theme.colors.text.default }}>
+    <div className="mt-3 flex w-full flex-1 flex-col">
+      <h1 className="thirty-six mb-10 font-semibold" style={{ color: theme.colors.text.default }}>
         Tell us about your pet.
       </h1>
 
-      <div className="space-y-10 flex-1">
+      <div className="flex-1 space-y-10">
         {/* Photo Upload and Pet Name */}
         <div className="flex items-start gap-6">
-          <div className="shrink-0 relative">
+          <div className="relative shrink-0">
             <input
               type="file"
               accept="image/*"
               onChange={handlePhotoChange}
-              className="absolute inset-0 w-full h-full opacity-0 cursor-pointer rounded-full z-10"
+              className="absolute inset-0 z-10 h-full w-full cursor-pointer rounded-full opacity-0"
               id="pet-photo-upload"
               disabled={isPhotoUploading}
             />
             <div
               className={cn(
-                'w-24 h-24 border border-dashed rounded-2xl relative',
+                'relative h-24 w-24 rounded-2xl border border-dashed',
                 'flex flex-col items-center justify-center gap-1',
-                'transition-colors overflow-hidden',
+                'overflow-hidden transition-colors',
                 photoUrl && 'border-solid',
                 !isPhotoUploading && 'cursor-pointer'
               )}
@@ -196,7 +196,7 @@ export default function Step3PetInformation() {
               }}
             >
               {photoUrl ? (
-                <img src={photoUrl} alt="Pet" className="w-full h-full object-cover" />
+                <img src={photoUrl} alt="Pet" className="h-full w-full object-cover" />
               ) : (
                 <>
                   <AddPhotoIcon size={32} />
@@ -207,8 +207,8 @@ export default function Step3PetInformation() {
               )}
 
               {isPhotoUploading && (
-                <div className="absolute inset-0 bg-black/30 flex items-center justify-center rounded-2xl">
-                  <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin" />
+                <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-black/30">
+                  <div className="h-12 w-12 animate-spin rounded-full border-4 border-white border-t-transparent" />
                 </div>
               )}
             </div>
@@ -226,10 +226,10 @@ export default function Step3PetInformation() {
 
         {/* Pet Type */}
         <div>
-          <label className="block text-sm font-medium mb-3">
+          <label className="mb-3 block text-sm font-medium">
             What kind of pet is {petName || 'your pet'}? *
           </label>
-          <div className="flex flex-wrap md:justify-between gap-3">
+          <div className="flex flex-wrap gap-3 md:justify-between">
             {([PET_TYPE.DOG, PET_TYPE.CAT, PET_TYPE.BIRD, PET_TYPE.OTHER] as PET_TYPE_TYPES[]).map(
               (type) => {
                 const isSelected = petType === type;
@@ -248,7 +248,7 @@ export default function Step3PetInformation() {
                     icon={<PetTypeIcon type={type} isSelected={isSelected} />}
                     iconPlacement="start"
                     iconVisibility="always"
-                    className="w-[calc(25%-0.75rem)] min-w-30 md:max-w-50 grow rounded-2xl"
+                    className="w-[calc(25%-0.75rem)] min-w-30 grow rounded-2xl md:max-w-50"
                   >
                     {labels[type]}
                   </Button>
@@ -257,14 +257,14 @@ export default function Step3PetInformation() {
             )}
           </div>
           {errors.petType && (
-            <p className="text-sm mt-2" style={{ color: theme.colors.error }}>
+            <p className="mt-2 text-sm" style={{ color: theme.colors.error }}>
               {errors.petType.message}
             </p>
           )}
         </div>
 
         {/* Breed and Gender */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <FormSelect<Step3FormData>
             control={control}
             name="breed"
@@ -283,7 +283,7 @@ export default function Step3PetInformation() {
         </div>
 
         {/* Age and Weight */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
           <FormInput<Step3FormData>
             control={control}
             name="age"

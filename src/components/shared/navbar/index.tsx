@@ -80,7 +80,7 @@ export default function Navbar({ className }: NavbarProps) {
   return (
     <nav
       className={cn(
-        'w-full bg-white border-b',
+        'w-full border-b bg-white',
         'transition-all duration-300',
         'sticky top-0 z-50',
         className
@@ -96,7 +96,7 @@ export default function Navbar({ className }: NavbarProps) {
               <Logo isUrl="/" />
             </div>
 
-            <div className="flex items-center gap-3 shrink-0">
+            <div className="flex shrink-0 items-center gap-3">
               <NavbarNotificationsMenuPopover
                 trigger={
                   <Button
@@ -105,7 +105,7 @@ export default function Navbar({ className }: NavbarProps) {
                     iconPlacement="center"
                     icon={<BellIcon fill={theme.icons.default} />}
                     aria-label="Notifications"
-                    className="w-12 h-12"
+                    className="h-12 w-12"
                   />
                 }
                 notifications={[]}
@@ -116,7 +116,7 @@ export default function Navbar({ className }: NavbarProps) {
               <NavbarUserMenuPopover
                 trigger={
                   <div
-                    className="flex items-center justify-center gap-3 cursor-pointer"
+                    className="flex cursor-pointer items-center justify-center gap-3"
                     aria-label="User menu"
                   >
                     <Avatar name="Nauman Majeed" size="lg" url={dummyUser} />
@@ -126,7 +126,7 @@ export default function Navbar({ className }: NavbarProps) {
                       iconPlacement="center"
                       icon={<ChevronDownIcon size={20} style={{ color: theme.icons.default }} />}
                       aria-label="User menu"
-                      className="w-5 h-5 p-0"
+                      className="h-5 w-5 p-0"
                     />
                   </div>
                 }
@@ -212,7 +212,7 @@ export default function Navbar({ className }: NavbarProps) {
               />
             )}
 
-            <div className="flex items-center gap-3 shrink-0">
+            <div className="flex shrink-0 items-center gap-3">
               {isAuthenticated ? (
                 <>
                   <NavbarNotificationsMenuPopover
@@ -223,7 +223,7 @@ export default function Navbar({ className }: NavbarProps) {
                         iconPlacement="center"
                         icon={<BellIcon fill={theme.icons.default} />}
                         aria-label="Notifications"
-                        className="w-12 h-12"
+                        className="h-12 w-12"
                       />
                     }
                     notifications={[]}
@@ -234,7 +234,7 @@ export default function Navbar({ className }: NavbarProps) {
                   <NavbarUserMenuPopover
                     trigger={
                       <div
-                        className="flex items-center justify-center gap-3 cursor-pointer"
+                        className="flex cursor-pointer items-center justify-center gap-3"
                         aria-label="User menu"
                       >
                         <Avatar name="Nauman Majeed" size="lg" url={dummyUser} />
@@ -246,7 +246,7 @@ export default function Navbar({ className }: NavbarProps) {
                             <ChevronDownIcon size={20} style={{ color: theme.icons.default }} />
                           }
                           aria-label="User menu"
-                          className="w-5 h-5 p-0"
+                          className="h-5 w-5 p-0"
                         />
                       </div>
                     }
@@ -263,7 +263,7 @@ export default function Navbar({ className }: NavbarProps) {
                   />
                 </>
               ) : (
-                <div className="flex gap-4 items-center">
+                <div className="flex items-center gap-4">
                   <Button variant="ghost" onClick={handleLoginClick}>
                     Log in
                   </Button>

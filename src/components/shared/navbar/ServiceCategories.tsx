@@ -20,7 +20,7 @@ export function ServiceCategories({ selectedCategory, onCategorySelect }: Servic
             key={category.id}
             onClick={() => onCategorySelect(category.id, category.route)}
             className={cn(
-              'flex items-center cursor-pointer gap-2 px-3 py-2 transition-all',
+              'flex cursor-pointer items-center gap-2 px-3 py-2 transition-all',
               'hover:opacity-80',
               isActive && 'border-b-2'
             )}

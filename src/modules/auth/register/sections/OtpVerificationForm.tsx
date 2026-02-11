@@ -42,7 +42,7 @@ export default function OtpVerificationForm() {
   // Show loading state while checking account validity
   if (isCheckingValidity) {
     return (
-      <div className="flex items-center justify-center min-h-100">
+      <div className="flex min-h-100 items-center justify-center">
         <p className="text-base" style={{ color: theme.colors.text.secondary }}>
           Checking account status...
         </p>
@@ -52,7 +52,7 @@ export default function OtpVerificationForm() {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center min-h-100">
+      <div className="flex min-h-100 items-center justify-center">
         <p className="text-base text-red-500">
           Failed to check account validity. Please try again.
         </p>
@@ -84,7 +84,7 @@ export default function OtpVerificationForm() {
 
       {/* title */}
       <div className="mb-8">
-        <h1 className="thirty-six font-semibold leading-tight mb-2">Check your messages</h1>
+        <h1 className="thirty-six mb-2 leading-tight font-semibold">Check your messages</h1>
         <p className={'text-base'} style={{ color: theme.colors.text.secondary }}>
           We sent a 6-digit code to{' '}
           <span className="font-semibold" style={{ color: theme.colors.text.default }}>
@@ -99,7 +99,7 @@ export default function OtpVerificationForm() {
         <FormInput control={control} name="verificationCode" type="otp" />
 
         {/* Resend code section */}
-        <div className="flex items-center justify-between gap-2 mt-2">
+        <div className="mt-2 flex items-center justify-between gap-2">
           <p className="text-sm" style={{ color: theme.colors.text.secondary }}>
             Didn't receive it?
           </p>
@@ -107,7 +107,7 @@ export default function OtpVerificationForm() {
             type="button"
             onClick={handleResendCode}
             disabled={isResending}
-            className="text-sm font-medium hover:opacity-70 transition-opacity underline underline-offset-2 disabled:opacity-50 disabled:cursor-not-allowed!"
+            className="text-sm font-medium underline underline-offset-2 transition-opacity hover:opacity-70 disabled:cursor-not-allowed! disabled:opacity-50"
             style={{ color: theme.colors.active }}
           >
             Resend Code
@@ -119,7 +119,7 @@ export default function OtpVerificationForm() {
           type="submit"
           size="lg"
           variant="pill"
-          className="w-full mt-3 disabled:cursor-not-allowed!"
+          className="mt-3 w-full disabled:cursor-not-allowed!"
         >
           Verify
         </Button>

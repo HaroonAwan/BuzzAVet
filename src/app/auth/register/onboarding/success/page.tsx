@@ -50,21 +50,21 @@ export default function OnboardingSuccessPage() {
 
   return (
     <>
-      <div className="w-full bg-background flex flex-col h-screen">
+      <div className="bg-background flex h-screen w-full flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between py-5 px-15 w-full relative shrink-0">
+        <div className="relative flex w-full shrink-0 items-center justify-between px-15 py-5">
           <Logo />
         </div>
         {/* Success Content */}
-        <div className="flex-1 flex flex-col items-center max-w-133.5 mx-auto w-full px-6">
+        <div className="mx-auto flex w-full max-w-133.5 flex-1 flex-col items-center px-6">
           {/* Success Illustration */}
           <Image src={SuccessIcon} alt="Success" width={140} height={140} />
 
           {/* Title */}
-          <h1 className="thirty-six font-bold mb-2.5 leading-tight">You're all set!</h1>
+          <h1 className="thirty-six mb-2.5 leading-tight font-bold">You're all set!</h1>
 
           {/* Description */}
-          <p className="text-[18px] mb-8 text-center" style={{ color: theme.colors.text.tertiary }}>
+          <p className="mb-8 text-center text-[18px]" style={{ color: theme.colors.text.tertiary }}>
             We've created a secure profile for{' '}
             <span className="font-semibold capitalize" style={{ color: theme.colors.text.default }}>
               {petName}
@@ -73,9 +73,9 @@ export default function OnboardingSuccessPage() {
           </p>
 
           {/* Pet Profile Card */}
-          <div className="rounded-2xl p-5 w-full mb-8 border">
-            <div className="flex items-center gap-4 justify-between w-full">
-              <div className="shrink-0 flex items-center gap-4">
+          <div className="mb-8 w-full rounded-2xl border p-5">
+            <div className="flex w-full items-center justify-between gap-4">
+              <div className="flex shrink-0 items-center gap-4">
                 {/* Pet Photo */}
                 {submittedData?.photo ? (
                   <Image
@@ -90,14 +90,14 @@ export default function OnboardingSuccessPage() {
                     className="rounded-2xl object-cover"
                   />
                 ) : (
-                  <div className="w-20 h-20 rounded-2xl flex items-center justify-center bg-muted">
+                  <div className="bg-muted flex h-20 w-20 items-center justify-center rounded-2xl">
                     <span className="text-3xl">🐾</span>
                   </div>
                 )}
 
                 {/* Pet Details */}
                 <div className="text-left">
-                  <div className="flex items-center gap-2 mb-1">
+                  <div className="mb-1 flex items-center gap-2">
                     <h3 className="text-xl font-semibold">{petName}</h3>
                   </div>
                   <p className="text-sm" style={{ color: theme.colors.text.tertiary }}>
@@ -123,7 +123,7 @@ export default function OnboardingSuccessPage() {
           </div>
 
           {/* Actions */}
-          <div className="space-y-4 w-full items-center justify-center flex flex-col">
+          <div className="flex w-full flex-col items-center justify-center space-y-4">
             <Button size="lg" variant="pill" onClick={handleContinueBooking} className="w-full">
               Continue Booking
             </Button>

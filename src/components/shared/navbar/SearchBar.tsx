@@ -69,14 +69,14 @@ export function SearchBar({
 }: SearchBarProps) {
   if (isExpanded) {
     return (
-      <div className="flex items-center pb-4 justify-between">
+      <div className="flex items-center justify-between pb-4">
         <span />
         <div className="flex items-center gap-3">
           <div className="relative" style={{ width: '815px' }}>
             <div
               className={cn(
                 'flex items-center gap-0 rounded-xl border bg-white',
-                'transition-all duration-300 h-12'
+                'h-12 transition-all duration-300'
               )}
               style={{
                 borderColor:
@@ -119,7 +119,7 @@ export function SearchBar({
               />
 
               <button
-                className="flex cursor-pointer h-full items-center justify-center transition-opacity hover:opacity-90 shrink-0 w-12 rounded-xl"
+                className="flex h-full w-12 shrink-0 cursor-pointer items-center justify-center rounded-xl transition-opacity hover:opacity-90"
                 style={{ backgroundColor: theme.colors.special.verifiedBadge }}
                 aria-label="Search"
               >
@@ -143,12 +143,12 @@ export function SearchBar({
   }
 
   return (
-    <div className="flex-1 mx-6 flex items-center justify-center gap-6">
+    <div className="mx-6 flex flex-1 items-center justify-center gap-6">
       <div className="w-141.75">
         <div
           className={cn(
-            'flex items-center rounded-xl border bg-white w-full',
-            'transition-all duration-300 h-16'
+            'flex w-full items-center rounded-xl border bg-white',
+            'h-16 transition-all duration-300'
           )}
           style={{
             borderColor:
@@ -196,7 +196,7 @@ export function SearchBar({
             iconPlacement="center"
             icon={<SearchIcon fill={theme.colors.text.default} />}
             aria-label="Search"
-            className="rounded-xl w-15.5 h-15.5"
+            className="h-15.5 w-15.5 rounded-xl"
             style={{
               backgroundColor: theme.colors.special.verifiedBadge,
             }}

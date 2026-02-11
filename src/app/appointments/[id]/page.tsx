@@ -21,9 +21,9 @@ export default function AppointmentPage({ params }: AppointmentPageProps) {
   return (
     <MainLayout>
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold mb-4">Appointment Details</h1>
+        <h1 className="mb-4 text-2xl font-bold">Appointment Details</h1>
         <p className="text-lg">Appointment ID: {decodedId}</p>
-        <p className="text-sm text-gray-600 mt-2">
+        <p className="mt-2 text-sm text-gray-600">
           This page will display detailed information for appointment {decodedId}.
         </p>
       </div>

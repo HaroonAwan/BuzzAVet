@@ -10,10 +10,10 @@ const AdvertisementSection = () => {
   return (
     <SectionsWrapper>
       <div
-        className="relative flex items-center justify-start rounded-[24px] h-[344px]"
+        className="relative flex h-[344px] items-center justify-start rounded-[24px]"
         style={{ backgroundColor: theme.colors.special.verifiedBadge }}
       >
-        <div className="flex flex-col p-12 items-start justify-start gap-4 max-w-[660px]">
+        <div className="flex max-w-[660px] flex-col items-start justify-start gap-4 p-12">
           <Chip variant="info" className="uppercase">
             Wellness Tip
           </Chip>
@@ -32,7 +32,7 @@ const AdvertisementSection = () => {
           </Button>
         </div>
         <Image src={CatImage} alt="Cat" className="absolute top-0 right-0 bottom-0" />
-        <Image src={DogImage} alt="Dog" className="absolute bottom-0 right-0" />
+        <Image src={DogImage} alt="Dog" className="absolute right-0 bottom-0" />
       </div>
     </SectionsWrapper>
   );

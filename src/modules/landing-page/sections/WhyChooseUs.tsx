@@ -48,15 +48,15 @@ const WhyChooseUs = () => {
         title="The Best Care for Your Furry Friends"
         subTitle="We combine expertise, technology, and compassion to deliver exceptional veterinary care that you and your pets deserve."
       >
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 w-full">
+        <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((feature, index) => (
             <div
               key={index}
-              className="flex flex-col items-start text-left p-8 bg-white rounded-2xl"
+              className="flex flex-col items-start rounded-2xl bg-white p-8 text-left"
             >
               <div className="mb-5">
                 <div
-                  className="w-14 h-14 rounded-2xl flex items-center justify-center"
+                  className="flex h-14 w-14 items-center justify-center rounded-2xl"
                   style={{ backgroundColor: theme.colors.background.range }}
                 >
                   <Image
@@ -69,7 +69,7 @@ const WhyChooseUs = () => {
                 </div>
               </div>
               <h3
-                className="text-xl font-semibold mb-2"
+                className="mb-2 text-xl font-semibold"
                 style={{ color: theme.colors.text.default }}
               >
                 {feature.title}

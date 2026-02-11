@@ -21,7 +21,7 @@ export default function TelemedicinePage({ params }: TelemedicinePageProps) {
   return (
     <MainLayout>
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-2xl font-bold mb-4">{decodedName}</h1>
+        <h1 className="mb-4 text-2xl font-bold">{decodedName}</h1>
         <p className="text-lg">Telemedicine doctor profile page</p>
       </div>
     </MainLayout>

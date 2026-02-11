@@ -43,7 +43,7 @@ export const Radio = React.forwardRef<HTMLButtonElement, RadioProps>(
         disabled={disabled}
         className={cn(
           'relative inline-flex items-center justify-center rounded-full',
-          'focus-visible:outline-none transition-colors',
+          'transition-colors focus-visible:outline-none',
           'disabled:pointer-events-none disabled:opacity-50',
           className
         )}

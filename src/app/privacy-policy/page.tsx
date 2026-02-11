@@ -7,9 +7,9 @@ export const metadata: Metadata = {
 
 export default function PrivacyPolicy() {
   return (
-    <div className="container mx-auto px-4 py-12 max-w-4xl">
+    <div className="container mx-auto max-w-4xl px-4 py-12">
       <div className="mb-8">
-        <h1 className="text-4xl font-bold mb-2">Privacy Policy</h1>
+        <h1 className="mb-2 text-4xl font-bold">Privacy Policy</h1>
         <p className="text-gray-600">
           Privacy Policy for Vets Unleashed LLC (vee.vet)
           <br />
@@ -17,7 +17,7 @@ export default function PrivacyPolicy() {
         </p>
       </div>
 
-      <div className="space-y-8 text-gray-700 text-justify">
+      <div className="space-y-8 text-justify text-gray-700">
         {/* Introduction */}
         <section>
           <p className="leading-relaxed">
@@ -30,7 +30,7 @@ export default function PrivacyPolicy() {
 
         {/* What We Do */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">What We Do</h2>
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">What We Do</h2>
           <p className="leading-relaxed">
             The Service refers to vee.vet's marketplace, accessible via the vee.vet Platform (our
             website at https://vee.vet, the associated mobile apps, the associated technology
@@ -43,13 +43,13 @@ export default function PrivacyPolicy() {
 
         {/* Information We Collect */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">
             The Information That We Collect
           </h2>
           <p className="mb-4 leading-relaxed">
             We collect two main types of information through our Service:
           </p>
-          <ul className="list-disc pl-6 mb-4 space-y-2">
+          <ul className="mb-4 list-disc space-y-2 pl-6">
             <li>
               <strong className="text-gray-900">Non-Personal Information:</strong> This information
               cannot be reasonably linked back to you and may include anonymized or de-identified
@@ -62,7 +62,7 @@ export default function PrivacyPolicy() {
             </li>
           </ul>
 
-          <h3 className="text-xl font-semibold mb-3 text-gray-900">
+          <h3 className="mb-3 text-xl font-semibold text-gray-900">
             Categories of Personal Information Collected (Non-Financial)
           </h3>
           <div className="space-y-3">
@@ -100,7 +100,7 @@ export default function PrivacyPolicy() {
             </div>
           </div>
 
-          <h3 className="text-xl font-semibold mb-3 mt-6 text-gray-900">
+          <h3 className="mt-6 mb-3 text-xl font-semibold text-gray-900">
             Categories of Financial Information Collected
           </h3>
           <div className="space-y-3">
@@ -127,7 +127,7 @@ export default function PrivacyPolicy() {
               <strong className="text-gray-900">Information We Retain:</strong> To manage your
               account, track transactions, and fulfill legal and tax obligations, we retain
               non-sensitive transaction details including:
-              <ul className="list-disc pl-6 mt-2 space-y-1">
+              <ul className="mt-2 list-disc space-y-1 pl-6">
                 <li>The date, time, and amount of the transaction</li>
                 <li>The billing address and name associated with the card</li>
                 <li>
@@ -145,14 +145,14 @@ export default function PrivacyPolicy() {
 
         {/* Information Collected via Technology */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">
             Information Collected via Technology
           </h2>
           <p className="mb-4 leading-relaxed">
             To improve the quality of our products, we track information provided by your browser or
             our App when you use the Service. This technical data collection may include:
           </p>
-          <ul className="list-disc pl-6 space-y-2">
+          <ul className="list-disc space-y-2 pl-6">
             <li>
               <strong className="text-gray-900">Usage Details:</strong> The referring URL (website
               you came from), browser type, IP address, device type, time and date of access,
@@ -176,20 +176,20 @@ export default function PrivacyPolicy() {
 
         {/* Cookies */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">Understanding Cookies</h2>
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">Understanding Cookies</h2>
           <p className="mb-4 leading-relaxed">
             Cookies are small text files with a unique identifier sent to your browser and stored on
             your hard drive. They help us collect information and record your preferences, both
             individually and in aggregate.
           </p>
 
-          <h3 className="text-xl font-semibold mb-4 text-gray-900">How We Use Cookies</h3>
+          <h3 className="mb-4 text-xl font-semibold text-gray-900">How We Use Cookies</h3>
           <p className="mb-4 leading-relaxed">
             We use both persistent cookies (which remain on your computer until you delete them) and
             session cookies (which expire when you close your browser).
           </p>
 
-          <div className="overflow-x-auto mb-6">
+          <div className="mb-6 overflow-x-auto">
             <table className="w-full border-collapse border border-gray-300">
               <thead className="bg-gray-100">
                 <tr>
@@ -236,11 +236,11 @@ export default function PrivacyPolicy() {
             </table>
           </div>
 
-          <h3 className="text-xl font-semibold mb-3 text-gray-900">
+          <h3 className="mb-3 text-xl font-semibold text-gray-900">
             Managing Your Cookie Preferences
           </h3>
           <p className="mb-3 leading-relaxed">You have the right to accept or reject cookies:</p>
-          <ul className="list-disc pl-6 space-y-2">
+          <ul className="list-disc space-y-2 pl-6">
             <li>
               You can set or update your web browser controls to accept or refuse cookies. Consult
               your browser's help menu for instructions.
@@ -262,7 +262,7 @@ export default function PrivacyPolicy() {
 
         {/* How We Use Information */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">
             How We Use and Share Information
           </h2>
           <p className="mb-4 leading-relaxed">
@@ -270,7 +270,7 @@ export default function PrivacyPolicy() {
             consent, except as outlined below.
           </p>
 
-          <h3 className="text-xl font-semibold mb-3 text-gray-900">
+          <h3 className="mb-3 text-xl font-semibold text-gray-900">
             Use and Disclosure of Personal Information
           </h3>
           <div className="space-y-3">
@@ -314,9 +314,9 @@ export default function PrivacyPolicy() {
 
         {/* Security and Retention */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">Security and Retention</h2>
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">Security and Retention</h2>
 
-          <h3 className="text-xl font-semibold mb-3 text-gray-900">How We Protect Information</h3>
+          <h3 className="mb-3 text-xl font-semibold text-gray-900">How We Protect Information</h3>
           <p className="mb-4 leading-relaxed">
             We implement security measures to protect your information from unauthorized access,
             including encryption, firewalls, and secure socket layer technology. Your account is
@@ -325,7 +325,7 @@ export default function PrivacyPolicy() {
             agree to assume these inherent risks.
           </p>
 
-          <h3 className="text-xl font-semibold mb-3 text-gray-900">Record Retention</h3>
+          <h3 className="mb-3 text-xl font-semibold text-gray-900">Record Retention</h3>
           <p className="leading-relaxed">
             We retain your personal information for as long as needed or permitted in light of the
             purposes for which it was obtained, to provide the applicable service, comply with legal
@@ -335,9 +335,9 @@ export default function PrivacyPolicy() {
 
         {/* Your Choices and Rights */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">Your Choices and Rights</h2>
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">Your Choices and Rights</h2>
 
-          <h3 className="text-xl font-semibold mb-3 text-gray-900">Managing Your Preferences</h3>
+          <h3 className="mb-3 text-xl font-semibold text-gray-900">Managing Your Preferences</h3>
           <div className="space-y-3">
             <div>
               <strong className="text-gray-900">Removal/Opt-Out:</strong> You can opt out of
@@ -355,7 +355,7 @@ export default function PrivacyPolicy() {
             </div>
           </div>
 
-          <h3 className="text-xl font-semibold mb-3 mt-6 text-gray-900">
+          <h3 className="mt-6 mb-3 text-xl font-semibold text-gray-900">
             Correcting, Updating, and Accessing Information
           </h3>
           <p className="leading-relaxed">
@@ -368,7 +368,7 @@ export default function PrivacyPolicy() {
 
         {/* Third Party Links */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">
             Links to Third-Party Websites
           </h2>
           <p className="leading-relaxed">
@@ -381,12 +381,12 @@ export default function PrivacyPolicy() {
 
         {/* California Rights */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">Your California Rights</h2>
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">Your California Rights</h2>
           <p className="mb-4 leading-relaxed">
             If you are a California resident, state law grants you the following rights regarding
             your personal information:
           </p>
-          <ul className="list-disc pl-6 space-y-2">
+          <ul className="list-disc space-y-2 pl-6">
             <li>
               <strong className="text-gray-900">Right to Know:</strong> You can request to know what
               personal information we have collected, used, disclosed, and "sold" or "shared" about
@@ -407,7 +407,7 @@ export default function PrivacyPolicy() {
             </li>
           </ul>
 
-          <h3 className="text-xl font-semibold mb-3 mt-6 text-gray-900">Exercising Your Rights</h3>
+          <h3 className="mt-6 mb-3 text-xl font-semibold text-gray-900">Exercising Your Rights</h3>
           <p className="leading-relaxed">
             To exercise any of these rights, please submit a request to legal@vee.vet. We will
             verify your identity by logging into your account or using your email/a third-party
@@ -419,7 +419,7 @@ export default function PrivacyPolicy() {
 
         {/* Changes to Policy */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">Changes to This Policy</h2>
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">Changes to This Policy</h2>
           <p className="leading-relaxed">
             We reserve the right to change this policy at any time. We will post a notification on
             the vee.vet Platform and inform you of any material changes in advance. It is your
@@ -429,12 +429,12 @@ export default function PrivacyPolicy() {
 
         {/* Contact Us */}
         <section>
-          <h2 className="text-2xl font-semibold mb-4 text-gray-900">Contact Us</h2>
+          <h2 className="mb-4 text-2xl font-semibold text-gray-900">Contact Us</h2>
           <p className="mb-4 leading-relaxed">
             If you have any questions about this Privacy Policy or wish to contact us regarding your
             rights as a California resident, please contact us:
           </p>
-          <div className="bg-gray-50 p-6 rounded-lg border border-gray-200">
+          <div className="rounded-lg border border-gray-200 bg-gray-50 p-6">
             <p>
               <strong className="text-gray-900">Email:</strong> legal@vee.vet
               <br />

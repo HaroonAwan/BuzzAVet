@@ -8,11 +8,11 @@ import { Button } from '@/components/shared/Button';
 const LetsGetStarted = () => {
   return (
     <SectionsWrapper>
-      <div className="flex gap-10 sm:gap-20 flex-col md:flex-row">
+      <div className="flex flex-col gap-10 sm:gap-20 md:flex-row">
         <div className="flex flex-col justify-between py-7">
           <div className="flex flex-col justify-between gap-7">
             <div className="flex flex-col gap-3">
-              <h1 className="thirty-six font-semibold leading-tight">
+              <h1 className="thirty-six leading-tight font-semibold">
                 Ready to Give Your Pet the Best Care?
               </h1>
             </div>
@@ -21,7 +21,7 @@ const LetsGetStarted = () => {
               Sign up today and get your first consultation free!
             </p>
           </div>
-          <div className="flex gap-4 items-center">
+          <div className="flex items-center gap-4">
             <Button className="bg-(--range)!">Let’s Get Started</Button>
             <Button variant="outline">Learn More</Button>
           </div>
@@ -40,13 +40,13 @@ const LetsGetStarted = () => {
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-center h-100 md:w-[47%] shrink-0 rounded-3xl overflow-hidden">
+        <div className="flex h-100 shrink-0 items-center justify-center overflow-hidden rounded-3xl md:w-[47%]">
           <Image
             src={VetImage}
             alt="About BuzzAVet"
             width={630}
             height={400}
-            className="object-cover w-full h-full"
+            className="h-full w-full object-cover"
           />
         </div>
       </div>

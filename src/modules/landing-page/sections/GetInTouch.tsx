@@ -13,14 +13,14 @@ const GetInTouch = () => {
   const { control, handleSubmit, errors } = useGetInTouch();
   return (
     <SectionsWrapper noContainer className="bg-[#F9FAFB]">
-      <div className="flex gap-10 sm:gap-20 flex-col md:flex-row">
+      <div className="flex flex-col gap-10 sm:gap-20 md:flex-row">
         <div className="flex flex-col justify-start">
-          <div className="flex flex-col justify-between gap-7 mb-8">
+          <div className="mb-8 flex flex-col justify-between gap-7">
             <div className="flex flex-col gap-3">
               <h1 className="font-semibold" style={{ color: theme.colors.background.range }}>
                 Get in Touch
               </h1>
-              <h1 className="thirty-six font-semibold leading-tight">We'd Love to Hear From You</h1>
+              <h1 className="thirty-six leading-tight font-semibold">We'd Love to Hear From You</h1>
             </div>
             <p style={{ color: theme.colors.text.secondary }}>
               Have questions or need assistance? Our friendly team is here to help. Reach out to us
@@ -29,7 +29,7 @@ const GetInTouch = () => {
           </div>
           <div className="flex flex-col gap-6">
             <div className="flex items-center gap-3">
-              <div className="bg-(--range) h-12 w-12 flex items-center justify-center rounded-2xl">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-(--range)">
                 <Image src={EmailIcon} alt="icon" width={24} height={24} />
               </div>
               <p className="flex flex-col font-semibold">
@@ -40,7 +40,7 @@ const GetInTouch = () => {
               </p>
             </div>
             <div className="flex items-center gap-3">
-              <div className="bg-(--range) h-12 w-12 flex items-center justify-center rounded-2xl">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-(--range)">
                 <Image src={PhoneIcon} alt="icon" width={24} height={24} />
               </div>
               <p className="flex flex-col font-semibold">
@@ -51,7 +51,7 @@ const GetInTouch = () => {
               </p>
             </div>
             <div className="flex items-center gap-3">
-              <div className="bg-(--range) h-12 w-12 flex items-center justify-center rounded-2xl">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-(--range)">
                 <Image src={LocationIcon} alt="icon" width={24} height={24} />
               </div>
               <p className="flex flex-col font-semibold">
@@ -66,7 +66,7 @@ const GetInTouch = () => {
             </div>
           </div>
         </div>
-        <div className="flex items-start justify-start md:w-[47%] shrink-0 rounded-3xl overflow-hidden bg-white SHADOW">
+        <div className="SHADOW flex shrink-0 items-start justify-start overflow-hidden rounded-3xl bg-white md:w-[47%]">
           <form className="flex flex-col gap-5 p-8" onSubmit={handleSubmit}>
             <div className="flex items-center gap-4">
               <FormInput

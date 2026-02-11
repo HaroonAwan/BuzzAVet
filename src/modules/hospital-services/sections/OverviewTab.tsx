@@ -55,9 +55,9 @@ const HighlightsContent = [
 
 const HighlightIcons = ({ icon, bg, title }: HighlightIconsProps) => {
   return (
-    <div className="flex gap-4 items-center">
+    <div className="flex items-center gap-4">
       <div
-        className={cn('flex justify-center items-center', 'w-11 h-11 rounded-xl')}
+        className={cn('flex items-center justify-center', 'h-11 w-11 rounded-xl')}
         style={{ backgroundColor: bg ?? theme.colors.chip.normal.background }}
       >
         <Image src={icon as string} alt={title} width={24} height={24} />
@@ -88,7 +88,7 @@ const OverviewTab = () => {
       {/* INTRO SECTION */}
       <div className="flex flex-col gap-4">
         <h1 className="text-[20px] font-semibold">About the Hospital</h1>
-        <p className="text-sm text-justify" style={{ color: theme.colors.text.secondary }}>
+        <p className="text-justify text-sm" style={{ color: theme.colors.text.secondary }}>
           City Paws Medical Center is a state-of-the-art veterinary facility dedicated to providing
           comprehensive and compassionate care for your pets. Our team of board-certified
           specialists and experienced veterinarians utilize the latest technology to ensure the best

@@ -7,11 +7,11 @@ import { Avatar } from '@/components/shared/Avatar';
 const TestimonialCard: React.FC<{ testimonial: Testimonial }> = ({ testimonial }) => {
   return (
     <div
-      className="rounded-2xl p-8 flex flex-col"
+      className="flex flex-col rounded-2xl p-8"
       style={{ backgroundColor: theme.colors.background.secondary }}
     >
       {/* Stars */}
-      <div className="flex gap-1 mb-4">
+      <div className="mb-4 flex gap-1">
         {[...Array(testimonial.rating)].map((_, i) => (
           <StarIcon key={i} size={18} />
         ))}
@@ -19,7 +19,7 @@ const TestimonialCard: React.FC<{ testimonial: Testimonial }> = ({ testimonial }
 
       {/* Testimonial Text */}
       <p
-        className="text-sm leading-relaxed mb-5 grow line-clamp-4"
+        className="mb-5 line-clamp-4 grow text-sm leading-relaxed"
         style={{ color: theme.colors.text.secondary }}
       >
         {testimonial.text}
@@ -28,9 +28,9 @@ const TestimonialCard: React.FC<{ testimonial: Testimonial }> = ({ testimonial }
       {/* User Info */}
       <div className="flex items-center gap-3">
         <Avatar src={testimonial.image} name={testimonial.name} className="rounded-full" />
-        <div className="flex-1 min-w-0">
-          <h4 className="font-semibold text-sm truncate">{testimonial.name}</h4>
-          <p className="text-xs truncate" style={{ color: theme.colors.text.tertiary }}>
+        <div className="min-w-0 flex-1">
+          <h4 className="truncate text-sm font-semibold">{testimonial.name}</h4>
+          <p className="truncate text-xs" style={{ color: theme.colors.text.tertiary }}>
             {testimonial.title}
           </p>
         </div>

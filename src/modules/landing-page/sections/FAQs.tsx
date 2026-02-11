@@ -64,7 +64,7 @@ const FAQs = () => {
         title="Frequently Asked Questions"
         subTitle="Find answers to common questions about our services, appointments, and pet care."
       >
-        <div className="max-w-200 mx-auto w-full rounded-xl bg-white overflow-hidden">
+        <div className="mx-auto w-full max-w-200 overflow-hidden rounded-xl bg-white">
           <Accordion type="single" collapsible>
             {faqData.map((faq) => (
               <AccordionItem key={faq.id} value={faq.id}>

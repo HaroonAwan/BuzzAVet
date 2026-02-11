@@ -111,16 +111,16 @@ export default function Step2ServiceSelection() {
   };
 
   return (
-    <div className="w-full mt-3 flex-1 flex flex-col">
-      <h1 className="thirty-six font-semibold mb-10" style={{ color: theme.colors.text.default }}>
+    <div className="mt-3 flex w-full flex-1 flex-col">
+      <h1 className="thirty-six mb-10 font-semibold" style={{ color: theme.colors.text.default }}>
         What brings you to BuzzAVet?
       </h1>
       {errors.selectedService && (
-        <p className="text-sm mt-2 mb-4" style={{ color: theme.colors.error }}>
+        <p className="mt-2 mb-4 text-sm" style={{ color: theme.colors.error }}>
           {errors.selectedService?.message || 'Please select at least one service'}
         </p>
       )}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
         {services.map((service) => {
           const isSelected = selectedServices.includes(service.id);
           return (
@@ -129,7 +129,7 @@ export default function Step2ServiceSelection() {
               type="button"
               onClick={() => handleServiceSelect(service.id)}
               className={cn(
-                'flex items-center justify-start p-6 gap-1.5 rounded-2xl border-[1.7px] transition-all',
+                'flex items-center justify-start gap-1.5 rounded-2xl border-[1.7px] p-6 transition-all',
                 'cursor-pointer'
               )}
               style={{
@@ -159,7 +159,7 @@ export default function Step2ServiceSelection() {
                 >
                   {service.title}
                 </h3>
-                <p className="text-[14px] text-left" style={{ color: theme.colors.text.secondary }}>
+                <p className="text-left text-[14px]" style={{ color: theme.colors.text.secondary }}>
                   {service.description}
                 </p>
               </div>

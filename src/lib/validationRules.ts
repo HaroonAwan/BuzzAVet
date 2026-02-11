@@ -116,6 +116,14 @@ const photoRule = yup
     const maxSizeInBytes = 2 * 1024 * 1024; // 2MB
     return (value as File).size <= maxSizeInBytes;
   });
+const mediaRule = yup
+  .mixed()
+  .optional()
+  .test('fileSize', 'File size must be less than 5MB', (value) => {
+    if (!value) return true;
+    const maxSizeInBytes = 5 * 1024 * 1024; // 5MB
+    return (value as File).size <= maxSizeInBytes;
+  });
 
 /* =================================================================================
                                 EXPORT ALL RULES
@@ -141,4 +149,5 @@ export {
   ageRule,
   weightRule,
   photoRule,
+  mediaRule,
 };

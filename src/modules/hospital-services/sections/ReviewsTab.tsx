@@ -115,10 +115,10 @@ const ReviewsTab: React.FC = () => {
   const maxCount = Math.max(...ratingBreakdown.map((r) => r.count), 1);
 
   return (
-    <div className="w-full gap-6 flex flex-col">
+    <div className="flex w-full flex-col gap-6">
       {/* Header Section with Rating Summary */}
       <div
-        className="flex gap-8 p-5 rounded-xl items-center justify-between"
+        className="flex items-center justify-between gap-8 rounded-xl p-5"
         style={{ backgroundColor: theme.colors.background.secondary }}
       >
         {/* Overall Rating */}
@@ -147,19 +147,19 @@ const ReviewsTab: React.FC = () => {
           </p>
         </div>
         {/* Divider */}
-        <div className="w-px h-16 my-auto bg-(--color-muted)" />
+        <div className="my-auto h-16 w-px bg-(--color-muted)" />
         {/* Rating Breakdown */}
-        <div className="flex-1 flex flex-col gap-2">
+        <div className="flex flex-1 flex-col gap-2">
           {ratingBreakdown
             .sort((a, b) => b.stars - a.stars)
             .map((item) => {
               const percentage = (item.count / maxCount) * 100;
               return (
                 <div key={item.stars} className="flex items-center gap-2">
-                  <span className="text-sm flex gap-1 font-medium">{item.stars} stars</span>
+                  <span className="flex gap-1 text-sm font-medium">{item.stars} stars</span>
                   {/* Progress Bar */}
                   <div
-                    className="flex-1 h-2 rounded-full overflow-hidden"
+                    className="h-2 flex-1 overflow-hidden rounded-full"
                     style={{ backgroundColor: theme.colors.background.muted }}
                   >
                     <div
@@ -171,7 +171,7 @@ const ReviewsTab: React.FC = () => {
                     />
                   </div>
                   <span
-                    className="text-sm w-8 text-right"
+                    className="w-8 text-right text-sm"
                     style={{ color: theme.colors.text.tertiary }}
                   >
                     {item.count}
@@ -187,15 +187,15 @@ const ReviewsTab: React.FC = () => {
         {displayedReviews.map((review) => (
           <div
             key={review.id}
-            className="pb-6 border-b"
+            className="border-b pb-6"
             style={{ borderColor: theme.colors.border.default }}
           >
             {/* Reviewer Header */}
-            <div className="flex items-center justify-between gap-3 mb-2">
+            <div className="mb-2 flex items-center justify-between gap-3">
               <div className="flex items-center gap-3">
                 <Avatar src={review.authorImage} name={review.authorName} size="sm" />
                 <div>
-                  <h4 className="font-semibold text-sm">{review.authorName}</h4>
+                  <h4 className="text-sm font-semibold">{review.authorName}</h4>
                 </div>
               </div>
               <p className="text-xs" style={{ color: theme.colors.text.muted }}>
@@ -204,7 +204,7 @@ const ReviewsTab: React.FC = () => {
             </div>
 
             {/* Star Rating */}
-            <div className="flex gap-1 mb-2">
+            <div className="mb-2 flex gap-1">
               {[...Array(5)].map((_, i) => (
                 <StarIcon
                   key={i}

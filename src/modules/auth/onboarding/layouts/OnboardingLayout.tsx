@@ -42,9 +42,9 @@ export default function OnboardingLayout({
 
   return (
     <>
-      <div className="w-full bg-background flex flex-col h-screen">
+      <div className="bg-background flex h-screen w-full flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between py-5 px-15 w-full relative shrink-0">
+        <div className="relative flex w-full shrink-0 items-center justify-between px-15 py-5">
           <Logo />
           {showSaveAndExit && (
             <Button
@@ -56,7 +56,7 @@ export default function OnboardingLayout({
               Save & Exit
             </Button>
           )}
-          <div className="absolute left-0 right-0 h-1 bottom-0">
+          <div className="absolute right-0 bottom-0 left-0 h-1">
             <div
               className="h-full rounded-r-full"
               style={{
@@ -68,24 +68,24 @@ export default function OnboardingLayout({
         </div>
 
         {/* Main Content - Takes remaining space */}
-        <div className="flex-1 flex flex-col overflow-hidden">
-          <div className="flex-1 overflow-y-auto mt-10 flex flex-col max-w-3xl mx-auto w-full">
+        <div className="flex flex-1 flex-col overflow-hidden">
+          <div className="mx-auto mt-10 flex w-full max-w-3xl flex-1 flex-col overflow-y-auto">
             {/* Step Counter */}
             <div className="shrink-0 px-6">
               <p
-                className="text-sm font-medium uppercase tracking-wide"
+                className="text-sm font-medium tracking-wide uppercase"
                 style={{ color: theme.colors.text.secondary }}
               >
                 STEP {currentStep} OF {totalSteps}
               </p>
             </div>
-            <div className="flex-1 w-full px-6 pb-6">{children}</div>
+            <div className="w-full flex-1 px-6 pb-6">{children}</div>
           </div>
         </div>
 
         {/* Footer Navigation */}
         <div
-          className="flex items-center justify-between py-5 px-6 md:px-15 w-full shrink-0"
+          className="flex w-full shrink-0 items-center justify-between px-6 py-5 md:px-15"
           style={{ borderColor: theme.colors.border.default }}
         >
           <div>
