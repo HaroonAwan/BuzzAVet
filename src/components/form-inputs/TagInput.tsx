@@ -52,7 +52,7 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
       <div
         ref={ref}
         className={cn(
-          'flex min-h-[50px] flex-wrap gap-2 rounded-md border p-2',
+          'flex min-h-12.5 flex-wrap gap-2 rounded-md border p-2',
           'focus-within:ring-2 focus-within:ring-offset-0 focus-within:outline-none',
           disabled && 'cursor-not-allowed opacity-50',
           className
@@ -110,7 +110,7 @@ export const TagInput = React.forwardRef<HTMLDivElement, TagInputProps>(
           onKeyDown={handleKeyDown}
           placeholder={value.length === 0 ? placeholder : ''}
           disabled={disabled}
-          className="min-w-[120px] flex-1 bg-transparent text-sm outline-none"
+          className="min-w-30 flex-1 bg-transparent text-sm outline-none"
           style={{ color: theme.colors.text.default }}
         />
       </div>
