@@ -64,7 +64,7 @@ const PhoneNumberInput = <
     isValid: false,
     countryCode: null,
     countryName: null,
-    flag: '🌐',
+    flag: '🌍',
     nationalNumber: null,
     formattedNumber: null,
     e164Number: null,

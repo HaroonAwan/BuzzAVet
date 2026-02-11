@@ -55,7 +55,7 @@ export function detectAndValidatePhoneNumber(
     isValid: false,
     countryCode: null,
     countryName: null,
-    flag: '🌐', // Unknown flag
+    flag: '🌍', // Unknown flag
     nationalNumber: null,
     formattedNumber: null,
     e164Number: null,
@@ -95,7 +95,7 @@ export function detectAndValidatePhoneNumber(
     if (country) {
       result.countryCode = country;
       result.countryName = getCountryNameByCode(country);
-      result.flag = countryFlagMap[country] || '🌐';
+      result.flag = countryFlagMap[country] || '🌍';
     }
 
     result.nationalNumber = parsed.formatNational();
@@ -106,7 +106,7 @@ export function detectAndValidatePhoneNumber(
       result.error = 'Phone number length is incorrect for any country';
       result.isValid = false;
       // Show unknown flag if validation fails
-      result.flag = '🌐';
+      result.flag = '🌍';
       return result;
     }
 
@@ -114,7 +114,7 @@ export function detectAndValidatePhoneNumber(
     return result;
   } catch (error) {
     result.error = 'Invalid phone number format';
-    result.flag = '🌐';
+    result.flag = '🌍';
     return result;
   }
 }
