@@ -23,7 +23,6 @@ export default function PersonalInfo() {
   const {
     control,
     handleSubmit,
-    errors,
     fullName,
     avatarPreview,
     isHovering,

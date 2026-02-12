@@ -12,7 +12,7 @@ import { MenuIcon } from 'lucide-react';
 import SectionsWrapper from '@/layouts/SectionsWrapper';
 
 export default function AccountSettings() {
-  const [activeTab, setActiveTab] = useState('notification-settings'); //TODO: change default to personal-info after development
+  const [activeTab, setActiveTab] = useState('personal-info');
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const renderContent = () => {

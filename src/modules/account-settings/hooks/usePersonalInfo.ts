@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { nameRule, photoRule } from '@/lib/validationRules';
+import { messageRule, nameRule, photoRule } from '@/lib/validationRules';
 import { useUploadFileMutation } from '@/apis/fileUpload/fileUploadApi';
 import toast from 'react-hot-toast';
 
@@ -14,11 +14,7 @@ export interface PersonalInfoFormData {
 
 const personalInfoSchema: yup.ObjectSchema<PersonalInfoFormData> = yup.object().shape({
   fullName: nameRule,
-  aboutMe: yup
-    .string()
-    .max(500, 'Cannot exceed 500 characters')
-    .nullable()
-    .transform((value) => value || null),
+  aboutMe: messageRule,
   photo: photoRule,
 }) as yup.ObjectSchema<PersonalInfoFormData>;
 
@@ -40,7 +36,7 @@ export const usePersonalInfo = () => {
     mode: 'onChange',
     resolver: yupResolver(personalInfoSchema),
     defaultValues: {
-      fullName: 'Jane Doe',
+      fullName: '',
       aboutMe: '',
       photo: null,
     },
