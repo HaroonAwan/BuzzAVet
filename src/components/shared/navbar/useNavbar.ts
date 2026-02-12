@@ -114,6 +114,9 @@ export function useNavbar() {
   const handleRegisterClick = () => {
     router.push('/auth/register');
   };
+  const handleAccountSettingsClick = () => {
+    router.push('/user-menu');
+  };
 
   const handleCategorySelect = (category: ServiceCategory, route: string) => {
     setSelectedCategory(category);
@@ -158,6 +161,7 @@ export function useNavbar() {
     setIsServiceTypeFocused,
     setViewType,
     handleLoginClick,
+    handleAccountSettingsClick,
     handleRegisterClick,
   };
 }

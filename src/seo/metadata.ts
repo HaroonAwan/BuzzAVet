@@ -67,4 +67,7 @@ export const DEFAULT_METADATA = {
   hospitalsBookingMetadata: {
     title: 'Hospital Appointment Booking',
   },
+  accountSettingsUserMenuMetadata: {
+    title: 'Account Settings - User Menu',
+  },
 };

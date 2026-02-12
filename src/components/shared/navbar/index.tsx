@@ -54,6 +54,7 @@ export default function Navbar({ className }: NavbarProps) {
     setLocationValue,
     setServiceTypeValue,
     // setIsServiceTypeFocused,
+    handleAccountSettingsClick,
     setViewType,
     handleLoginClick,
     handleRegisterClick,
@@ -135,7 +136,7 @@ export default function Navbar({ className }: NavbarProps) {
                 userAvatarUrl={dummyUser}
                 onPetDashboard={() => console.log('Pet Dashboard')}
                 onAppointments={() => console.log('Appointments')}
-                onAccountSettings={() => console.log('Account Settings')}
+                onAccountSettings={handleAccountSettingsClick}
                 onNotifications={() => console.log('Notifications')}
                 onFavourites={() => console.log('Favourites')}
                 onHelpCentre={() => console.log('Help Centre')}
@@ -255,7 +256,7 @@ export default function Navbar({ className }: NavbarProps) {
                     userAvatarUrl={dummyUser}
                     onPetDashboard={() => console.log('Pet Dashboard')}
                     onAppointments={() => console.log('Appointments')}
-                    onAccountSettings={() => console.log('Account Settings')}
+                    onAccountSettings={handleAccountSettingsClick}
                     onNotifications={() => console.log('Notifications')}
                     onFavourites={() => console.log('Favourites')}
                     onHelpCentre={() => console.log('Help Centre')}
