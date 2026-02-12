@@ -125,6 +125,11 @@ const mediaRule = yup
     return (value as File).size <= maxSizeInBytes;
   });
 
+const booleanRule = yup
+  .boolean()
+  .required('Required')
+  .oneOf([true, false], 'Must be true or false');
+
 /* =================================================================================
                                 EXPORT ALL RULES
    =================================================================================
@@ -150,4 +155,5 @@ export {
   weightRule,
   photoRule,
   mediaRule,
+  booleanRule,
 };

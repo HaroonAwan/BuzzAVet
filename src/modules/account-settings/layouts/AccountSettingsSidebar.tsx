@@ -35,11 +35,11 @@ const menuItems: MenuItem[] = [
     label: 'Address book',
     icon: AddressBookIcon,
   },
-  {
-    id: 'payment-methods',
-    label: 'Payment Methods',
-    icon: PaymentMethodsIcon,
-  },
+  //   {
+  //     id: 'payment-methods',
+  //     label: 'Payment Methods',
+  //     icon: PaymentMethodsIcon,
+  //   },
   {
     id: 'notification-settings',
     label: 'Notification Settings',

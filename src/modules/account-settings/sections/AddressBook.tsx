@@ -1,9 +1,27 @@
-'use client';
+import AddressCard from '../layouts/AddressCard';
+import NoAddress from '../layouts/NoAddress';
 
-import { Button } from '@/components/shared/Button';
-import AddressBookIcon from '@/assets/images/settings/address-book.svg';
-import Image from 'next/image';
-
+const DUMMY_ADDRESS = [
+  {
+    id: '1',
+    label: 'Home',
+    address: '123 Main St, Springfield, IL 62704',
+    isDefault: true,
+  },
+  {
+    id: '2',
+    label: 'Work',
+    address: '456 Elm St, Springfield, IL 62701',
+    isDefault: false,
+  },
+  {
+    id: '3',
+    label: 'Parents',
+    address: '789 Oak St, Springfield, IL 62703',
+    isDefault: false,
+  },
+];
+export type Address = (typeof DUMMY_ADDRESS)[number];
 export default function AddressBook() {
   return (
     <div className="space-y-6">
@@ -13,19 +31,15 @@ export default function AddressBook() {
           Manage your saved addresses for home and emergency contacts.
         </p>
       </div>
-
-      <div className="rounded-xl border border-gray-200 bg-white p-8 text-center">
-        <div className="mx-auto max-w-md">
-          <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
-            <Image src={AddressBookIcon} alt="Address Book Icon" width={32} height={32} />
-          </div>
-          <h3 className="mb-2 text-lg font-medium text-gray-900">No addresses saved yet</h3>
-          <p className="mb-6 text-gray-600">
-            Add your addresses to make booking appointments easier
-          </p>
-          <Button variant="outline">Add New Address</Button>
+      {DUMMY_ADDRESS.length > 0 ? (
+        <div className="space-y-4">
+          {DUMMY_ADDRESS.map((address) => (
+            <AddressCard key={address.id} address={address} />
+          ))}
         </div>
-      </div>
+      ) : (
+        <NoAddress />
+      )}
     </div>
   );
 }

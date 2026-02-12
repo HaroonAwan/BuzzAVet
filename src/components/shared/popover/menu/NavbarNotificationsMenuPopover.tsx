@@ -83,7 +83,7 @@ export function NavbarNotificationsMenuPopover({
           </div>
 
           {/* Notifications List */}
-          <div className="max-h-[400px] overflow-y-auto">
+          <div className="max-h-100 overflow-y-auto">
             {notifications.map((notification) => (
               <button
                 key={notification.id}

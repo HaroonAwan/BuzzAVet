@@ -36,7 +36,7 @@ export function PopoverLayout({
       side={side}
       sideOffset={sideOffset}
       className={cn(
-        'SHADOW w-auto min-w-[280px] rounded-[12px] p-0',
+        'SHADOW w-auto min-w-70 rounded-xl p-0',
         'overflow-hidden border-none bg-white',
         className
       )}
