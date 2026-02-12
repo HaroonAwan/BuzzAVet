@@ -23,7 +23,7 @@ export type AvatarSize = 'sm' | 'md' | 'lg' | 'xl' | 'max';
 
 export interface AvatarProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Full name, e.g. "Nauman Majeed" or "Nauman". Used for initials and aria-label. */
-  name: string;
+  name?: string;
   /** Optional image URL; falls back to initials when missing or on error. */
   url?: string | null;
   /** Visual size of the avatar (`"sm" | "md" | "lg"`). */
@@ -81,9 +81,9 @@ const getInitials = (name: string): string => {
 };
 
 export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
-  ({ name, url, size = 'md', variantStyles, className, ...props }, ref) => {
+  ({ name, url, size = 'md', variantStyles, alt, className, ...props }, ref) => {
     const [hasImageError, setHasImageError] = React.useState(false);
-    const initials = React.useMemo(() => getInitials(name), [name]);
+    const initials = React.useMemo(() => getInitials(name ?? alt ?? 'User'), [name, alt]);
     const sizeClasses = sizeConfig[size];
     const showImage = !!url && !hasImageError;
 
@@ -103,13 +103,13 @@ export const Avatar = React.forwardRef<HTMLDivElement, AvatarProps>(
             ...variantStyles,
           } as React.CSSProperties
         }
-        aria-label={name}
+        aria-label={name ?? alt ?? 'Avatar'}
         {...props}
       >
         {showImage ? (
           <Image
             src={((url as string) || props.src) ?? ''}
-            alt={name || props.alt || 'Avatar'}
+            alt={name ?? alt ?? 'Avatar'}
             fill
             sizes="100%"
             className="object-cover"

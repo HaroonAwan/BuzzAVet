@@ -143,7 +143,7 @@ export function SearchBar({
   }
 
   return (
-    <div className="mx-6 flex flex-1 items-center justify-center gap-6">
+    <div className="mx-6 hidden flex-1 items-center justify-center gap-6 md:flex">
       <div className="w-141.75">
         <div
           className={cn(

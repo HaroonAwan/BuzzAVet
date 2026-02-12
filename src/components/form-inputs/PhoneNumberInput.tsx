@@ -107,7 +107,7 @@ const PhoneNumberInput = <
         const borderColor = getBorderColor();
 
         return (
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 mb-2">
             {label && (
               <label htmlFor={inputId} className="block text-sm font-medium">
                 {label}

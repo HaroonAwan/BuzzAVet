@@ -22,9 +22,52 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Providers>
           <NavigationProgress />
           <Toaster
-            position="top-center"
+            position="top-right"
+            containerStyle={{
+              top: '90px',
+              right: '60px',
+            }}
             toastOptions={{
               duration: 3000,
+              style: {
+                background: '#FFFFFF',
+                color: '#020409',
+                padding: '12px 20px',
+                borderRadius: '0 0 8px 8px',
+                borderColor: 'transparent',
+                fontSize: '14px',
+                fontWeight: '500',
+                boxShadow: '0px 6px 16px 0px #00000014',
+                maxWidth: '500px',
+              },
+              success: {
+                duration: 3000,
+                iconTheme: {
+                  primary: '#020409',
+                  secondary: '#FFFFFF',
+                },
+                style: {
+                  background: '#FFFFFF',
+                  color: '#020409',
+                },
+              },
+              error: {
+                duration: 3000,
+                iconTheme: {
+                  primary: '#020409',
+                  secondary: '#FFFFFF',
+                },
+                style: {
+                  background: '#FFFFFF',
+                  color: '#020409',
+                },
+              },
+              loading: {
+                iconTheme: {
+                  primary: '#020409',
+                  secondary: '#FFFFFF',
+                },
+              },
             }}
           />
           {children}
