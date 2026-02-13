@@ -2,7 +2,7 @@ import { baseApi } from '@/apis/baseApi';
 import { ApiEndpoints } from '../endpoints';
 import type { FileUpload } from '@/types/onboarding';
 
-const { UPLOAD } = ApiEndpoints.FILE;
+const { UPLOAD } = ApiEndpoints.FILE_UPLOAD;
 
 export const fileUploadApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({

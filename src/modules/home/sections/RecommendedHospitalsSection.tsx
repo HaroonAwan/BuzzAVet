@@ -7,6 +7,7 @@ import {
   HospitalOrPetServicesCardProps,
 } from '../layouts/HospitalOrPetServicesCard';
 import SectionsWrapper from '../../../layouts/SectionsWrapper';
+import { useGetHospitalsNearYou } from '../hooks/useGetHospitalsNearYour';
 
 // DUMMY DATA FOR RECOMMENDED HOSPITALS
 const initialHospitals: HospitalOrPetServicesCardProps[] = [
@@ -145,6 +146,12 @@ const initialHospitals: HospitalOrPetServicesCardProps[] = [
 ];
 
 const RecommendedHospitalsSection: React.FC = () => {
+  const { nearYouHospitals } = useGetHospitalsNearYou();
+  
+  console.log(
+    '🚀 ~ RecommendedHospitalsSection ~ nearYouHospitals:',
+    nearYouHospitals.hospitalsData
+  );
   const [hospitals, setHospitals] = useState<HospitalOrPetServicesCardProps[]>(initialHospitals);
 
   const handleFavoriteToggle = (index: number, favorite: boolean) => {

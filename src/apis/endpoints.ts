@@ -1,3 +1,5 @@
+import { HospitalsNearYouQuery } from '@/types/hospitalsTypes';
+
 export const ApiEndpoints = {
   AUTH: {
     REGISTER: '/auth/sign-up',
@@ -14,8 +16,21 @@ export const ApiEndpoints = {
     PROFILE_PATCH: (profileId: string) => `/profiles/${profileId}`,
     PET_ONBOARDING: '/customer/pets',
   },
-  FILE: {
+  FILE_UPLOAD: {
     UPLOAD: '/storage/save',
   },
-  FILE_UPLOAD: {},
+  HOSPITALS: {
+    NEAR_YOU: (QUERY: HospitalsNearYouQuery) => {
+      const params = new URLSearchParams();
+      if (QUERY) {
+        Object.entries(QUERY).forEach(([key, value]) => {
+          if (value !== undefined && value !== null) {
+            params.append(key, String(value));
+          }
+        });
+      }
+      const qs = params.toString();
+      return `/customer/hospitals/near${qs ? `?${qs}` : ''}`;
+    },
+  },
 };
