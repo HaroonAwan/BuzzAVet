@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { cn } from '@/lib/utils';
 import { theme } from '@/lib/theme';
 import Logo from '../Logo';
@@ -60,6 +60,34 @@ export default function Navbar({ className }: NavbarProps) {
     handleRegisterClick,
   } = useNavbar();
 
+  const navRef = useRef<HTMLElement>(null);
+
+  // Track header height and store in session storage
+  useEffect(() => {
+    const updateHeaderHeight = () => {
+      if (navRef.current) {
+        const height = navRef.current.offsetHeight;
+        sessionStorage.setItem('headerHeight', height.toString());
+      }
+    };
+
+    // Update height on mount and pathname change
+    updateHeaderHeight();
+
+    // Observe height changes
+    const resizeObserver = new ResizeObserver(() => {
+      updateHeaderHeight();
+    });
+
+    if (navRef.current) {
+      resizeObserver.observe(navRef.current);
+    }
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [pathname, isSearchExpanded, isRoot]);
+
   // Set data attribute on body to indicate navbar expansion state
   useEffect(() => {
     if (typeof document !== 'undefined') {
@@ -80,6 +108,7 @@ export default function Navbar({ className }: NavbarProps) {
 
   return (
     <nav
+      ref={navRef}
       className={cn(
         'w-full border-b bg-white',
         'transition-all duration-300',
