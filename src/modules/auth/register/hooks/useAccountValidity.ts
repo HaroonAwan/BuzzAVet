@@ -15,13 +15,11 @@ interface UseAccountValidityProps {
  * - If isVerified is false, shows OTP screen (returns showOtp: true)
  */
 export function useAccountValidity({ email }: UseAccountValidityProps) {
-  console.log('🚀 ~ useAccountValidity ~ email:', email);
   const router = useRouter();
   const [getCurrentUser] = useLazyGetCurrentUserQuery();
   const { data, error, isLoading, refetch } = useCheckAccountValidityQuery(email, {
     skip: !email,
   });
-  console.log('🚀 ~ useAccountValidity ~ data:', data);
 
   useEffect(() => {
     if (email) {
@@ -34,7 +32,7 @@ export function useAccountValidity({ email }: UseAccountValidityProps) {
       getCurrentUser(true);
       setTimeout(() => {
         router.push('/');
-      }, 300);
+      }, 1000);
     }
   }, [data, router]);
 

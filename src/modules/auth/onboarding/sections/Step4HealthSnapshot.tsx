@@ -11,6 +11,7 @@ import { AddPhotoIcon } from '@/assets/icon-components';
 import { DocumentUploadItem } from '@/components/shared/DocumentUploadItem';
 import { setStep4Data } from '@/apis/onBoarding/onBoardingSlice';
 import toast from 'react-hot-toast';
+import { useGetCurrentUserQuery } from '@/apis/auth/authApi';
 
 /**
  * Step 4: Health Snapshot
@@ -20,6 +21,8 @@ export default function Step4HealthSnapshot() {
   const dispatch = useDispatch();
   const { watch, setValue, uploadedDocuments, handleDocumentUpload, handleRemoveDocument } =
     useOnboarding();
+  const { data: userData } = useGetCurrentUserQuery(true);
+  console.log('🚀 ~ Step1Privacy ~ userData:', userData);
 
   const enableMedicalHistory = watch('enableMedicalHistory');
   const allergies = watch('allergies');

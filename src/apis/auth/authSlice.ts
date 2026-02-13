@@ -1,7 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { AuthState, User } from '@/types/auth';
 import { RootState } from '@/lib/store';
-import { resetOnboarding } from '@/apis/onBoarding/onBoardingSlice';
 
 interface UserActions {
   user?: User | null;
@@ -52,6 +51,11 @@ export const authSlice = createSlice({
       if (typeof window !== 'undefined') {
         localStorage.clear();
         sessionStorage.clear();
+        document.cookie.split(';').forEach((cookie) => {
+          const eqPos = cookie.indexOf('=');
+          const name = eqPos > -1 ? cookie.substr(0, eqPos).trim() : cookie.trim();
+          document.cookie = `${name}=; path=/; max-age=0; SameSite=Lax`;
+        });
       }
 
       // Reset state

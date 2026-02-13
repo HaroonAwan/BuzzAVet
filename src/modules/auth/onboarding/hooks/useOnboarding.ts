@@ -245,7 +245,7 @@ export function useOnboarding() {
               isAgreedToSharePetInfo: data.medicalDataConsent,
             },
             onBoarding: {
-              completed: true,
+              completed: saveAndExit,
               step: 1,
             },
           };
@@ -265,7 +265,7 @@ export function useOnboarding() {
                   medicalDataConsent: data.medicalDataConsent,
                 })
               );
-              dispatch(setStep1Completed(true));
+              dispatch(setStep1Completed(saveAndExit));
 
               // Set cookie for middleware
               if (typeof document !== 'undefined') {
@@ -340,7 +340,7 @@ export function useOnboarding() {
             isAgreedToSharePetInfo: step1Data?.medicalDataConsent,
           },
           onBoarding: {
-            completed: true,
+            completed: saveAndExit,
             step: 2,
           },
         };
@@ -358,7 +358,7 @@ export function useOnboarding() {
                 selectedService: data.selectedService,
               })
             );
-            dispatch(setStep2Completed(true));
+            dispatch(setStep2Completed(saveAndExit));
 
             if (typeof document !== 'undefined') {
               document.cookie = `has_profile=${response._id}; path=/; max-age=${COOKIE_MAX_AGE}; SameSite=Lax`;
@@ -742,7 +742,7 @@ export function useOnboarding() {
           profileId,
           profileData: {
             onBoarding: {
-              completed: false,
+              completed: true,
               step: 3,
             },
           },

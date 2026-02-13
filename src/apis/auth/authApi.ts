@@ -50,6 +50,11 @@ export const authApi = baseApi.injectEndpoints({
               if (onboardingStep !== undefined) {
                 document.cookie = `onboarding_step=${onboardingStep}; path=/; max-age=${COOKIE_MAX_AGE}; SameSite=Lax`;
               }
+              const isOnboardingCompleted =
+                typeof userData.profile === 'string'
+                  ? false
+                  : userData.profile.onBoarding?.completed || false;
+              document.cookie = `onboarding_completed=${isOnboardingCompleted}; path=/; max-age=${COOKIE_MAX_AGE}; SameSite=Lax`;
             }
           } catch (error) {
             console.error('Failed to update user data in Redux:', error);

@@ -23,6 +23,7 @@ import {
   photoRule,
   weightRule,
 } from '@/lib/validationRules';
+import { useGetCurrentUserQuery } from '@/apis/auth/authApi';
 
 interface Step3FormData {
   petName: string;
@@ -89,6 +90,8 @@ export default function Step3PetInformation() {
   const dispatch = useDispatch();
   const step3Data = useSelector(selectStep3Data);
   const { photoUrl, uploadedPhotoData, handlePhotoUpload } = useOnboarding();
+  const { data: userData } = useGetCurrentUserQuery(true);
+  console.log('🚀 ~ Step1Privacy ~ userData:', userData);
 
   const defaultFormValues: Step3FormData = {
     petName: step3Data?.petName || '',

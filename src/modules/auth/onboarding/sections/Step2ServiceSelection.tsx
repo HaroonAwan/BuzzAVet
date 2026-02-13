@@ -14,6 +14,7 @@ import { cn } from '@/lib/utils';
 import { SOURCES, SOURCES_TYPES } from '@/lib/enums';
 import { selectStep2Data, setStep2Data } from '@/apis/onBoarding/onBoardingSlice';
 import { selectedServiceRule } from '@/lib/validationRules';
+import { useGetCurrentUserQuery } from '@/apis/auth/authApi';
 
 const step2Schema = yup.object().shape({
   selectedService: selectedServiceRule,
@@ -64,6 +65,8 @@ const services: ServiceCard[] = [
 export default function Step2ServiceSelection() {
   const dispatch = useDispatch();
   const step2Data = useSelector(selectStep2Data);
+  const { data: userData } = useGetCurrentUserQuery(true);
+  console.log('🚀 ~ Step1Privacy ~ userData:', userData);
 
   const {
     control,

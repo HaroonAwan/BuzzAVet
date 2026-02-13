@@ -22,6 +22,7 @@ export default function proxy(request: NextRequest) {
   const isVerified = request.cookies.get('is_verified')?.value === 'true';
   const hasProfile = request.cookies.get('has_profile')?.value;
   const onboardingStep = request.cookies.get('onboarding_step')?.value;
+  const onboardingCompleted = request.cookies.get('onboarding_completed')?.value === 'true';
 
   const isAuthenticated = !!token;
   const isPublicPath = publicPaths.includes(pathname);
@@ -61,7 +62,7 @@ export default function proxy(request: NextRequest) {
   // 5. Onboarding paths - require authenticated, verified, and onboarding < 2
   if (isOnboardingPath) {
     const currentStep = onboardingStep ? parseInt(onboardingStep) : 0;
-    if (!hasProfile || currentStep < 1) {
+    if (!hasProfile || (currentStep < 4 && !onboardingCompleted)) {
       return NextResponse.next();
     }
     // Onboarding complete, redirect to home
@@ -70,7 +71,7 @@ export default function proxy(request: NextRequest) {
 
   // 6. All other routes - require complete onboarding
   const currentStep = onboardingStep ? parseInt(onboardingStep) : 0;
-  if (!hasProfile || currentStep < 1) {
+  if (!hasProfile || (currentStep < 4 && !onboardingCompleted)) {
     return NextResponse.redirect(new URL('/auth/register/onboarding', request.url));
   }
 
