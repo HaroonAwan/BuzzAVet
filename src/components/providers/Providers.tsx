@@ -7,10 +7,15 @@ import { ErrorBoundary } from '@components/shared/ErrorBoundary';
 
 import { Toaster } from 'react-hot-toast';
 import { useHeaderHeight, useDeviceLocation } from '@/lib/hooks';
+import { useEffect, useState } from 'react';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const headerHeight = useHeaderHeight();
   useDeviceLocation();
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
   const topPosition = headerHeight ? `${headerHeight}px` : '90px';
   return (
     <ErrorBoundary>
@@ -19,55 +24,57 @@ export function Providers({ children }: { children: React.ReactNode }) {
           {children}
         </PersistGate>
       </Provider>
-      <Toaster
-        position="top-right"
-        containerStyle={{
-          top: topPosition,
-          right: '60px',
-        }}
-        toastOptions={{
-          duration: 3000,
-          style: {
-            background: '#FFFFFF',
-            color: '#020409',
-            padding: '12px 20px',
-            borderRadius: '8px',
-            borderColor: 'transparent',
-            fontSize: '14px',
-            fontWeight: '500',
-            boxShadow: '0px 6px 16px 0px #00000014',
-            maxWidth: '500px',
-          },
-          success: {
+      {mounted && (
+        <Toaster
+          position="top-right"
+          containerStyle={{
+            top: topPosition,
+            right: '60px',
+          }}
+          toastOptions={{
             duration: 3000,
-            iconTheme: {
-              primary: '#020409',
-              secondary: '#FFFFFF',
-            },
             style: {
               background: '#FFFFFF',
               color: '#020409',
+              padding: '12px 20px',
+              borderRadius: '8px',
+              borderColor: 'transparent',
+              fontSize: '14px',
+              fontWeight: '500',
+              boxShadow: '0px 6px 16px 0px #00000014',
+              maxWidth: '500px',
             },
-          },
-          error: {
-            duration: 3000,
-            iconTheme: {
-              primary: '#020409',
-              secondary: '#FFFFFF',
+            success: {
+              duration: 3000,
+              iconTheme: {
+                primary: '#020409',
+                secondary: '#FFFFFF',
+              },
+              style: {
+                background: '#FFFFFF',
+                color: '#020409',
+              },
             },
-            style: {
-              background: '#FFFFFF',
-              color: '#020409',
+            error: {
+              duration: 3000,
+              iconTheme: {
+                primary: '#020409',
+                secondary: '#FFFFFF',
+              },
+              style: {
+                background: '#FFFFFF',
+                color: '#020409',
+              },
             },
-          },
-          loading: {
-            iconTheme: {
-              primary: '#020409',
-              secondary: '#FFFFFF',
+            loading: {
+              iconTheme: {
+                primary: '#020409',
+                secondary: '#FFFFFF',
+              },
             },
-          },
-        }}
-      />
+          }}
+        />
+      )}
     </ErrorBoundary>
   );
 }
