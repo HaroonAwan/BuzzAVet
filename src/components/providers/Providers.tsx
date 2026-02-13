@@ -6,13 +6,12 @@ import { store, persistor } from '@lib/store';
 import { ErrorBoundary } from '@components/shared/ErrorBoundary';
 
 import { Toaster } from 'react-hot-toast';
-import { useHeaderHeight } from '@/lib/hooks';
+import { useHeaderHeight, useDeviceLocation } from '@/lib/hooks';
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const headerHeight = useHeaderHeight();
-
+  useDeviceLocation();
   const topPosition = headerHeight ? `${headerHeight}px` : '90px';
-  console.log('🚀 ~ Providers ~ topPosition:', topPosition);
   return (
     <ErrorBoundary>
       <Provider store={store}>

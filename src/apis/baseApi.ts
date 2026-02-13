@@ -19,6 +19,16 @@ const baseQuery = fetchBaseQuery({
     if (portalType) {
       headers.set('x-portal-type', portalType || 'CUSTOMER');
     }
+    if (typeof window !== 'undefined') {
+      const latitude = sessionStorage.getItem('x-latitude');
+      const longitude = sessionStorage.getItem('x-longitude');
+      if (latitude) {
+        headers.set('x-latitude', latitude);
+      }
+      if (longitude) {
+        headers.set('x-longitude', longitude);
+      }
+    }
     return headers;
   },
 });
