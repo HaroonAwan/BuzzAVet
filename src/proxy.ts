@@ -2,17 +2,15 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { store } from './lib/store';
 
+// Paths accessible by everyone (authenticated or unauthenticated)
 const publicPaths = [
   '/landing',
   '/auth/login',
   '/auth/register',
   '/auth/register/email',
-  '/auth/register/email/otp',
   '/terms-of-service',
   '/privacy-policy',
 ];
-
-// TODO: REMOVE NOTES AND CLEANUP ONCE DONE TESTING
 
 const onboardingPaths = ['/auth/register/onboarding', '/auth/register/onboarding/success'];
 
@@ -25,66 +23,58 @@ export default function proxy(request: NextRequest) {
   const hasProfile = request.cookies.get('has_profile')?.value;
   const onboardingStep = request.cookies.get('onboarding_step')?.value;
 
-  // Path checks
   const isAuthenticated = !!token;
   const isPublicPath = publicPaths.includes(pathname);
-  const isOnboardingPath = onboardingPaths.includes(pathname);
   const isOtpPage = pathname === '/auth/register/email/otp';
+  const isOnboardingPath = onboardingPaths.includes(pathname);
 
-  // Not authenticated: redirect to landing-page for protected routes
-  if (!isAuthenticated && !isPublicPath) {
+  // 1. Public paths - accessible by everyone
+  if (isPublicPath) {
+    return NextResponse.next();
+  }
+
+  // 2. OTP page - requires authenticated but NOT verified
+  if (isOtpPage) {
+    if (isAuthenticated && !isVerified) {
+      return NextResponse.next();
+    }
+    // Redirect authenticated & verified users away from OTP
+    if (isAuthenticated && isVerified) {
+      return NextResponse.redirect(new URL('/', request.url));
+    }
+    // Redirect unauthenticated users to landing
+    return NextResponse.redirect(new URL('/landing', request.url));
+  }
+
+  // 3. Require authentication for all other routes
+  if (!isAuthenticated) {
     const landingPageUrl = new URL('/landing', request.url);
     landingPageUrl.searchParams.set('from', pathname);
     return NextResponse.redirect(landingPageUrl);
   }
 
-  // Authenticated but not verified: restrict to OTP page only
-  if (isAuthenticated && !isVerified) {
-    if (isOtpPage) {
-      return NextResponse.next();
-    }
+  // 4. Authenticated but not verified - redirect to OTP
+  if (!isVerified) {
     return NextResponse.redirect(new URL('/auth/register/email/otp', request.url));
   }
 
-  // Authenticated and verified: handle various protected/public paths
-  if (isAuthenticated && isVerified) {
-    // Redirect away from OTP page
-    if (isOtpPage) {
-      return NextResponse.redirect(new URL('/', request.url));
-    }
-
-    // Allow access to terms-of-service and privacy-policy pages (before other redirects)
-    if (pathname === '/terms-of-service' || pathname === '/privacy-policy') {
+  // 5. Onboarding paths - require authenticated, verified, and onboarding < 2
+  if (isOnboardingPath) {
+    const currentStep = onboardingStep ? parseInt(onboardingStep) : 0;
+    if (!hasProfile || currentStep < 1) {
       return NextResponse.next();
     }
-
-    // Redirect away from public auth routes (login, register)
-    if (isPublicPath) {
-      return NextResponse.redirect(new URL('/', request.url));
-    }
-
-    // Allow access to onboarding pages
-    if (isOnboardingPath) {
-      return NextResponse.next();
-    }
-
-    // Optional: Redirect to onboarding if user has profile but onboarding is incomplete
-    // This is a stricter check that ensures users complete onboarding before accessing main app features
-
-    if (
-      (onboardingStep && parseInt(onboardingStep) < 2 && hasProfile) ||
-      (hasProfile && !onboardingStep)
-    ) {
-      return NextResponse.redirect(new URL('/auth/register/onboarding', request.url));
-    }
-    // Redirect to onboarding if user has no profile
-    // Profile is set as a cookie when getCurrentUser is called after login
-    if (!hasProfile) {
-      return NextResponse.redirect(new URL('/auth/register/onboarding', request.url));
-    }
+    // Onboarding complete, redirect to home
+    return NextResponse.redirect(new URL('/', request.url));
   }
 
-  // Allow access for all other cases
+  // 6. All other routes - require complete onboarding
+  const currentStep = onboardingStep ? parseInt(onboardingStep) : 0;
+  if (!hasProfile || currentStep < 1) {
+    return NextResponse.redirect(new URL('/auth/register/onboarding', request.url));
+  }
+
+  // All checks passed
   return NextResponse.next();
 }
 

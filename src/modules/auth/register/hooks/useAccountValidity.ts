@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useCheckAccountValidityQuery } from '@/apis/auth/authApi';
+import { useCheckAccountValidityQuery, useLazyGetCurrentUserQuery } from '@/apis/auth/authApi';
 
 interface UseAccountValidityProps {
   email: string;
@@ -17,9 +17,11 @@ interface UseAccountValidityProps {
 export function useAccountValidity({ email }: UseAccountValidityProps) {
   console.log('🚀 ~ useAccountValidity ~ email:', email);
   const router = useRouter();
+  const [getCurrentUser] = useLazyGetCurrentUserQuery();
   const { data, error, isLoading, refetch } = useCheckAccountValidityQuery(email, {
     skip: !email,
   });
+  console.log('🚀 ~ useAccountValidity ~ data:', data);
 
   useEffect(() => {
     if (email) {
@@ -29,7 +31,10 @@ export function useAccountValidity({ email }: UseAccountValidityProps) {
 
   useEffect(() => {
     if (data?.isVerified) {
-      router.push('/');
+      getCurrentUser(true);
+      setTimeout(() => {
+        router.push('/');
+      }, 300);
     }
   }, [data, router]);
 

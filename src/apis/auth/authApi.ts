@@ -30,6 +30,11 @@ export const authApi = baseApi.injectEndpoints({
                 user: userData,
               })
             );
+            if (userData?.isVerified) {
+              document.cookie = `is_verified=${userData.isVerified}; path=/; max-age=${
+                COOKIE_MAX_AGE
+              }; SameSite=Lax`;
+            }
 
             if (typeof document !== 'undefined' && userData?.profile) {
               const profileId =

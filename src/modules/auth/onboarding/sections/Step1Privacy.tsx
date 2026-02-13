@@ -13,6 +13,7 @@ import { useAppSelector } from '@/lib/hooks';
 import { selectCurrentUser } from '@/apis/auth/authSlice';
 import { selectStep1Data, setStep1Data } from '@/apis/onBoarding/onBoardingSlice';
 import { medicalDataConsentRule, termsAcceptedRule } from '@/lib/validationRules';
+import { useGetCurrentUserQuery } from '@/apis/auth/authApi';
 
 // Validation schema for Step 1
 const step1Schema = yup.object().shape({
@@ -34,14 +35,10 @@ export default function Step1Privacy() {
   const dispatch = useDispatch();
   const currentUser = useAppSelector(selectCurrentUser);
   const step1Data = useSelector(selectStep1Data);
+  const { data: userData } = useGetCurrentUserQuery(true);
+  console.log('🚀 ~ Step1Privacy ~ userData:', userData);
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    reset,
-    watch,
-  } = useForm<Step1FormData>({
+  const { control, handleSubmit, reset, watch } = useForm<Step1FormData>({
     mode: 'onChange',
     resolver: yupResolver(step1Schema),
     defaultValues: {
