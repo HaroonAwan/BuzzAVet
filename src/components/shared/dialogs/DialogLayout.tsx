@@ -8,12 +8,13 @@ import {
   DialogTitle,
   DialogFooter,
   DialogClose,
+  DialogDescription,
 } from '@/components/ui/dialog';
 import { Button } from '../Button';
 
 interface ActionButton {
   label: string;
-  variant?: 'pill' | 'outline' | 'underline' | 'ghost' | 'submit';
+  variant?: 'pill' | 'outline' | 'underline' | 'ghost' | 'submit' | 'destructive';
   onClick?: () => void;
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
@@ -60,6 +61,7 @@ interface DialogLayoutProps {
   isForm?: boolean;
   handleSubmit?: () => void;
   noPadding?: boolean;
+  description?: string;
 }
 
 export const DialogLayout: React.FC<DialogLayoutProps> = ({
@@ -70,6 +72,7 @@ export const DialogLayout: React.FC<DialogLayoutProps> = ({
   children,
   isForm = false,
   handleSubmit,
+  description,
   noPadding = false,
 }) => {
   return (
@@ -78,6 +81,7 @@ export const DialogLayout: React.FC<DialogLayoutProps> = ({
         {title && (
           <DialogHeader>
             <DialogTitle>{title}</DialogTitle>
+            {description && <DialogDescription>{description}</DialogDescription>}
           </DialogHeader>
         )}
         {isForm ? (
