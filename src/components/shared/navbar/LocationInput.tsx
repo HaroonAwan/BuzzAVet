@@ -26,6 +26,8 @@ interface LocationInputProps {
   dropdownRef: React.RefObject<HTMLDivElement | null>;
   isExpanded?: boolean;
   isRightActive?: boolean;
+  heading: string;
+  activeSlug: string;
 }
 
 export function LocationInput({
@@ -43,6 +45,8 @@ export function LocationInput({
   dropdownRef,
   isExpanded = false,
   isRightActive = false,
+  heading,
+  activeSlug,
 }: LocationInputProps) {
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -147,6 +151,13 @@ export function LocationInput({
     </div>
   );
 
+  useEffect(() => {
+    if (activeSlug) {
+      // eslint-disable-next-line no-console
+      console.log(`Active tab is ${activeSlug}`);
+    }
+  }, [activeSlug]);
+
   return (
     <>
       <div
@@ -210,7 +221,7 @@ export function LocationInput({
                 className="text-xs leading-tight"
                 style={{ color: theme.colors.text.secondary }}
               >
-                Hospitals In
+                {heading}
               </span>
               <span className="text-sm leading-tight font-semibold">{value}</span>
             </div>

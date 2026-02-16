@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { useRouter } from 'next/navigation';
 import { createPortal } from 'react-dom';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
@@ -22,6 +23,7 @@ interface ServiceTypeInputProps {
   isServiceTypeFocused: boolean;
   isSearchExpanded: boolean;
   isExpanded?: boolean;
+  activeSlug: string;
 }
 
 export function ServiceTypeInput({
@@ -38,7 +40,28 @@ export function ServiceTypeInput({
   isServiceTypeFocused,
   isSearchExpanded,
   isExpanded = false,
+  activeSlug,
 }: ServiceTypeInputProps) {
+  const router = useRouter();
+  const [inputValue, setInputValue] = useState(value);
+  const debounceTimeout = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    setInputValue(value);
+  }, [value]);
+
+  useEffect(() => {
+    if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
+    if (!inputValue) return;
+    debounceTimeout.current = setTimeout(() => {
+      const url = `/${activeSlug}?q=${encodeURIComponent(inputValue)}`;
+      router.push(url);
+    }, 1000);
+    return () => {
+      if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputValue, activeSlug]);
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, width: 0 });
   const containerRef = React.useRef<HTMLDivElement>(null);
 
@@ -124,7 +147,7 @@ export function ServiceTypeInput({
         ref={containerRef}
         className={cn(
           'relative flex flex-1 items-center gap-3 px-4 py-3',
-          !isExpanded && 'w-[263px] shrink-0'
+          !isExpanded && 'w-65.75 shrink-0'
         )}
       >
         <div className="shrink-0">
@@ -134,8 +157,11 @@ export function ServiceTypeInput({
           <input
             ref={inputRef}
             type="text"
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
+            value={inputValue}
+            onChange={(e) => {
+              setInputValue(e.target.value);
+              onChange(e.target.value);
+            }}
             onFocus={onFocus}
             onClick={onClick}
             className={cn(

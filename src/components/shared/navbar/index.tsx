@@ -40,6 +40,8 @@ export default function Navbar({ className }: NavbarProps) {
     locationDropdownRef,
     serviceTypeInputRef,
     serviceTypeDropdownRef,
+    heading,
+    activeSlug,
     handleLocationFocus,
     handleLocationClick,
     handleLocationSelect,
@@ -203,6 +205,8 @@ export default function Navbar({ className }: NavbarProps) {
               locationDropdownRef={locationDropdownRef}
               serviceTypeInputRef={serviceTypeInputRef}
               serviceTypeDropdownRef={serviceTypeDropdownRef}
+              heading={heading}
+              activeSlug={activeSlug}
             />
           </>
         ) : (
@@ -239,6 +243,8 @@ export default function Navbar({ className }: NavbarProps) {
                 locationDropdownRef={locationDropdownRef}
                 serviceTypeInputRef={serviceTypeInputRef}
                 serviceTypeDropdownRef={serviceTypeDropdownRef}
+                heading={heading}
+                activeSlug={activeSlug}
               />
             )}
 

@@ -37,6 +37,8 @@ interface SearchBarProps {
   locationDropdownRef: React.RefObject<HTMLDivElement | null>;
   serviceTypeInputRef: React.RefObject<HTMLInputElement | null>;
   serviceTypeDropdownRef: React.RefObject<HTMLDivElement | null>;
+  heading: string;
+  activeSlug: string;
 }
 
 export function SearchBar({
@@ -66,6 +68,8 @@ export function SearchBar({
   locationDropdownRef,
   serviceTypeInputRef,
   serviceTypeDropdownRef,
+  heading,
+  activeSlug,
 }: SearchBarProps) {
   if (isExpanded) {
     return (
@@ -100,6 +104,8 @@ export function SearchBar({
                 dropdownRef={locationDropdownRef}
                 isExpanded={true}
                 isRightActive={showServiceTypeDropdown}
+                heading={heading}
+                activeSlug={activeSlug}
               />
 
               <ServiceTypeInput
@@ -116,6 +122,7 @@ export function SearchBar({
                 isServiceTypeFocused={isServiceTypeFocused}
                 isSearchExpanded={true}
                 isExpanded={true}
+                activeSlug={activeSlug}
               />
 
               <button
@@ -172,6 +179,8 @@ export function SearchBar({
             dropdownRef={locationDropdownRef}
             isExpanded={false}
             isRightActive={showServiceTypeDropdown}
+            heading={heading}
+            activeSlug={activeSlug}
           />
 
           <ServiceTypeInput
@@ -188,6 +197,7 @@ export function SearchBar({
             isServiceTypeFocused={isServiceTypeFocused}
             isSearchExpanded={false}
             isExpanded={false}
+            activeSlug={activeSlug}
           />
 
           <Button

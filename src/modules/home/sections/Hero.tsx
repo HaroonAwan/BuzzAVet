@@ -38,6 +38,8 @@ const Hero = () => {
     handleCategorySelect,
     setLocationValue,
     setServiceTypeValue,
+    activeSlug,
+    heading,
   } = useNavbar();
   return (
     <div className="hero-banner-image h-167">
@@ -104,6 +106,8 @@ const Hero = () => {
                   dropdownRef={locationDropdownRef}
                   isExpanded={true}
                   isRightActive={showServiceTypeDropdown}
+                  heading={heading}
+                  activeSlug={activeSlug}
                 />
 
                 <ServiceTypeInput
@@ -120,6 +124,7 @@ const Hero = () => {
                   isServiceTypeFocused={isServiceTypeFocused}
                   isSearchExpanded={true}
                   isExpanded={true}
+                  activeSlug={activeSlug}
                 />
 
                 <button

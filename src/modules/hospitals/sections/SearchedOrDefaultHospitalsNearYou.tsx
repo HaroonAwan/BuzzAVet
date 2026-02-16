@@ -56,7 +56,7 @@ const SearchedOrDefaultHospitalsNearYou = () => {
             }}
           >
             <p className="text-lg font-medium" style={{ color: theme.colors.text.secondary }}>
-              Map will be integrated later
+              Map will be integrated Soon
             </p>
           </div>
         )}

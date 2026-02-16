@@ -17,7 +17,7 @@ export default function HomePage() {
       <PetsSection />
       {/* <UpcomingAppointmentsSection /> */}
       <RecommendedHospitalsSection />
-      <ExploreCategoriesSection />
+      {/* <ExploreCategoriesSection /> */}
       <TopRatedTelemedicineSection />
       <AdvertisementSection />
       <GuestFavouritePetServices />

@@ -23,7 +23,7 @@ const initialHospital: HospitalOrPetServicesCardProps = {
 // ============================================
 // CONSTANTS
 // ============================================
-const PAGE_SIZE = 24;
+const PAGE_SIZE = 25;
 const TOTAL_HOSPITALS = 200;
 
 // ============================================

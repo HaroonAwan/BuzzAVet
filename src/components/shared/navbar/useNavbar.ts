@@ -1,10 +1,31 @@
 import { useState, useRef, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { ServiceCategory, ViewType, RecentSearch, RecentServiceSearch } from './types';
 import { useAppSelector } from '@/lib/hooks';
 import { selectIsAuthenticated } from '@/apis/auth/authSlice';
 
 export function useNavbar() {
+  const pathname = usePathname();
+  let heading = 'Hospitals In';
+  let activeSlug = 'hospitals';
+  if (pathname === '/' || !pathname) {
+    heading = 'Search All Services In';
+    activeSlug = 'search';
+  } else if (pathname.startsWith('/hospitals')) {
+    heading = 'Hospitals In';
+    activeSlug = 'hospitals';
+  } else if (pathname.startsWith('/telemedicine')) {
+    heading = 'Telemedicine In';
+    activeSlug = 'telemedicine';
+  } else if (pathname.startsWith('/mobile-vet')) {
+    heading = 'Mobile Vets In';
+    activeSlug = 'mobile-vet';
+  } else if (pathname.startsWith('/pet-services')) {
+    heading = 'Pet Services In';
+    activeSlug = 'pet-services';
+  } else {
+    activeSlug = 'search';
+  }
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<ServiceCategory>('hospital');
   const [locationValue, setLocationValue] = useState('Toronto, Canada');
@@ -126,6 +147,8 @@ export function useNavbar() {
     'https://0.gravatar.com/avatar/fb0cd172ed03b131feb040f34db10fef8156d773f9891c8cadc23ca9e43730ba?s=1040';
 
   return {
+    heading,
+    activeSlug,
     // State
     isSearchExpanded,
     selectedCategory,
