@@ -13,7 +13,7 @@ const GetInTouch = () => {
   const { control, handleSubmit, errors } = useGetInTouch();
   return (
     <SectionsWrapper noContainer className="bg-[#F9FAFB]">
-      <div className="flex flex-col container gap-10 sm:gap-20 md:flex-row">
+      <div className="container flex flex-col gap-10 sm:gap-20 md:flex-row">
         <div className="flex flex-col justify-start">
           <div className="mb-8 flex flex-col justify-between gap-7">
             <div className="flex flex-col gap-3">

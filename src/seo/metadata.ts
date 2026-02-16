@@ -70,4 +70,7 @@ export const DEFAULT_METADATA = {
   accountSettingsUserMenuMetadata: {
     title: 'Account Settings - User Menu',
   },
+  telemedicineMetadata: {
+    title: 'Telemedicine',
+  },
 };

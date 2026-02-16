@@ -335,7 +335,7 @@ const FormInput = <
 
         // Render regular input
         return (
-          <div className="flex flex-col gap-2 mb-1.5">
+          <div className="mb-1.5 flex flex-col gap-2">
             {label && (
               <label htmlFor={inputId} className="block text-sm font-medium">
                 {label}

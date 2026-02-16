@@ -1,7 +1,8 @@
-import React from 'react';
+import Telemedicine from '@/modules/telemedicine';
+import { Metadata } from 'next';
+import { DEFAULT_METADATA } from '@/seo/metadata';
 
-const page = () => {
-  return <div>page</div>;
+export const metadata: Metadata = {
+  ...DEFAULT_METADATA.telemedicineMetadata,
 };
-
-export default page;
+export default Telemedicine;

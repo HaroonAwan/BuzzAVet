@@ -25,7 +25,7 @@ const TabsLayoutForServicesSection = ({
         {menu.map((item) => (
           <Button
             variant="underline"
-            className={cn('px-0 underline-offset-13')}
+            className={cn('px-0 pb-2 underline-offset-13')}
             key={item}
             style={{
               textDecorationColor: activeTab === item ? 'currentColor' : 'transparent',

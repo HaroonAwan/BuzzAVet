@@ -45,7 +45,7 @@ const services: ServiceCard[] = [
     icon: <img src={TelemedicineImage.src} alt="Telemedicine" width={64} height={64} />,
   },
   {
-    id: SOURCES.HOME_VISIT,
+    id: SOURCES.MOBILE_VET,
     title: 'Home Visit',
     description: 'Vet comes to you',
     icon: <img src={HomeVisitImage.src} alt="Home Visit" width={64} height={64} />,

@@ -19,6 +19,7 @@ export interface TelemedicineCardProps {
   favorite?: boolean;
   onFavoriteToggle?: (favorite: boolean) => void;
   className?: string;
+  slug?: string;
 }
 
 export const TelemedicineCard: React.FC<TelemedicineCardProps> = ({
@@ -31,6 +32,7 @@ export const TelemedicineCard: React.FC<TelemedicineCardProps> = ({
   imageSrc,
   favorite = false,
   onFavoriteToggle,
+  slug = 'telemedicine',
   className,
 }) => {
   const router = useRouter();
@@ -44,13 +46,13 @@ export const TelemedicineCard: React.FC<TelemedicineCardProps> = ({
   };
 
   const handleCardClick = () => {
-    router.push(`/telemedicine/${name}`);
+    router.push(`services/${slug}/${name}`);
   };
 
   return (
     <article
       className={cn(
-        'flex min-w-45 flex-col gap-3 rounded-2xl bg-white',
+        'flex min-w-45 flex-col gap-3 rounded-2xl',
         'relative cursor-pointer',
         className
       )}

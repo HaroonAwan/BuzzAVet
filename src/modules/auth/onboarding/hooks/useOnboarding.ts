@@ -325,7 +325,7 @@ export function useOnboarding() {
         const serviceToSourceMap: Record<SOURCES_TYPES, SOURCES_TYPES> = {
           IN_HOSPITAL: SOURCES.IN_HOSPITAL,
           TELEMEDICINE: SOURCES.TELEMEDICINE,
-          HOME_VISIT: SOURCES.HOME_VISIT,
+          MOBILE_VET: SOURCES.MOBILE_VET,
           PET_SERVICES: SOURCES.PET_SERVICES,
         };
 

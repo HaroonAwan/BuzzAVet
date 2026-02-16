@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { use } from 'react';
-import HospitalServices from '@/modules/hospital-services';
+import Services from '@/modules/services';
 
 export const metadata: Metadata = {
   title: 'Service',
@@ -19,5 +19,5 @@ export default function ServicePage({ params }: ServicePageProps) {
   const decodedName = decodeURIComponent(name);
   const sluggedObject = { slug: decodedSlug, name: decodedName };
 
-  return <>{decodedSlug === 'hospitals' && <HospitalServices slug={sluggedObject} />}</>;
+  return <Services slug={sluggedObject} />;
 }

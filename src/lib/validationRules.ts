@@ -75,7 +75,7 @@ const selectedServiceRule = yup
     yup
       .string()
       .oneOf(
-        ['IN_HOSPITAL', 'TELEMEDICINE', 'HOME_VISIT', 'PET_SERVICES'] as const,
+        ['IN_HOSPITAL', 'TELEMEDICINE', 'MOBILE_VET', 'PET_SERVICES'] as const,
         'Invalid service selected'
       )
       .required()

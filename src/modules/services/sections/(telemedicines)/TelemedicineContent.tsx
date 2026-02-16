@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import TabsLayoutForServicesSection from '../layouts/TabsLayoutForServicesSection';
-import BookHospitalAppointment from './BookHospitalAppointment.tsx';
-import OverviewTab from './OverviewTab';
-import VeterinariansTab from './VeterinariansTab';
-import ReviewsTab from './ReviewsTab';
+import TabsLayoutForServicesSection from '../../layouts/TabsLayoutForServicesSection';
+import BookHospitalAppointment from '../(hospital)/BookHospitalAppointment.tsx';
+import ReviewsTab from '../(hospital)/ReviewsTab';
+import OverViewTabTelemedicine from './OverViewTabTelemedicine';
+import BookTelemedicineAppointment from './BookTelemedicineAppointment';
 
-const menu = ['Overview', 'Veterinarians', 'Reviews'];
+const menu = ['Overview', 'Reviews'];
 
-interface HospitalContentProps {
+interface TelemedicineContentProps {
   slug: { slug: string; name: string };
 }
 
-const HospitalContent = ({ slug }: HospitalContentProps) => {
-  console.log('🚀 ~ HospitalContent ~ slug:', slug);
+const TelemedicineContent = ({ slug }: TelemedicineContentProps) => {
+  console.log('🚀 ~ TelemedicineContent ~ slug:', slug);
   const router = useRouter();
   const searchParams = useSearchParams();
   const tabParam = searchParams.get('tab');
@@ -42,13 +42,12 @@ const HospitalContent = ({ slug }: HospitalContentProps) => {
       menuChange={handleTabClick}
       menu={menu}
       activeTab={activeTab}
-      actionSection={<BookHospitalAppointment onBookAppointment={handleBookAppointment} />}
+      actionSection={<BookTelemedicineAppointment onBookAppointment={handleBookAppointment} />}
     >
-      {activeTab === 'Overview' && <OverviewTab />}
-      {activeTab === 'Veterinarians' && <VeterinariansTab />}
+      {activeTab === 'Overview' && <OverViewTabTelemedicine />}
       {activeTab === 'Reviews' && <ReviewsTab />}
     </TabsLayoutForServicesSection>
   );
 };
 
-export default HospitalContent;
+export default TelemedicineContent;

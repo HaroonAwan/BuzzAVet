@@ -35,7 +35,7 @@ const sizeStyles: Record<VisibleTagProps['size'], { padding: string; text: strin
     text: 'text-sm',
   },
   sm: {
-    padding: 'px-4 py-1.5',
+    padding: 'px-4 py-1.5 h-8',
     text: 'text-xs',
   },
 };
@@ -48,13 +48,13 @@ export const VisibleTag = React.forwardRef<HTMLSpanElement, VisibleTagProps>(
       <span
         ref={ref}
         className={cn(
-          'inline-flex items-center justify-center rounded-full font-medium',
+          'inline-flex w-fit items-center justify-center rounded-lg font-medium',
           currentSize.padding,
           currentSize.text,
           className
         )}
         style={{
-          backgroundColor: theme.colors.disabledBackground,
+          backgroundColor: theme.colors.background.tertiary,
           color: theme.colors.text.default,
           ...(style as React.CSSProperties),
         }}

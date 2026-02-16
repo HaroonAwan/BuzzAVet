@@ -64,7 +64,7 @@
 
 - Required
 - Must select at least one service
-- Valid options: IN_HOSPITAL, TELEMEDICINE, HOME_VISIT, PET_SERVICES
+- Valid options: IN_HOSPITAL, TELEMEDICINE, MOBILE_VET, PET_SERVICES
 
 ## Pet Type Rule
 
