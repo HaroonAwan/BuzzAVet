@@ -8,6 +8,8 @@ import { NavbarUserMenuPopover, NavbarNotificationsMenuPopover } from '../popove
 import { ServiceCategories } from './ServiceCategories';
 import { ServiceCategory } from './types';
 import { useLogout } from '@/modules/auth/hooks/useLogout';
+import { selectCurrentUser } from '@/apis/auth/authSlice';
+import { useSelector } from 'react-redux';
 
 interface TopBarProps {
   selectedCategory: ServiceCategory;
@@ -16,6 +18,9 @@ interface TopBarProps {
 
 export function TopBar({ selectedCategory, onCategorySelect }: TopBarProps) {
   const handleLogout = useLogout();
+  const currentUser = useSelector(selectCurrentUser);
+  const fullName = currentUser ? `${currentUser.firstName} ${currentUser.lastName ?? ''}` : 'Guest';
+  const userProfilePhoto = currentUser?.profile?.documents?.profilePhoto?.path || null;
 
   return (
     <div className="flex items-center justify-between py-4">
@@ -48,7 +53,7 @@ export function TopBar({ selectedCategory, onCategorySelect }: TopBarProps) {
               className="flex cursor-pointer items-center justify-center gap-3"
               aria-label="User menu"
             >
-              <Avatar name="Nauman Majeed" size="lg" />
+              <Avatar name={fullName} size="lg" url={userProfilePhoto} />
               <Button
                 size="lg"
                 variant="ghost"
@@ -59,8 +64,9 @@ export function TopBar({ selectedCategory, onCategorySelect }: TopBarProps) {
               />
             </div>
           }
-          userName="Nauman Majeed"
-          userEmail="nauman.majeed@example.com"
+          userAvatarUrl={userProfilePhoto}
+          userName={fullName}
+          userEmail={currentUser?.email || 'Guest User'}
           onPetDashboard={() => console.log('Pet Dashboard')}
           onAppointments={() => console.log('Appointments')}
           onAccountSettings={() => console.log('Account Settings')}

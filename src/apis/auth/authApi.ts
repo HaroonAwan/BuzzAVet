@@ -21,7 +21,6 @@ export const authApi = baseApi.injectEndpoints({
     return {
       getCurrentUser: builder.query<User, boolean>({
         query: (withPopulate) => USER(withPopulate),
-        providesTags: ['Profile'],
         async onQueryStarted(_arg, { dispatch, queryFulfilled, getState }) {
           try {
             const { data: userData } = await queryFulfilled;

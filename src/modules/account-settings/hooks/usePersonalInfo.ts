@@ -5,11 +5,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { messageRule, nameRule, photoRule } from '@/lib/validationRules';
 import { useUploadFileMutation } from '@/apis/fileUpload/fileUploadApi';
 import toast from 'react-hot-toast';
+import { useUpdateProfileMutation } from '@/apis/onBoarding/onBoardingApi';
+import { selectCurrentUser } from '@/apis/auth/authSlice';
+import { useSelector } from 'react-redux';
+import { useLazyGetCurrentUserQuery } from '@/apis/auth/authApi';
 
 export interface PersonalInfoFormData {
   fullName: string;
   aboutMe: string;
-  photo: File | null;
+  photo: File | string | null;
 }
 
 const personalInfoSchema: yup.ObjectSchema<PersonalInfoFormData> = yup.object().shape({
@@ -22,27 +26,47 @@ export const usePersonalInfo = () => {
   const [avatarPreview, setAvatarPreview] = React.useState<string | null>(null);
   const [isHovering, setIsHovering] = React.useState(false);
   const [uploadedPhotoData, setUploadedPhotoData] = React.useState<any>(null);
-  const [isUploading, setIsUploading] = React.useState(false);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
-  const [uploadFile] = useUploadFileMutation();
+  const [uploadFile, { isLoading: isUploading }] = useUploadFileMutation();
+  const [updateProfile] = useUpdateProfileMutation();
+  const currentUser = useSelector(selectCurrentUser);
+  const [getCurrentUser] = useLazyGetCurrentUserQuery();
+  console.log('🚀 ~ usePersonalInfo ~ currentUser:', currentUser);
 
   const {
     control,
     handleSubmit,
     setValue,
     watch,
-    formState: { errors },
+
+    formState: { errors, isDirty },
   } = useForm<PersonalInfoFormData>({
     mode: 'onChange',
     resolver: yupResolver(personalInfoSchema),
     defaultValues: {
-      fullName: '',
-      aboutMe: '',
-      photo: null,
+      fullName: currentUser ? `${currentUser.firstName} ${currentUser.lastName ?? ''}` : '',
+      aboutMe:
+        currentUser && currentUser.profile && 'aboutMe' in currentUser.profile
+          ? String(currentUser.profile.aboutMe ?? '')
+          : '',
+      photo:
+        currentUser &&
+        currentUser.profile &&
+        currentUser.profile.documents &&
+        currentUser.profile.documents.profilePhoto
+          ? currentUser.profile.documents.profilePhoto.path
+          : null,
     },
   });
 
   const fullName = watch('fullName');
+  const photo = watch('photo');
+  console.log('🚀 ~ usePersonalInfo ~ photo:', photo);
+  React.useEffect(() => {
+    if (photo && typeof photo === 'string') {
+      setAvatarPreview(photo);
+    }
+  }, [photo]);
 
   const handleAvatarClick = () => {
     fileInputRef.current?.click();
@@ -75,7 +99,6 @@ export const usePersonalInfo = () => {
         setAvatarPreview(url);
 
         // Upload photo immediately
-        setIsUploading(true);
         const formData = new FormData();
         formData.append('file', file);
 
@@ -89,15 +112,11 @@ export const usePersonalInfo = () => {
               fileSize: response.fileSize ? Number(response.fileSize) : Number(file.size),
             };
             setUploadedPhotoData(photoData);
-            toast.success('Photo uploaded successfully!');
           })
           .catch((error) => {
             toast.error('Failed to upload photo');
             setAvatarPreview(null);
             setValue('photo', null);
-          })
-          .finally(() => {
-            setIsUploading(false);
           });
       }
     },
@@ -105,11 +124,40 @@ export const usePersonalInfo = () => {
   );
 
   const onSubmit = (data: PersonalInfoFormData) => {
-    console.log('Form Values:', {
-      fullName: data.fullName,
-      aboutMe: data.aboutMe,
-      photo: uploadedPhotoData,
-    });
+    const profileId = currentUser?.profile?._id;
+    if (!profileId) {
+      toast.error('User profile not found');
+      return;
+    }
+    // split full name into first and last name on first space
+    const [firstName, ...lastNameParts] = data.fullName.trim().split(' ');
+    const lastName = lastNameParts.join(' ');
+    const payload = {
+      profileId,
+      profileData: {
+        documents: { profilePhoto: uploadedPhotoData },
+        customerInfo: {
+          firstName,
+          lastName,
+          isAgreedToTerms: currentUser?.profile?.customerInfo?.isAgreedToTerms ?? false,
+          isAgreedToSharePetInfo:
+            currentUser?.profile?.customerInfo?.isAgreedToSharePetInfo ?? false,
+          sources: currentUser?.profile?.customerInfo?.sources ?? [],
+          aboutMe: data.aboutMe,
+        },
+      },
+    };
+    console.log('🚀 ~ onSubmit ~ payload:', payload);
+
+    updateProfile(payload)
+      .unwrap()
+      .then(() => {
+        toast.success('Profile updated successfully!');
+        getCurrentUser(true);
+      })
+      .catch(() => {
+        toast.error('Failed to update profile');
+      });
   };
 
   return {
@@ -130,5 +178,6 @@ export const usePersonalInfo = () => {
     handleAvatarClick,
     handleImageChange,
     onSubmit,
+    isDirty,
   };
 };

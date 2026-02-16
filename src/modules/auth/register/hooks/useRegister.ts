@@ -69,7 +69,7 @@ export function useRegister() {
       role: 'CUSTOMER',
       timeZone: timeZone,
       firstName: data.email.split('@')[0],
-      lastName: '&nbsp',
+      lastName: '',
     };
 
     try {

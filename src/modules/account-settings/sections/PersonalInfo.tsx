@@ -32,6 +32,7 @@ export default function PersonalInfo() {
     handleAvatarClick,
     handleImageChange,
     onSubmit,
+    isDirty,
   } = usePersonalInfo();
 
   return (
@@ -69,7 +70,7 @@ export default function PersonalInfo() {
                 />
 
                 {/* Overlay with Change button - shows on hover */}
-                {isHovering && !isUploading && (
+                {isHovering && (
                   <div className="absolute inset-0 flex items-center justify-center bg-black/50">
                     <Button variant="underline" size="sm" className="text-white!">
                       Change
@@ -106,7 +107,7 @@ export default function PersonalInfo() {
 
             {/* Save Button */}
             <div className="ml-auto">
-              <Button type="submit" variant="pill" size="md">
+              <Button type="submit" variant="pill" size="md" disabled={!isDirty}>
                 Save Changes
               </Button>
             </div>

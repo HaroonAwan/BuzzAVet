@@ -20,7 +20,7 @@ export interface NavbarUserMenuPopoverProps {
   trigger: React.ReactNode;
   userName: string;
   userEmail: string;
-  userAvatarUrl?: string;
+  userAvatarUrl: string | null;
   onPetDashboard?: () => void;
   onAppointments?: () => void;
   onAccountSettings?: () => void;
@@ -49,7 +49,7 @@ export function NavbarUserMenuPopover({
   trigger,
   userName,
   userEmail,
-  userAvatarUrl = '',
+  userAvatarUrl = null,
   onPetDashboard,
   onAppointments,
   onAccountSettings,
@@ -111,7 +111,7 @@ export function NavbarUserMenuPopover({
             className="flex items-center gap-3 rounded-xl p-3"
             style={{ backgroundColor: theme.colors.background.secondary }}
           >
-            <Avatar name={userName} url={userAvatarUrl as string} size="lg" />
+            <Avatar name={userName} url={userAvatarUrl} size="lg" />
             <div className="min-w-0 flex-1">
               <h3 className="truncate text-sm font-semibold">{userName}</h3>
               <p className="truncate text-sm" style={{ color: theme.colors.text.secondary }}>

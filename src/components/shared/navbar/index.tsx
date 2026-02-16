@@ -13,6 +13,8 @@ import { useNavbar } from './useNavbar';
 import { TopBar } from './TopBar';
 import { SearchBar } from './SearchBar';
 import { useLogout } from '@/modules/auth/hooks/useLogout';
+import { selectCurrentUser } from '@/apis/auth/authSlice';
+import { useSelector } from 'react-redux';
 
 export interface NavbarProps {
   className?: string;
@@ -22,6 +24,9 @@ export default function Navbar({ className }: NavbarProps) {
   const pathname = usePathname();
   const isRoot = pathname === '/';
   const handleLogout = useLogout();
+  const currentUser = useSelector(selectCurrentUser);
+  const fullName = currentUser ? `${currentUser.firstName} ${currentUser.lastName ?? ''}` : 'Guest';
+  const userProfilePhoto = currentUser?.profile?.documents?.profilePhoto?.path || null;
 
   const {
     isSearchExpanded,
@@ -153,7 +158,7 @@ export default function Navbar({ className }: NavbarProps) {
                     className="flex cursor-pointer items-center justify-center gap-3"
                     aria-label="User menu"
                   >
-                    <Avatar name="Nauman Majeed" size="lg" url={dummyUser} />
+                    <Avatar name={fullName} size="lg" url={userProfilePhoto} />
                     <Button
                       size="lg"
                       variant="ghost"
@@ -164,9 +169,9 @@ export default function Navbar({ className }: NavbarProps) {
                     />
                   </div>
                 }
-                userName="Nauman Majeed"
-                userEmail="nauman.majeed@example.com"
-                userAvatarUrl={dummyUser}
+                userName={fullName}
+                userEmail={currentUser?.email || 'Guest User'}
+                userAvatarUrl={userProfilePhoto}
                 onPetDashboard={() => console.log('Pet Dashboard')}
                 onAppointments={() => console.log('Appointments')}
                 onAccountSettings={handleAccountSettingsClick}
@@ -277,7 +282,7 @@ export default function Navbar({ className }: NavbarProps) {
                         className="flex cursor-pointer items-center justify-center gap-3"
                         aria-label="User menu"
                       >
-                        <Avatar name="Nauman Majeed" size="lg" url={dummyUser} />
+                        <Avatar name={fullName} size="lg" url={userProfilePhoto} />
                         <Button
                           size="lg"
                           variant="ghost"
@@ -290,9 +295,9 @@ export default function Navbar({ className }: NavbarProps) {
                         />
                       </div>
                     }
-                    userName="Nauman Majeed"
-                    userEmail="nauman.majeed@example.com"
-                    userAvatarUrl={dummyUser}
+                    userName={fullName}
+                    userEmail={currentUser?.email || 'Guest User'}
+                    userAvatarUrl={userProfilePhoto}
                     onPetDashboard={() => console.log('Pet Dashboard')}
                     onAppointments={() => console.log('Appointments')}
                     onAccountSettings={handleAccountSettingsClick}
