@@ -39,6 +39,7 @@ interface SearchBarProps {
   serviceTypeDropdownRef: React.RefObject<HTMLDivElement | null>;
   heading: string;
   activeSlug: string;
+  activeCount: number;
 }
 
 export function SearchBar({
@@ -70,7 +71,9 @@ export function SearchBar({
   serviceTypeDropdownRef,
   heading,
   activeSlug,
+  activeCount,
 }: SearchBarProps) {
+  console.log('🚀 ~ SearchBar ~ activeCount:', activeCount);
   if (isExpanded) {
     return (
       <div className="flex items-center justify-between pb-4">
@@ -136,11 +139,12 @@ export function SearchBar({
           </div>
 
           <NavbarFilterMenuPopover
+            // trigger={<Filter count={activeCount} active={activeCount > 0} onClick={() => {}} />}
             trigger={<Filter onClick={() => {}} />}
-            resultCount={3}
             onClose={() => console.log('Close')}
             onClearAll={() => console.log('Clear all')}
             onApply={(filters) => console.log('Apply filters', filters)}
+            activeSlug={activeSlug}
           />
         </div>
 
@@ -215,11 +219,12 @@ export function SearchBar({
       </div>
 
       <NavbarFilterMenuPopover
+        // trigger={<Filter count={activeCount} active={activeCount > 0} onClick={() => {}} />}
         trigger={<Filter onClick={() => {}} />}
-        resultCount={3}
         onClose={() => console.log('Close')}
         onClearAll={() => console.log('Clear all')}
         onApply={(filters) => console.log('Apply filters', filters)}
+        activeSlug={activeSlug}
       />
     </div>
   );

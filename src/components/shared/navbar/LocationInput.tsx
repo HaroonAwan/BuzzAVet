@@ -78,7 +78,7 @@ export function LocationInput({
   const dropdownContent = showDropdown && isExpanded && (
     <div
       ref={dropdownRef}
-      className="SHADOW fixed z-100 overflow-hidden rounded-[12px] bg-white p-2"
+      className="SHADOW fixed z-100 overflow-hidden rounded-xl bg-white p-2"
       style={{
         top: `${dropdownPosition.top}px`,
         left: `${dropdownPosition.left}px`,

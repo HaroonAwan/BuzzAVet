@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import { useForm, Controller } from 'react-hook-form';
 import { Popover, PopoverTrigger } from '@/components/ui/popover';
 import { PopoverLayout } from '../PopoverLayout';
@@ -13,6 +14,7 @@ import { Button } from '../../Button';
 import { CheckTag } from '../../CheckTag';
 import DollarIcon from '@/assets/images/home/dollar.svg';
 import Image from 'next/image';
+import { useNavbar } from '../../navbar/useNavbar';
 
 export interface FilterState {
   consultationFee: { min: number; max: number };
@@ -27,11 +29,11 @@ export interface FilterState {
 
 export interface NavbarFilterMenuPopoverProps {
   trigger: React.ReactNode;
-  resultCount?: number;
   onClose?: () => void;
   onClearAll?: () => void;
   onApply?: (filters: FilterState) => void;
   className?: string;
+  activeSlug?: string;
 }
 
 /**
@@ -40,82 +42,24 @@ export interface NavbarFilterMenuPopoverProps {
  */
 export function NavbarFilterMenuPopover({
   trigger,
-  resultCount = 0,
   onClose,
   onClearAll,
   onApply,
   className,
+  activeSlug,
 }: NavbarFilterMenuPopoverProps) {
-  const form = useForm<FilterState>({
-    defaultValues: {
-      consultationFee: { min: 24, max: 500 },
-      minimumRating: '4.5',
-      distance: 50,
-      emergencyServices: false,
-      medicalServices: ['ultrasound'],
-      facilities: [],
-      accreditations: [],
-      insuranceAccepted: [],
-    },
-  });
-
-  const { control, watch, setValue, reset, handleSubmit } = form;
-  const filters = watch();
-
-  const [expandedSections, setExpandedSections] = React.useState<Set<string>>(
-    new Set(['medical-services'])
-  );
-
-  const toggleSection = (sectionId: string) => {
-    setExpandedSections((prev) => {
-      const next = new Set(prev);
-      if (next.has(sectionId)) {
-        next.delete(sectionId);
-      } else {
-        next.add(sectionId);
-      }
-      return next;
-    });
-  };
-
-  const handleClearAll = () => {
-    reset({
-      consultationFee: { min: 24, max: 500 },
-      minimumRating: null,
-      distance: 50,
-      emergencyServices: false,
-      medicalServices: [],
-      facilities: [],
-      accreditations: [],
-      insuranceAccepted: [],
-    });
-    onClearAll?.();
-  };
-
-  const onSubmit = (data: FilterState) => {
-    // Ensure all numeric values are integers
-    const roundedData: FilterState = {
-      ...data,
-      consultationFee: {
-        min: Math.round(data.consultationFee.min),
-        max: Math.round(data.consultationFee.max),
-      },
-      distance: Math.round(data.distance),
-    };
-    onApply?.(roundedData);
-  };
-
-  const toggleService = (
-    serviceId: string,
-    category: 'medicalServices' | 'facilities' | 'accreditations' | 'insuranceAccepted'
-  ) => {
-    const currentValues = filters[category] || [];
-    const newValues = currentValues.includes(serviceId)
-      ? currentValues.filter((id) => id !== serviceId)
-      : [...currentValues, serviceId];
-    setValue(category, newValues);
-  };
-
+  console.log('🚀 ~ NavbarFilterMenuPopover ~ activeSlug:', activeSlug);
+  const [open, setOpen] = React.useState(false);
+  const {
+    toggleSection,
+    onSubmitForm,
+    toggleService,
+    getAppliedFiltersCount,
+    filters,
+    handleClearAll,
+    expandedSections,
+    control,
+  } = useNavbar({ onApply, onClearAll });
   // Collapsible Section
   const CollapsibleSection = ({
     id,
@@ -163,10 +107,18 @@ export function NavbarFilterMenuPopover({
   ];
 
   return (
-    <Popover>
-      <PopoverTrigger asChild>{trigger}</PopoverTrigger>
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild onClick={() => setOpen(true)}>
+        {trigger}
+      </PopoverTrigger>
       <PopoverLayout align="end" side="bottom">
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            onSubmitForm();
+            setOpen(false);
+          }}
+        >
           <div className={cn('max-h-[80vh] w-127.5 overflow-y-auto', className)}>
             {/* Header */}
             <div className="sticky top-0 z-10 flex items-center justify-between border-b bg-white px-4 py-2">
@@ -183,7 +135,10 @@ export function NavbarFilterMenuPopover({
                 variant="ghost"
                 size="icon"
                 type="button"
-                onClick={onClose}
+                onClick={() => {
+                  setOpen(false);
+                  onClose?.();
+                }}
                 aria-label="Close"
                 icon={<CrossIcon size={24} fill={theme.colors.text.default} />}
                 iconPlacement="center"
@@ -534,7 +489,8 @@ export function NavbarFilterMenuPopover({
                   color: 'white',
                 }}
               >
-                Show {resultCount} Hospitals
+                Apply {getAppliedFiltersCount(filters)} Filter
+                {getAppliedFiltersCount(filters) === 1 ? '' : 's'}
               </button>
             </div>
           </div>

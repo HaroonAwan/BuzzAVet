@@ -131,11 +131,11 @@ export const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages 
    * Updates the URL query parameter 'page' while preserving other search parameters.
    */
   const handlePageChange = (page: number) => {
-    if (page >= 1 && page <= totalPages && page !== currentPage) {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set('page', String(page));
-      router.push(`?${params.toString()}`);
-    }
+    if (page < 1 || page > totalPages) return;
+    const params = new URLSearchParams(searchParams.toString());
+    // Always set the page param, even if 1
+    params.set('page', String(page));
+    router.push(`?${params.toString()}`);
   };
 
   /**
@@ -156,7 +156,8 @@ export const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages 
     }
   };
 
-  const isFirstPage = currentPage === 1;
+  // If no page param or page=1, treat as 1
+  const isFirstPage = !searchParams.get('page') || String(currentPage) === '1';
   const isLastPage = currentPage === totalPages;
 
   // Calculate which page numbers to display

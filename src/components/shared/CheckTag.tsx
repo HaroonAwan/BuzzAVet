@@ -36,7 +36,7 @@ const CheckTag = React.forwardRef<HTMLButtonElement, CheckTagProps>(
         disabled={disabled}
         className={cn(
           'inline-flex items-center justify-center',
-          'rounded-[12px] font-medium transition-colors',
+          'rounded-xl font-medium transition-colors',
           'focus-visible:outline-none',
           'disabled:pointer-events-none disabled:opacity-50',
           'px-4 py-2 text-sm',

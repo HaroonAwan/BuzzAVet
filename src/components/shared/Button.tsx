@@ -90,11 +90,11 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
     // Variant base classes (without colors - colors applied via inline styles)
     const variantClasses = {
-      pill: 'rounded-[12px] transition-colors',
-      outline: 'rounded-[12px] transition-colors border',
+      pill: 'rounded-xl transition-colors',
+      outline: 'rounded-xl transition-colors border',
       underline: 'transition-colors underline underline-offset-4',
       ghost: 'transition-colors',
-      submit: 'rounded-[12px] transition-colors',
+      submit: 'rounded-xl transition-colors',
       destructive:
         'transition-colors underline underline-offset-4 transition-colors text-[#DC2626]',
     };

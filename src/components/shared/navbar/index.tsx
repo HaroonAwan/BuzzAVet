@@ -60,6 +60,8 @@ export default function Navbar({ className }: NavbarProps) {
     setViewType,
     handleLoginClick,
     handleRegisterClick,
+    getAppliedFiltersCount,
+    filters,
   } = useNavbar();
 
   const navRef = useRef<HTMLElement>(null);
@@ -207,6 +209,7 @@ export default function Navbar({ className }: NavbarProps) {
               serviceTypeDropdownRef={serviceTypeDropdownRef}
               heading={heading}
               activeSlug={activeSlug}
+              activeCount={getAppliedFiltersCount(filters)}
             />
           </>
         ) : (
@@ -245,6 +248,7 @@ export default function Navbar({ className }: NavbarProps) {
                 serviceTypeDropdownRef={serviceTypeDropdownRef}
                 heading={heading}
                 activeSlug={activeSlug}
+                activeCount={getAppliedFiltersCount(filters)}
               />
             )}
 
