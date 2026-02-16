@@ -106,6 +106,12 @@ export const ScrollableSection: React.FC<ScrollableSectionProps> = ({
     };
   }, [handleScroll, updateScrollState]);
 
+  // Force scroll state update when children change (e.g., after API data loads)
+  React.useEffect(() => {
+    updateScrollState();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [children]);
+
   return (
     <section className={cn('flex w-full flex-col gap-8', className)}>
       <div className="flex items-center justify-between gap-4">

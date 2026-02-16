@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ScrollableSection } from '@/components/shared/ScrollableSection';
 import {
   HospitalOrPetServicesCard,
@@ -8,151 +8,57 @@ import {
 } from '../layouts/HospitalOrPetServicesCard';
 import SectionsWrapper from '../../../layouts/SectionsWrapper';
 import { useGetHospitalsNearYou } from '../hooks/useGetHospitalsNearYour';
+import type { HospitalsNearYouQuery, HospitalsNearYouBody, Hospital } from '@/types/hospitalsTypes';
 
-// DUMMY DATA FOR RECOMMENDED HOSPITALS
-const initialHospitals: HospitalOrPetServicesCardProps[] = [
-  {
-    name: 'VetCare Hospital',
-    location: '123 Main Street, Downtown',
-    rating: 4.9,
-    price: 100,
-    favorite: false,
-    imageSrc:
-      'https://images.unsplash.com/photo-1626315869436-d6781ba69d6e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    chips: [
-      { label: 'Open Now', variant: 'success' },
-      { label: '24/7 Emergency', variant: 'warning' },
-    ],
-  },
-  {
-    name: 'Animal Wellness Center',
-    location: '456 Oak Avenue, Midtown',
-    rating: 4.7,
-    price: 100,
-    favorite: false,
-    chips: [{ label: 'Open Now', variant: 'success' }],
-    imageSrc:
-      'https://images.unsplash.com/photo-1626749187789-262a4ff6ca13?q=80&w=1176&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    name: 'Pet Emergency Clinic',
-    location: '789 Elm Street, Uptown',
-    rating: 4.8,
-    price: 100,
-    favorite: false,
-    chips: [{ label: 'Open Now', variant: 'success' }],
-    imageSrc:
-      'https://images.unsplash.com/photo-1688479766741-38e5ee0a6671?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    name: 'Comprehensive Vet Care',
-    location: '321 Pine Road, Westside',
-    rating: 4.6,
-    price: 100,
-    favorite: false,
-    chips: [
-      { label: 'Open Now', variant: 'success' },
-      { label: '24/7 Emergency', variant: 'warning' },
-    ],
-    imageSrc:
-      'https://images.unsplash.com/photo-1626315869436-d6781ba69d6e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    name: 'City Veterinary Hospital',
-    location: '654 Maple Drive, Eastside',
-    rating: 4.9,
-    price: 100,
-    favorite: false,
-    chips: [{ label: 'Open Now', variant: 'success' }],
-    imageSrc:
-      'https://images.unsplash.com/photo-1626749187789-262a4ff6ca13?q=80&w=1176&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    name: 'Advanced Animal Care',
-    location: '987 Cedar Lane, Northside',
-    rating: 4.8,
-    price: 100,
-    favorite: false,
-    chips: [{ label: 'Open Now', variant: 'success' }],
-    imageSrc:
-      'https://images.unsplash.com/photo-1688479766741-38e5ee0a6671?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    name: 'VetCare Hospital',
-    location: '123 Main Street, Downtown',
-    rating: 4.9,
-    price: 100,
-    favorite: false,
-    imageSrc:
-      'https://images.unsplash.com/photo-1626315869436-d6781ba69d6e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-    chips: [
-      { label: 'Open Now', variant: 'success' },
-      { label: '24/7 Emergency', variant: 'warning' },
-    ],
-  },
-  {
-    name: 'Animal Wellness Center',
-    location: '456 Oak Avenue, Midtown',
-    rating: 4.7,
-    price: 100,
-    favorite: false,
-    chips: [{ label: 'Open Now', variant: 'success' }],
-    imageSrc:
-      'https://images.unsplash.com/photo-1626749187789-262a4ff6ca13?q=80&w=1176&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    name: 'Pet Emergency Clinic',
-    location: '789 Elm Street, Uptown',
-    rating: 4.8,
-    price: 100,
-    favorite: false,
-    chips: [{ label: 'Open Now', variant: 'success' }],
-    imageSrc:
-      'https://images.unsplash.com/photo-1688479766741-38e5ee0a6671?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    name: 'Comprehensive Vet Care',
-    location: '321 Pine Road, Westside',
-    rating: 4.6,
-    price: 100,
-    favorite: false,
-    chips: [
-      { label: 'Open Now', variant: 'success' },
-      { label: '24/7 Emergency', variant: 'warning' },
-    ],
-    imageSrc:
-      'https://images.unsplash.com/photo-1626315869436-d6781ba69d6e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    name: 'City Veterinary Hospital',
-    location: '654 Maple Drive, Eastside',
-    rating: 4.9,
-    price: 100,
-    favorite: false,
-    chips: [{ label: 'Open Now', variant: 'success' }],
-    imageSrc:
-      'https://images.unsplash.com/photo-1626749187789-262a4ff6ca13?q=80&w=1176&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    name: 'Advanced Animal Care',
-    location: '987 Cedar Lane, Northside',
-    rating: 4.8,
-    price: 100,
-    favorite: false,
-    chips: [{ label: 'Open Now', variant: 'success' }],
-    imageSrc:
-      'https://images.unsplash.com/photo-1688479766741-38e5ee0a6671?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-];
+interface RecommendedHospitalsSectionProps {
+  query?: HospitalsNearYouQuery;
+  body?: HospitalsNearYouBody;
+}
 
-const RecommendedHospitalsSection: React.FC = () => {
-  const { nearYouHospitals } = useGetHospitalsNearYou();
-  
-  console.log(
-    '🚀 ~ RecommendedHospitalsSection ~ nearYouHospitals:',
-    nearYouHospitals.hospitalsData
+const mapHospitalToCard = (hospital: Hospital): HospitalOrPetServicesCardProps => {
+  // Extract safe fields for display
+  const name = hospital.basicInformation?.name || hospital.name || 'Unknown Hospital';
+  const address =
+    hospital.basicInformation?.address?.formatted ||
+    hospital.basicInformation?.address?.addressLine1 ||
+    hospital.basicInformation?.address ||
+    hospital.address ||
+    '';
+  const rating = hospital.ratings || hospital.rating || 0;
+  const price = hospital.price || 0;
+  const imageSrc = hospital.documents?.profilePicture?.url || hospital.image || hospital.imageSrc;
+  // Only pass strings/numbers, never objects
+  return {
+    name,
+    location: typeof address === 'string' ? address : '',
+    rating: typeof rating === 'number' ? rating : 0,
+    price: typeof price === 'number' ? price : 0,
+    favorite: hospital.isFavorite || false,
+    imageSrc,
+    chips: [],
+  };
+};
+
+const RecommendedHospitalsSection: React.FC<RecommendedHospitalsSectionProps> = ({
+  query,
+  body,
+}) => {
+  const { nearYouHospitals } = useGetHospitalsNearYou(
+    query ? { QUERY: query, BODY: body || {} } : undefined
   );
-  const [hospitals, setHospitals] = useState<HospitalOrPetServicesCardProps[]>(initialHospitals);
+  const { hospitalsData, hospitalsError, hospitalsIsLoading } = nearYouHospitals;
+
+  const [hospitals, setHospitals] = useState<HospitalOrPetServicesCardProps[]>([]);
+
+  useEffect(() => {
+    if (hospitalsData?.data) {
+      // Debug: log the first hospital object
+      // eslint-disable-next-line no-console
+      console.log('First hospital object:', hospitalsData.data[0]);
+      const mappedHospitals = hospitalsData.data.map(mapHospitalToCard);
+      setHospitals(mappedHospitals);
+    }
+  }, [hospitalsData]);
 
   const handleFavoriteToggle = (index: number, favorite: boolean) => {
     setHospitals((prev) => {

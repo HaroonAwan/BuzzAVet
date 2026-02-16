@@ -61,8 +61,8 @@ export const HospitalOrPetServicesCard: React.FC<HospitalOrPetServicesCardProps>
     <Link href={`/services/${slug}/${name}`}>
       <article
         className={cn(
-          'flex flex-col gap-3 rounded-[16px] bg-transparent',
-          isDynamicWidth ? 'min-w-[203px] shrink-0 grow' : 'w-[203px]',
+          'flex flex-col gap-3 rounded-2xl bg-transparent',
+          isDynamicWidth ? 'min-w-50.75 shrink-0 grow' : 'w-50.75',
           'relative',
           className
         )}
@@ -71,15 +71,15 @@ export const HospitalOrPetServicesCard: React.FC<HospitalOrPetServicesCardProps>
         <Button
           variant="ghost"
           onClick={handleFavoriteClick}
-          className="absolute top-3 right-3 z-10 h-8 w-8 overflow-hidden rounded-[8px] bg-(--bg-glass) p-1.5"
+          className="absolute top-3 right-3 z-10 h-8 w-8 overflow-hidden rounded-lg bg-(--bg-glass) p-1.5"
           aria-label={favorite ? 'Remove from favorites' : 'Add to favorites'}
         >
           <FavoriteIcon favorite={favorite} size={20} />
         </Button>
 
         {/* Hospital image/logo */}
-        {imageSrc && (
-          <div className="relative h-51 w-full overflow-hidden rounded-[16px]">
+        {imageSrc ? (
+          <div className="relative h-51 w-full overflow-hidden rounded-2xl">
             <Image src={imageSrc} alt={name} fill className="object-cover" />
             <div className="absolute right-0 bottom-0 left-0 flex flex-wrap gap-2 p-2">
               {chips.map((chip) => (
@@ -88,6 +88,12 @@ export const HospitalOrPetServicesCard: React.FC<HospitalOrPetServicesCardProps>
                 </Chip>
               ))}
             </div>
+          </div>
+        ) : (
+          <div className="relative h-51 w-full overflow-hidden rounded-2xl bg-gray-200">
+            <p className="absolute inset-0 flex items-center justify-center text-gray-500">
+              No Image Available
+            </p>
           </div>
         )}
         <div className="flex flex-col gap-1">

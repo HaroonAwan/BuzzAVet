@@ -10,7 +10,7 @@ const { NEAR_YOU } = ApiEndpoints.HOSPITALS;
 
 export const hospitalsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getHospitalsNearYou: builder.mutation<
+    getHospitalsNearYou: builder.query<
       HospitalsNearYouResponse,
       { QUERY: HospitalsNearYouQuery; BODY: HospitalsNearYouBody }
     >({
@@ -23,4 +23,4 @@ export const hospitalsApi = baseApi.injectEndpoints({
   }),
 });
 
-export const { useGetHospitalsNearYouMutation } = hospitalsApi;
+export const { useGetHospitalsNearYouQuery } = hospitalsApi;
