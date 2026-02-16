@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { Skeleton } from '@/components/ui/Skeleton';
 import { ScrollableSection } from '@/components/shared/ScrollableSection';
 import {
   HospitalOrPetServicesCard,
@@ -71,13 +72,21 @@ const RecommendedHospitalsSection: React.FC<RecommendedHospitalsSectionProps> = 
   return (
     <SectionsWrapper>
       <ScrollableSection title="Recommended Hospitals Near you">
-        {hospitals.map((hospital, index) => (
-          <HospitalOrPetServicesCard
-            key={`${hospital.name}-${index}`}
-            {...hospital}
-            onFavoriteToggle={(favorite) => handleFavoriteToggle(index, favorite)}
-          />
-        ))}
+        {hospitalsError ? (
+          <p className="text-red-500">Error loading hospitals: {hospitalsError.message}</p>
+        ) : hospitalsIsLoading ? (
+          <Skeleton className="rounded-xl" style={{ width: '100%', height: 305 }} />
+        ) : !hospitalsIsLoading && hospitals.length === 0 ? (
+          <p>No hospitals found near you.</p>
+        ) : (
+          hospitals.map((hospital, index) => (
+            <HospitalOrPetServicesCard
+              key={`${hospital.name}-${index}`}
+              {...hospital}
+              onFavoriteToggle={(favorite) => handleFavoriteToggle(index, favorite)}
+            />
+          ))
+        )}
       </ScrollableSection>
     </SectionsWrapper>
   );
