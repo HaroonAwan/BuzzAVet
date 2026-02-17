@@ -37,6 +37,7 @@ const mapHospitalToCard = (hospital: Hospital): HospitalOrPetServicesCardProps =
     favorite: hospital.isFavorite || false,
     imageSrc,
     chips: [],
+    id: hospital._id || hospital.id,
   };
 };
 
@@ -53,7 +54,6 @@ const RecommendedHospitalsSection: React.FC<RecommendedHospitalsSectionProps> = 
 
   useEffect(() => {
     if (hospitalsData?.data) {
-      // Debug: log the first hospital object
       // eslint-disable-next-line no-console
       console.log('First hospital object:', hospitalsData.data[0]);
       const mappedHospitals = hospitalsData.data.map(mapHospitalToCard);

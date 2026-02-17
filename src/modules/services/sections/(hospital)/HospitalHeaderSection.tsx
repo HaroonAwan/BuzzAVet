@@ -11,6 +11,8 @@ import FearFreeCertifiedIcon from '@/assets/images/services/fearFreeCertified.pn
 import Image from 'next/image';
 import { Chip } from '@/components/shared/Chip';
 import { HospitalDetailsResponse } from '@/types/hospitalsTypes';
+import { useAppSelector } from '@/lib/hooks';
+import { selectIsAuthenticated } from '@/apis/auth/authSlice';
 
 interface HospitalHeaderSectionProps {
   hospital: HospitalDetailsResponse;
@@ -24,6 +26,8 @@ const HospitalHeaderSection = ({
   isFavorite,
 }: HospitalHeaderSectionProps) => {
   console.log('🚀 ~ HospitalHeaderSection ~ hospital:', hospital);
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  console.log('PASSWORD😶😶😶😶😶😶 ~ isAuthenticated:', isAuthenticated);
   // Map data from hospital as per types
   const name = hospital.basicInformation?.name ?? 'Hospital';
   const address = hospital.basicInformation?.address?.address ?? '';
@@ -44,8 +48,6 @@ const HospitalHeaderSection = ({
   const openingHours = hospital.today;
   let openTodayText = 'Info not disclosed.';
   if (openingHours) {
-    // Use hospital owner's timezone for local time conversion
-    const hospitalTz = hospital.owner?.timeZone;
     if (openingHours.isOpen && openingHours.openTime && openingHours.closeTime) {
       const openLocal = utcTimeToLocal(openingHours.openTime);
       const closeLocal = utcTimeToLocal(openingHours.closeTime);
@@ -149,14 +151,16 @@ const HospitalHeaderSection = ({
         >
           Share
         </Button>
-        <Button
-          size="icon"
-          className="h-fit"
-          variant="outline"
-          icon={<FavoriteIcon favorite={favorite} size={18} />}
-          iconPlacement="center"
-          onClick={handleFavoriteClick}
-        />
+        {isAuthenticated && (
+          <Button
+            size="icon"
+            className="h-fit"
+            variant="outline"
+            icon={<FavoriteIcon favorite={favorite} size={18} />}
+            iconPlacement="center"
+            onClick={handleFavoriteClick}
+          />
+        )}
       </div>
     </div>
   );

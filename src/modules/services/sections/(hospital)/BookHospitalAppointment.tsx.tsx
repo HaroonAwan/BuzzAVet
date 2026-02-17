@@ -14,6 +14,9 @@ import { Button } from '@/components/shared/Button';
 import { cn } from '@/lib/utils';
 import { Check } from 'lucide-react';
 import { Avatar } from '@/components/shared/Avatar';
+import { useAppSelector } from '@/lib/hooks';
+import { selectIsAuthenticated } from '@/apis/auth/authSlice';
+import { useRouter } from 'next/navigation';
 
 type CalendarValue = Date | null | [Date | null, Date | null];
 
@@ -59,6 +62,10 @@ const BookHospitalAppointment: React.FC<BookHospitalAppointmentProps> = ({
   const timeContainerRef = useRef<HTMLDivElement>(null);
   const vetDropdownRef = useRef<HTMLDivElement>(null);
   const vetButtonRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
+
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  console.log('PASSWORD😶😶😶😶😶😶 ~ isAuthenticated:', isAuthenticated);
 
   const availableTimes: SelectOption[] = [
     { value: '09:00 AM', label: '09:00 AM' },
@@ -96,6 +103,9 @@ const BookHospitalAppointment: React.FC<BookHospitalAppointmentProps> = ({
     },
   ];
 
+  const handleLoginClick = () => {
+    router.push('/auth/register');
+  };
   // Handle click outside for calendar
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -218,7 +228,7 @@ const BookHospitalAppointment: React.FC<BookHospitalAppointmentProps> = ({
       <div className="border-b p-4">
         <div className="rounded-xl border">
           {/* Date and Time Row */}
-          <div className="flex items-center border-b">
+          <div className={cn('flex items-center', isAuthenticated && 'border-b')}>
             {/* Select Date */}
             <div
               className={cn(
@@ -342,132 +352,157 @@ const BookHospitalAppointment: React.FC<BookHospitalAppointmentProps> = ({
           </div>
 
           {/* Preferred Veterinarian */}
-          <div className="padding-custom relative">
-            <p
-              className="mb-2 block cursor-pointer text-sm"
-              style={{ color: theme.colors.text.secondary }}
-            >
-              Preferred Veterinarian
-            </p>
-            <div
-              ref={vetButtonRef}
-              className="flex cursor-pointer items-center justify-between rounded-lg border p-2"
-              style={{
-                borderColor: showVetDropdown ? theme.colors.active : theme.colors.border.default,
-              }}
-              onClick={() => setShowVetDropdown(!showVetDropdown)}
-            >
-              <span className="text-base" style={{ color: theme.colors.text.default }}>
-                {getSelectedVetName()}
-              </span>
-              <ChevronDownIcon
-                className={`h-4 w-4 transition-transform duration-200 ${showVetDropdown ? 'rotate-180' : ''}`}
-              />
-            </div>
-
-            {showVetDropdown && (
-              <div
-                ref={vetDropdownRef}
-                className="SHADOW absolute top-full right-0 left-0 z-1000 mx-4 mt-1 overflow-hidden rounded-xl bg-white"
+          {isAuthenticated && (
+            <div className="padding-custom relative">
+              <p
+                className="mb-2 block cursor-pointer text-sm"
+                style={{ color: theme.colors.text.secondary }}
               >
-                {/* Any Available Vet Option */}
+                Preferred Veterinarian
+              </p>
+              <div
+                ref={vetButtonRef}
+                className="flex cursor-pointer items-center justify-between rounded-lg border p-2"
+                style={{
+                  borderColor: showVetDropdown ? theme.colors.active : theme.colors.border.default,
+                }}
+                onClick={() => setShowVetDropdown(!showVetDropdown)}
+              >
+                <span className="text-base" style={{ color: theme.colors.text.default }}>
+                  {getSelectedVetName()}
+                </span>
+                <ChevronDownIcon
+                  className={`h-4 w-4 transition-transform duration-200 ${showVetDropdown ? 'rotate-180' : ''}`}
+                />
+              </div>
+
+              {showVetDropdown && (
                 <div
-                  className="flex cursor-pointer items-center justify-between border-b p-3 hover:bg-gray-50"
-                  style={{
-                    borderColor: theme.colors.border.default,
-                  }}
-                  onClick={() => {
-                    setSelectedVeterinarian('any-available');
-                    setShowVetDropdown(false);
-                  }}
+                  ref={vetDropdownRef}
+                  className="SHADOW absolute top-full right-0 left-0 z-1000 mx-4 mt-1 overflow-hidden rounded-xl bg-white"
                 >
-                  <span className="text-base" style={{ color: theme.colors.text.default }}>
-                    Any Available Vet
-                  </span>
-                  {selectedVeterinarian === 'any-available' && (
-                    <Check className="text-foreground ml-2 h-4 w-4 shrink-0" aria-hidden="true" />
-                  )}
-                </div>
+                  {/* Any Available Vet Option */}
+                  <div
+                    className="flex cursor-pointer items-center justify-between border-b p-3 hover:bg-gray-50"
+                    style={{
+                      borderColor: theme.colors.border.default,
+                    }}
+                    onClick={() => {
+                      setSelectedVeterinarian('any-available');
+                      setShowVetDropdown(false);
+                    }}
+                  >
+                    <span className="text-base" style={{ color: theme.colors.text.default }}>
+                      Any Available Vet
+                    </span>
+                    {selectedVeterinarian === 'any-available' && (
+                      <Check className="text-foreground ml-2 h-4 w-4 shrink-0" aria-hidden="true" />
+                    )}
+                  </div>
 
-                {/* Veterinarian List */}
-                <div className="scrollbar-hide max-h-80 overflow-y-auto">
-                  {veterinarians.map((vet) => (
-                    <div
-                      key={vet.id}
-                      className="flex w-full cursor-pointer items-center justify-between gap-3 px-4 py-3 hover:bg-gray-50"
-                      onClick={() => {
-                        setSelectedVeterinarian(vet.id);
-                        setShowVetDropdown(false);
-                      }}
-                      style={{
-                        backgroundColor:
-                          vet.id === selectedVeterinarian ? theme.colors.background.secondary : '',
-                      }}
-                    >
-                      <div className="flex max-w-[90%] flex-col gap-1.5">
-                        <div className="flex items-center gap-3">
-                          {/* Avatar */}
-                          <Avatar size="md" url={vet.image} name={vet.name} className="shrink-0" />
+                  {/* Veterinarian List */}
+                  <div className="scrollbar-hide max-h-80 overflow-y-auto">
+                    {veterinarians.map((vet) => (
+                      <div
+                        key={vet.id}
+                        className="flex w-full cursor-pointer items-center justify-between gap-3 px-4 py-3 hover:bg-gray-50"
+                        onClick={() => {
+                          setSelectedVeterinarian(vet.id);
+                          setShowVetDropdown(false);
+                        }}
+                        style={{
+                          backgroundColor:
+                            vet.id === selectedVeterinarian
+                              ? theme.colors.background.secondary
+                              : '',
+                        }}
+                      >
+                        <div className="flex max-w-[90%] flex-col gap-1.5">
+                          <div className="flex items-center gap-3">
+                            {/* Avatar */}
+                            <Avatar
+                              size="md"
+                              url={vet.image}
+                              name={vet.name}
+                              className="shrink-0"
+                            />
 
-                          {/* Vet Details */}
-                          <div className="min-w-0">
-                            <div className="flex items-center gap-2">
-                              <h4
-                                className="truncate text-sm font-semibold"
-                                style={{ color: theme.colors.text.default }}
-                              >
-                                {vet.name}
-                              </h4>
-                              <div className="flex items-center gap-1">
-                                <StarIcon className="mb-0.5 shrink-0" size={14} />
-                                <span
-                                  className="text-xs font-semibold"
+                            {/* Vet Details */}
+                            <div className="min-w-0">
+                              <div className="flex items-center gap-2">
+                                <h4
+                                  className="truncate text-sm font-semibold"
                                   style={{ color: theme.colors.text.default }}
                                 >
-                                  {vet.rating}
-                                </span>
+                                  {vet.name}
+                                </h4>
+                                <div className="flex items-center gap-1">
+                                  <StarIcon className="mb-0.5 shrink-0" size={14} />
+                                  <span
+                                    className="text-xs font-semibold"
+                                    style={{ color: theme.colors.text.default }}
+                                  >
+                                    {vet.rating}
+                                  </span>
+                                </div>
                               </div>
+                              <p
+                                className="truncate text-sm"
+                                style={{ color: theme.colors.text.secondary }}
+                              >
+                                {vet.specialty}
+                              </p>
                             </div>
-                            <p
-                              className="truncate text-sm"
-                              style={{ color: theme.colors.text.secondary }}
-                            >
-                              {vet.specialty}
-                            </p>
                           </div>
+                          <p
+                            className="text-sm font-medium"
+                            style={{ color: theme.colors.success }}
+                          >
+                            Next: {vet.nextAvailable}
+                          </p>
                         </div>
-                        <p className="text-sm font-medium" style={{ color: theme.colors.success }}>
-                          Next: {vet.nextAvailable}
-                        </p>
+                        {/* Checkmark */}
+                        {selectedVeterinarian === vet.id && (
+                          <Check
+                            className="text-foreground ml-2 h-4 w-4 shrink-0"
+                            aria-hidden="true"
+                          />
+                        )}
                       </div>
-                      {/* Checkmark */}
-                      {selectedVeterinarian === vet.id && (
-                        <Check
-                          className="text-foreground ml-2 h-4 w-4 shrink-0"
-                          aria-hidden="true"
-                        />
-                      )}
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
       {/* Book Now Button */}
-      <div className="p-4">
-        <Button
-          variant="pill"
-          size="lg"
-          onClick={handleBookNow}
-          className="w-full text-white"
-          style={{ backgroundColor: theme.colors.background.range }}
-        >
-          Book Now
-        </Button>
-      </div>
+      {isAuthenticated ? (
+        <div className="p-4">
+          <Button
+            variant="pill"
+            size="lg"
+            onClick={handleBookNow}
+            className="w-full text-white"
+            style={{ backgroundColor: theme.colors.background.range }}
+          >
+            Book Now
+          </Button>
+        </div>
+      ) : (
+        <div className="w-full p-4">
+          <Button
+            size="lg"
+            className="w-full text-white"
+            onClick={handleLoginClick}
+            style={{ backgroundColor: theme.colors.background.range }}
+          >
+            Login to Book Appointment
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

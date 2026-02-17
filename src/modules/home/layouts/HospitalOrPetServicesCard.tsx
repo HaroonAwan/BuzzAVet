@@ -9,6 +9,8 @@ import LocationIcon from '@/assets/images/home/location.svg';
 import { Chip } from '@/components/shared/Chip';
 import { Button } from '@/components/shared/Button';
 import Link from 'next/link';
+import { useAppSelector } from '@/lib/hooks';
+import { selectIsAuthenticated } from '@/apis/auth/authSlice';
 
 export type HospitalOrPetServicesChipVariant = 'warning' | 'alert' | 'normal' | 'success' | 'pink';
 
@@ -34,6 +36,7 @@ export interface HospitalOrPetServicesCardProps {
   slug?: string;
   isDynamicWidth?: boolean;
   id?: string;
+  _id?: string;
 }
 
 export const HospitalOrPetServicesCard: React.FC<HospitalOrPetServicesCardProps> = ({
@@ -52,7 +55,10 @@ export const HospitalOrPetServicesCard: React.FC<HospitalOrPetServicesCardProps>
   slug = 'hospitals',
   isDynamicWidth = false,
   id,
+  _id,
 }) => {
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  console.log('PASSWORD😶😶😶😶😶😶 ~ isAuthenticated:', isAuthenticated);
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
@@ -60,9 +66,8 @@ export const HospitalOrPetServicesCard: React.FC<HospitalOrPetServicesCardProps>
       onFavoriteToggle(!favorite);
     }
   };
-
   return (
-    <Link href={`/services/${slug}/${id ?? name}`}>
+    <Link href={`/services/${slug}/${_id ?? id}`}>
       <article
         id={id}
         className={cn(
@@ -73,16 +78,18 @@ export const HospitalOrPetServicesCard: React.FC<HospitalOrPetServicesCardProps>
         )}
       >
         {/* Favorite button - top right */}
-        <Button
-          variant="ghost"
-          onClick={handleFavoriteClick}
-          className="absolute top-3 right-3 z-10 h-8 w-8 overflow-hidden rounded-lg bg-(--bg-glass) p-1.5"
-          aria-label={favorite ? 'Remove from favorites' : 'Add to favorites'}
-          type="button"
-          data-no-progress
-        >
-          <FavoriteIcon favorite={favorite} size={20} />
-        </Button>
+        {isAuthenticated && (
+          <Button
+            variant="ghost"
+            onClick={handleFavoriteClick}
+            className="absolute top-3 right-3 z-10 h-8 w-8 overflow-hidden rounded-lg bg-(--bg-glass) p-1.5"
+            aria-label={favorite ? 'Remove from favorites' : 'Add to favorites'}
+            type="button"
+            data-no-progress
+          >
+            <FavoriteIcon favorite={favorite} size={20} />
+          </Button>
+        )}
 
         {/* Hospital image/logo */}
         {imageSrc ? (

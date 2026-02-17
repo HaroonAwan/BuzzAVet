@@ -2,15 +2,8 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { store } from './lib/store';
 
-// Paths accessible by everyone (authenticated or unauthenticated)
-const publicPaths = [
-  '/landing',
-  '/auth/login',
-  '/auth/register',
-  '/auth/register/email',
-  '/terms-of-service',
-  '/privacy-policy',
-];
+// Only these routes require authentication; all others are public by default
+const privateRoutes = ['/user-menu', '/appointments', '/pets'];
 
 const onboardingPaths = ['/auth/register/onboarding', '/auth/register/onboarding/success'];
 
@@ -25,13 +18,16 @@ export default function proxy(request: NextRequest) {
   const onboardingCompleted = request.cookies.get('onboarding_completed')?.value === 'true';
 
   const isAuthenticated = !!token;
-  const isPublicPath = publicPaths.includes(pathname);
+  // A route is private if it starts with any of the privateRoutes prefixes
+  const isPrivateRoute = privateRoutes.some((route) => pathname.startsWith(route));
   const isOtpPage = pathname === '/auth/register/email/otp';
   const isOnboardingPath = onboardingPaths.includes(pathname);
 
-  // 1. Public paths - accessible by everyone
-  if (isPublicPath) {
-    return NextResponse.next();
+  // 1. Block unauthenticated users from private routes
+  if (isPrivateRoute && !isAuthenticated) {
+    const landingPageUrl = new URL('/landing', request.url);
+    landingPageUrl.searchParams.set('from', pathname);
+    return NextResponse.redirect(landingPageUrl);
   }
 
   // 2. OTP page - requires authenticated but NOT verified
@@ -47,15 +43,10 @@ export default function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL('/landing', request.url));
   }
 
-  // 3. Require authentication for all other routes
-  if (!isAuthenticated) {
-    const landingPageUrl = new URL('/landing', request.url);
-    landingPageUrl.searchParams.set('from', pathname);
-    return NextResponse.redirect(landingPageUrl);
-  }
+  // 3. (Removed: all other routes are public by default)
 
   // 4. Authenticated but not verified - redirect to OTP
-  if (!isVerified) {
+  if (isAuthenticated && !isVerified) {
     return NextResponse.redirect(new URL('/auth/register/email/otp', request.url));
   }
 
@@ -69,9 +60,9 @@ export default function proxy(request: NextRequest) {
     return NextResponse.redirect(new URL('/', request.url));
   }
 
-  // 6. All other routes - require complete onboarding
+  // 6. All other routes - require complete onboarding only for private routes
   const currentStep = onboardingStep ? parseInt(onboardingStep) : 0;
-  if (!hasProfile || (currentStep < 4 && !onboardingCompleted)) {
+  if (isPrivateRoute && (!hasProfile || (currentStep < 4 && !onboardingCompleted))) {
     return NextResponse.redirect(new URL('/auth/register/onboarding', request.url));
   }
 
