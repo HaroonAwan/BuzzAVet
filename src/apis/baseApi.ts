@@ -6,7 +6,7 @@ import { API_BASE_URL } from '@/constants';
 
 export type ApiTagType = 'Auth' | 'User' | 'AccountValidity';
 
-const baseQuery = fetchBaseQuery({
+const rawBaseQuery = fetchBaseQuery({
   baseUrl: API_BASE_URL,
   prepareHeaders: (headers, { getState }) => {
     const tokenFromCookies = getCookie('auth_token') as string | undefined;
@@ -32,6 +32,14 @@ const baseQuery = fetchBaseQuery({
     return headers;
   },
 });
+
+const baseQuery = async (args: any, api: any, extraOptions: any) => {
+  const result = await rawBaseQuery(args, api, extraOptions);
+  if (result?.error?.status === 401) {
+    console.log('🔒 Interceptor: Received 401 Unauthorized', result);
+  }
+  return result;
+};
 
 export const baseApi = createApi({
   reducerPath: 'api',
