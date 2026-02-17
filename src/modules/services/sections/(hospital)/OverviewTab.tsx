@@ -10,14 +10,17 @@ import EmergencyIcon from '@/assets/images/services/emergency.svg';
 import BoardingIcon from '@/assets/images/services/boarding.svg';
 import InHouseLabIcon from '@/assets/images/services/inHouseLab.svg';
 import GoogleMap from '@/components/shared/GoogleMap';
-import { useState, useEffect } from 'react';
 import LocationIcon from '@/assets/images/home/location.svg';
-import { getCurrentLocation, type Coordinates } from '@/lib/geolocation';
+import { HospitalDetailsResponse } from '@/types/hospitalsTypes';
 
 interface HighlightIconsProps {
   icon: string;
   bg?: string;
   title: string;
+}
+
+interface HospitalContentProps {
+  hospital: HospitalDetailsResponse;
 }
 
 const HighlightsContent = [
@@ -67,36 +70,18 @@ const HighlightIcons = ({ icon, bg, title }: HighlightIconsProps) => {
   );
 };
 
-const OverviewTab = () => {
-  const [currentLocation, setCurrentLocation] = useState<Coordinates | null>(null);
-  const [locationError, setLocationError] = useState<string | null>(null);
-
-  useEffect(() => {
-    getCurrentLocation()
-      .then((coords) => {
-        setCurrentLocation(coords);
-        setLocationError(null);
-      })
-      .catch((error) => {
-        setLocationError(error.message);
-        console.error('Error getting location:', error);
-      });
-  }, []);
-
+const OverviewTab = ({ hospital }: HospitalContentProps) => {
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex w-full flex-col gap-10">
       {/* INTRO SECTION */}
       <div className="flex flex-col gap-4">
         <h1 className="text-[20px] font-semibold">About the Hospital</h1>
         <p className="text-justify text-sm" style={{ color: theme.colors.text.secondary }}>
-          City Paws Medical Center is a state-of-the-art veterinary facility dedicated to providing
-          comprehensive and compassionate care for your pets. Our team of board-certified
-          specialists and experienced veterinarians utilize the latest technology to ensure the best
-          possible outcomes.
+          {hospital.contactInfo?.about || 'No description available.'}
         </p>
       </div>
       {/* HIGHLIGHTS SECTION */}
-      <div className="flex flex-col gap-4">
+      {/* <div className="flex flex-col gap-4">
         <h1 className="text-[20px] font-semibold">Facility Highlights</h1>
         <div className="grid grid-cols-3 gap-6">
           {HighlightsContent.map((item, index) => (
@@ -108,17 +93,20 @@ const OverviewTab = () => {
             />
           ))}
         </div>
-      </div>
+      </div> */}
       {/* MAP SECTION */}
       <div className="flex flex-col gap-4">
         <h1 className="text-[20px] font-semibold">Hospital Address</h1>
-        {currentLocation && (
+        {/* Show only the hospital's coordinates on the map, never fallback to current location */}
+        {hospital.location?.coordinates && hospital.location.coordinates.length === 2 ? (
           <GoogleMap
-            lat={currentLocation.latitude.toFixed(6) as unknown as number}
-            lng={currentLocation.longitude.toFixed(6) as unknown as number}
+            lat={hospital.location.coordinates[1]}
+            lng={hospital.location.coordinates[0]}
             height="211px"
+            title={hospital.basicInformation?.name || 'Hospital Location'}
+            address={hospital.basicInformation?.address?.address || ''}
           />
-        )}
+        ) : null}
 
         <div className="flex gap-3">
           <Image
@@ -132,7 +120,16 @@ const OverviewTab = () => {
             <h2 className="text-sm" style={{ color: theme.colors.text.secondary }}>
               Hospital Address
             </h2>
-            <p className="font-medium">123 Veterinary Way, San Francisco, CA 94110</p>
+            <p className="font-medium">
+              {[
+                hospital.basicInformation?.address?.address,
+                hospital.basicInformation?.address?.city,
+                hospital.basicInformation?.address?.state,
+                hospital.basicInformation?.address?.zip,
+              ]
+                .filter(Boolean)
+                .join(', ') || 'No address available.'}
+            </p>
           </div>
         </div>
       </div>

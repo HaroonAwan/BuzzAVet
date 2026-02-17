@@ -115,7 +115,7 @@ export const ScrollableSection: React.FC<ScrollableSectionProps> = ({
   return (
     <section className={cn('flex w-full flex-col gap-8', className)}>
       <div className="flex items-center justify-between gap-4">
-        <h2 className="twenty-eight font-semibold h-14">{title}</h2>
+        <h2 className="twenty-eight h-14 font-semibold">{title}</h2>
 
         {isScrollable && (
           <div className="flex items-center gap-4">

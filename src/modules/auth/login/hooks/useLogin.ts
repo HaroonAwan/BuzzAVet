@@ -54,6 +54,7 @@ export function useLogin() {
       dispatch(
         setCredentials({
           token: result.accessToken,
+          refreshToken: result.refreshToken,
           isVerified: result.isVerified,
         })
       );
@@ -65,6 +66,7 @@ export function useLogin() {
         document.cookie = `is_verified=${result.isVerified}; path=/; max-age=${
           COOKIE_MAX_AGE
         }; SameSite=Lax`;
+        document.cookie = `refresh_token=${result.refreshToken}; path=/; max-age=${COOKIE_MAX_AGE}; SameSite=Lax`;
       }
       if (result.profile) {
         const profileId = typeof result.profile === 'string' ? result.profile : result.profile._id;

@@ -4,10 +4,14 @@ import { Button } from './Button';
 import { useRouter } from 'next/navigation';
 import { ArrowLeftIcon } from '@/assets/icon-components';
 
-const BackButton = () => {
+const BackButton = ({ url }: { url?: string }) => {
   const router = useRouter();
   const handleBack = () => {
-    router.back();
+    if (url) {
+      router.push(url);
+    } else {
+      router.back();
+    }
   };
   return (
     <div>

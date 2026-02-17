@@ -5,14 +5,16 @@ import BookHospitalAppointment from './BookHospitalAppointment.tsx';
 import OverviewTab from './OverviewTab';
 import VeterinariansTab from './VeterinariansTab';
 import ReviewsTab from './ReviewsTab';
+import { HospitalDetailsResponse } from '@/types/hospitalsTypes';
 
-const menu = ['Overview', 'Veterinarians', 'Reviews'];
+const menu = ['Overview', 'Reviews'];
 
 interface HospitalContentProps {
   slug: { slug: string; name: string };
+  hospital: HospitalDetailsResponse;
 }
 
-const HospitalContent = ({ slug }: HospitalContentProps) => {
+const HospitalContent = ({ slug, hospital }: HospitalContentProps) => {
   console.log('🚀 ~ HospitalContent ~ slug:', slug);
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -44,9 +46,9 @@ const HospitalContent = ({ slug }: HospitalContentProps) => {
       activeTab={activeTab}
       actionSection={<BookHospitalAppointment onBookAppointment={handleBookAppointment} />}
     >
-      {activeTab === 'Overview' && <OverviewTab />}
+      {activeTab === 'Overview' && <OverviewTab hospital={hospital} />}
       {activeTab === 'Veterinarians' && <VeterinariansTab />}
-      {activeTab === 'Reviews' && <ReviewsTab />}
+      {activeTab === 'Reviews' && <ReviewsTab hospital={hospital} />}
     </TabsLayoutForServicesSection>
   );
 };

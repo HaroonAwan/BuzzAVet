@@ -35,7 +35,8 @@ export function isFetchBaseQueryError(error: unknown): error is FetchBaseQueryEr
     typeof error === 'object' &&
     error !== null &&
     'status' in error &&
-    typeof (error as FetchBaseQueryError).status === 'number'
+    (typeof (error as FetchBaseQueryError).status === 'number' ||
+      typeof (error as FetchBaseQueryError).status === 'string')
   );
 }
 
@@ -43,6 +44,13 @@ export function extractApiError(
   error: FetchBaseQueryError | RTKSerializedError | unknown
 ): ApiErrorResponse | undefined {
   if (isFetchBaseQueryError(error)) {
+    // Handle network errors (status as string, e.g., 'FETCH_ERROR')
+    if (typeof error.status === 'string') {
+      return {
+        message: error.error || 'Network error. Please try again.',
+        statusCode: 0,
+      };
+    }
     if (error.data && isApiErrorResponse(error.data)) {
       return error.data;
     }

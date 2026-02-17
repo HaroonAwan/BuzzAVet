@@ -15,6 +15,7 @@ export const ENCRYPTION_KEY = process.env.NEXT_PUBLIC_ENCRYPTION_KEY || 'created
 
 // GOOGLE MAPS API KEY
 export const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || '';
+export const GOOGLE_MAPS_ID = process.env.NEXT_PUBLIC_GOOGLE_MAPS_ID || '';
 
 // COOKIE SETTINGS
 export const COOKIE_MAX_AGE = parseInt(process.env.NEXT_PUBLIC_COOKIE_MAX_AGE || '604800', 10);

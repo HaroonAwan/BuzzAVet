@@ -18,6 +18,7 @@ const SearchedOrDefaultHospitalsNearYou = () => {
     viewType,
     sectionRef,
     nearYouHospitals,
+    hasPages,
   } = useSearchedOrDefaultHospitalsNearYou();
   const { hospitalsError, hospitalsIsLoading, totalHospitals, totalPages } = nearYouHospitals;
   return (
@@ -29,7 +30,7 @@ const SearchedOrDefaultHospitalsNearYou = () => {
           <>
             {hospitalsIsLoading ? (
               <Loading width={300} height={200} />
-            ) : !hospitalsIsLoading && paginatedHospitals.length === 0 ? (
+            ) : !hospitalsIsLoading && paginatedHospitals.length === 0 && !hospitalsError ? (
               <NoData width={300} height={200} />
             ) : hospitalsError ? (
               <Error width={300} height={200} message={hospitalsError?.message} />
@@ -53,7 +54,7 @@ const SearchedOrDefaultHospitalsNearYou = () => {
                     />
                   ))}
                 </section>
-                <Pagination currentPage={currentPage} totalPages={totalPages} />
+                {hasPages && <Pagination currentPage={currentPage} totalPages={totalPages} />}
               </>
             )}
           </>

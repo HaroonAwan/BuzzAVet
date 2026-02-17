@@ -4,19 +4,19 @@ import React from 'react';
 import GoogleMapReact from 'google-map-react';
 import Image from 'next/image';
 import LocationIcon from '@/assets/images/home/location.svg';
-import { GOOGLE_MAPS_API_KEY } from '@/constants';
+import { GOOGLE_MAPS_API_KEY, GOOGLE_MAPS_ID } from '@/constants';
 
 interface GoogleMapProps {
-  lat?: number;
-  lng?: number;
+  lat: number;
+  lng: number;
   height?: string;
   title?: string;
   address?: string;
 }
 
 const GoogleMap: React.FC<GoogleMapProps> = ({
-  lat = 34.0736,
-  lng = -118.4004,
+  lat,
+  lng,
   height = '300px',
   title = 'Location',
   address,
@@ -26,12 +26,7 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
   const infoWindowRef = React.useRef<google.maps.InfoWindow | null>(null);
   const viewOnMapsUrl = `https://www.google.com/maps/search/?api=1&query=${lat},${lng}`;
   const apiKey = GOOGLE_MAPS_API_KEY || '';
-
-  // Log for debugging
-  React.useEffect(() => {
-    console.log('Google Maps API Key:', apiKey ? 'Present' : 'Missing');
-    console.log('Map coordinates:', { lat, lng });
-  }, [apiKey, lat, lng]);
+  const mapId = GOOGLE_MAPS_ID;
 
   const handleApiLoaded = async ({ map, maps }: { map: any; maps: any }) => {
     setMapError(null);
@@ -44,45 +39,51 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
     // Import the marker library
     const { AdvancedMarkerElement, PinElement } = await maps.importLibrary('marker');
 
-    // Create custom pin element with icon
-    const pinElement = new PinElement({
-      glyphSrc: new URL(LocationIcon.src, window.location.origin).href,
-      scale: 1.2,
-    });
+    // Create a custom HTML marker with a transparent background
+    const markerDiv = document.createElement('div');
+    markerDiv.style.background = 'transparent';
+    markerDiv.style.display = 'flex';
+    markerDiv.style.alignItems = 'center';
+    markerDiv.style.justifyContent = 'center';
+    markerDiv.style.width = '32px';
+    markerDiv.style.height = '32px';
+    markerDiv.style.border = 'none';
+    markerDiv.style.boxShadow = 'none';
+    markerDiv.innerHTML = `<img src="${new URL(LocationIcon.src, window.location.origin).href}" alt="Location" style="width: 24px; height: 24px; background: transparent;" />`;
 
     // Create advanced marker
     const marker = new AdvancedMarkerElement({
       map,
       position,
       title: title,
-      content: pinElement.element,
+      content: markerDiv,
     });
 
     const infoWindow = new maps.InfoWindow({
       content: `
-        <div style="padding: 12px; max-width: 280px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-          <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 8px 0; color: #202124; line-height: 1.4;">
-            ${title}
-          </h3>
-          ${
-            address
-              ? `
-            <p style="font-size: 14px; color: #5f6368; margin: 0 0 12px 0; line-height: 1.5;">
-              ${address}
-            </p>
-          `
-              : ''
-          }
-          <a 
-            href="${viewOnMapsUrl}" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            style="display: inline-block; color: #1a73e8; text-decoration: none; font-size: 14px; font-weight: 500;"
-          >
-            View on Google Maps
-          </a>
-        </div>
-      `,
+          <div style="padding: 12px; max-width: 280px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
+            <h3 style="font-size: 16px; font-weight: 600; margin: 0 0 8px 0; color: #202124; line-height: 1.4;">
+              ${title}
+            </h3>
+            ${
+              address
+                ? `
+              <p style="font-size: 14px; color: #5f6368; margin: 0 0 12px 0; line-height: 1.5;">
+                ${address}
+              </p>
+            `
+                : ''
+            }
+            <a 
+              href="${viewOnMapsUrl}" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style="display: inline-block; color: #1a73e8; text-decoration: none; font-size: 14px; font-weight: 500;"
+            >
+              View on Google Maps
+            </a>
+          </div>
+        `,
     });
 
     // Add click listener to marker
@@ -151,8 +152,8 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
           region: 'US',
         }}
         center={{
-          lat: typeof lat === 'string' ? parseFloat(lat) : lat,
-          lng: typeof lng === 'string' ? parseFloat(lng) : lng,
+          lat,
+          lng,
         }}
         defaultZoom={15}
         yesIWantToUseGoogleMapApiInternals
@@ -165,6 +166,7 @@ const GoogleMap: React.FC<GoogleMapProps> = ({
           fullscreenControl: true,
           gestureHandling: 'greedy',
           styles: [],
+          mapId: mapId || undefined,
         }}
       />
 

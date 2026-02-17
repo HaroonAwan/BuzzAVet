@@ -9,6 +9,7 @@ interface UserActions {
   portalType?: 'CUSTOMER';
   email?: string | null;
   isVerified?: boolean;
+  refreshToken?: string | null;
 }
 
 const initialState: AuthState = {
@@ -18,6 +19,7 @@ const initialState: AuthState = {
   portalType: 'CUSTOMER',
   email: null,
   isVerified: false,
+  refreshToken: null,
 };
 
 export const authSlice = createSlice({
@@ -30,6 +32,7 @@ export const authSlice = createSlice({
       }
       if (action.payload.token || action.payload.accessToken) {
         state.token = action.payload.token || action.payload.accessToken || null;
+        state.refreshToken = action.payload.refreshToken || null;
       }
       if (action.payload.email) {
         state.email = action.payload.email;
@@ -45,6 +48,7 @@ export const authSlice = createSlice({
         document.cookie = 'auth_token=; path=/; max-age=0; SameSite=Lax';
         document.cookie = 'is_verified=; path=/; max-age=0; SameSite=Lax';
         document.cookie = 'has_profile=; path=/; max-age=0; SameSite=Lax';
+        document.cookie = 'refresh_token=; path=/; max-age=0; SameSite=Lax';
       }
 
       // Clear localStorage and sessionStorage
@@ -65,6 +69,7 @@ export const authSlice = createSlice({
       state.portalType = 'CUSTOMER';
       state.email = null;
       state.isVerified = false;
+      state.refreshToken = null;
     },
   },
 });
@@ -75,6 +80,7 @@ export const selectToken = (state: RootState) => state.auth.token;
 export const selectPortalType = (state: RootState) => state.auth.portalType;
 export const selectEmail = (state: RootState) => state.auth.email;
 export const selectIsVerified = (state: RootState) => state.auth.isVerified;
+export const selectRefreshToken = (state: RootState) => state.auth.refreshToken;
 
 export const { setCredentials, logout } = authSlice.actions;
 export default authSlice.reducer;

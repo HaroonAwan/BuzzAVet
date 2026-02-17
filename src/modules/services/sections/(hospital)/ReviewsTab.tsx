@@ -5,114 +5,40 @@ import { StarIcon } from '@/assets/icon-components';
 import { Avatar } from '@/components/shared/Avatar';
 import { theme } from '@/lib/theme';
 import { Button } from '@/components/shared/Button';
+import { HospitalDetailsResponse } from '@/types/hospitalsTypes';
 
-interface Review {
-  id: string;
-  authorName: string;
-  authorImage: string;
-  rating: number;
-  text: string;
-  postedAt: string;
+interface ReviewsTabProps {
+  hospital: HospitalDetailsResponse;
 }
 
-const dummyReviews: Review[] = [
-  {
-    id: '1',
-    authorName: 'Sarah Martinez',
-    authorImage: '/placeholder-avatar.jpg',
-    rating: 5,
-    text: 'Excellent care for my dog Max. The staff is incredibly caring and professional. Dr. Smith took great time to explain the treatment plan.',
-    postedAt: '2 weeks ago',
-  },
-  {
-    id: '2',
-    authorName: 'Mike Chen',
-    authorImage: '/placeholder-avatar.jpg',
-    rating: 5,
-    text: "Clean facility with modern equipment. The emergency service saved my cat's life. Highly recommend this hospital.",
-    postedAt: '1 month ago',
-  },
-  {
-    id: '3',
-    authorName: 'Sarah Martinez',
-    authorImage: '/placeholder-avatar.jpg',
-    rating: 5,
-    text: 'Excellent care for my dog Max. The staff is incredibly caring and professional. Dr. Smith took great time to explain the treatment plan.',
-    postedAt: '2 weeks ago',
-  },
-  {
-    id: '4',
-    authorName: 'Mike Chen',
-    authorImage: '/placeholder-avatar.jpg',
-    rating: 5,
-    text: "Clean facility with modern equipment. The emergency service saved my cat's life. Highly recommend this hospital.",
-    postedAt: '1 month ago',
-  },
-  {
-    id: '5',
-    authorName: 'Emily Rodriguez',
-    authorImage: '/placeholder-avatar.jpg',
-    rating: 4,
-    text: "Very professional veterinarians. They took time to answer all my questions about my rabbit's health. Great experience overall.",
-    postedAt: '3 weeks ago',
-  },
-  {
-    id: '6',
-    authorName: 'James Wilson',
-    authorImage: '/placeholder-avatar.jpg',
-    rating: 5,
-    text: 'Best veterinary hospital in the city. The care and attention they gave to my bird was exceptional. Would definitely come back.',
-    postedAt: '5 days ago',
-  },
-  {
-    id: '7',
-    authorName: 'Lisa Anderson',
-    authorImage: '/placeholder-avatar.jpg',
-    rating: 4,
-    text: 'Good service and friendly staff. Prices are reasonable for the quality of care provided. Highly satisfied with our visit.',
-    postedAt: '2 months ago',
-  },
-  {
-    id: '8',
-    authorName: 'David Thompson',
-    authorImage: '/placeholder-avatar.jpg',
-    rating: 5,
-    text: 'Took my puppy here for vaccinations and check-up. The doctors were gentle and made my pet feel comfortable. Great hospital!',
-    postedAt: '1 week ago',
-  },
-  {
-    id: '9',
-    authorName: 'Jennifer Garcia',
-    authorImage: '/placeholder-avatar.jpg',
-    rating: 5,
-    text: "Outstanding medical care. They diagnosed my cat's condition quickly and provided excellent treatment. Very grateful for their expertise.",
-    postedAt: '3 days ago',
-  },
-  {
-    id: '10',
-    authorName: 'Robert Lee',
-    authorImage: '/placeholder-avatar.jpg',
-    rating: 4,
-    text: 'Professional team with modern equipment. My dog recovered well after surgery. Recommend them to all pet owners.',
-    postedAt: '2 weeks ago',
-  },
-];
-
-const dummyRatingBreakdown = [
-  { stars: 5, count: 388 },
-  { stars: 4, count: 34 },
-  { stars: 3, count: 6 },
-  // { stars: 2, count: 0 },
-  // { stars: 1, count: 0 },
-];
-
-const ReviewsTab: React.FC = () => {
+const ReviewsTab: React.FC<ReviewsTabProps> = ({ hospital }) => {
   const [showAllReviews, setShowAllReviews] = React.useState(false);
-  const totalRating = 4.9;
-  const totalReviews = 428;
-  const ratingBreakdown = dummyRatingBreakdown;
-  const displayedReviews = showAllReviews ? dummyReviews : dummyReviews.slice(0, 5);
+  const reviews = Array.isArray(hospital.reviews) ? hospital.reviews : [];
+  const totalReviews = reviews.length;
+  const totalRating =
+    totalReviews > 0
+      ? reviews.reduce((sum, r) => sum + (typeof r.ratings === 'number' ? r.ratings : 0), 0) /
+        totalReviews
+      : 0;
+  // Calculate rating breakdown
+  const ratingBreakdown = [5, 4, 3, 2, 1].map((star) => ({
+    stars: star,
+    count: reviews.filter((r) => r.ratings === star).length,
+  }));
   const maxCount = Math.max(...ratingBreakdown.map((r) => r.count), 1);
+  // Map reviews for display
+  const mappedReviews = reviews.map((r) => ({
+    id: r._id,
+    authorName:
+      r.reviewer?.firstName || r.reviewer?.lastName
+        ? `${r.reviewer?.firstName ?? ''} ${r.reviewer?.lastName ?? ''}`.trim()
+        : r.reviewer?.email || 'Anonymous',
+    authorImage: r.reviewer?.profilePicture || '/placeholder-avatar.jpg',
+    rating: r.ratings,
+    text: r.review,
+    postedAt: r.createdAt ? new Date(r.createdAt).toLocaleDateString() : '',
+  }));
+  const displayedReviews = showAllReviews ? mappedReviews : mappedReviews.slice(0, 5);
 
   return (
     <div className="flex w-full flex-col gap-6">
@@ -225,11 +151,13 @@ const ReviewsTab: React.FC = () => {
       </div>
 
       {/* View All Reviews Button */}
-      <div className="flex justify-center">
-        <Button variant="underline" onClick={() => setShowAllReviews(!showAllReviews)}>
-          {showAllReviews ? 'View Less' : 'View All Reviews'}
-        </Button>
-      </div>
+      {mappedReviews.length > 5 && (
+        <div className="flex justify-center">
+          <Button variant="underline" onClick={() => setShowAllReviews(!showAllReviews)}>
+            {showAllReviews ? 'View Less' : 'View All Reviews'}
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

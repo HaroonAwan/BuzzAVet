@@ -1,4 +1,4 @@
-import { HospitalsNearYouQuery } from '@/types/hospitalsTypes';
+import { HospitalDetailsQuery, HospitalsNearYouQuery } from '@/types/hospitalsTypes';
 
 export const ApiEndpoints = {
   AUTH: {
@@ -31,6 +31,18 @@ export const ApiEndpoints = {
       }
       const qs = params.toString();
       return `/customer/hospitals/near${qs ? `?${qs}` : ''}`;
+    },
+    HOSPITAL_DETAILS: (hospitalId: string, QUERY: HospitalDetailsQuery) => {
+      const params = new URLSearchParams();
+      if (QUERY) {
+        Object.entries(QUERY).forEach(([key, value]) => {
+          if (value !== undefined && value !== null) {
+            params.append(key, String(value));
+          }
+        });
+      }
+      const qs = params.toString();
+      return `/customer/hospital/${hospitalId}${qs ? `?${qs}` : ''}`;
     },
   },
   FAVORITE: {

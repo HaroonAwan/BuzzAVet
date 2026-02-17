@@ -29,6 +29,7 @@ export const useSearchedOrDefaultHospitalsNearYou = () => {
     QUERY: { page: currentPage, perPage: PAGE_SIZE },
     BODY: {},
   }) as { data?: HospitalsNearYouResponse; error?: any; isLoading: boolean };
+  console.log('🚀 ~ useSearchedOrDefaultHospitalsNearYou ~ error:', extractApiError(error));
   console.log('🚀 ~ useSearchedOrDefaultHospitalsNearYou ~ data:', data);
   const [toggleFavorite, { isLoading: isTogglingFavorite }] = useToggleFavoriteMutation();
 
@@ -187,6 +188,7 @@ export const useSearchedOrDefaultHospitalsNearYou = () => {
     isNavbarExpanded,
     viewType,
     sectionRef,
+    hasPages: (data?.totalPages ?? 1) > 1,
     nearYouHospitals: {
       totalPages: data?.totalPages ?? 1,
       hospitalsData: data?.data ?? [],

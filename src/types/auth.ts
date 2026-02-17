@@ -31,6 +31,7 @@ export interface AuthState {
   portalType: string;
   email: string | null;
   isVerified: boolean;
+  refreshToken: string | null;
 }
 
 export interface LoginRequest {
@@ -46,6 +47,7 @@ export interface LoginResponse {
   isVerified: boolean;
   profile: User | null;
   email: string;
+  refreshToken: string;
 }
 
 export interface RegisterRequest {
