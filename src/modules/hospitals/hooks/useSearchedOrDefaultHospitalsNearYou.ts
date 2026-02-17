@@ -2,82 +2,104 @@ import { useState, useMemo, useRef, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { HospitalOrPetServicesCardProps } from '@/modules/home/layouts/HospitalOrPetServicesCard';
 import { ViewType } from '@/components/shared/navbar/types';
-
-// ============================================
-// DUMMY DATA
-// ============================================
-const initialHospital: HospitalOrPetServicesCardProps = {
-  name: 'VetCare Hospital',
-  location: '123 Main Street, Downtown',
-  rating: 4.9,
-  price: 100,
-  favorite: false,
-  imageSrc:
-    'https://images.unsplash.com/photo-1626315869436-d6781ba69d6e?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  chips: [
-    { label: 'Open Now', variant: 'success' },
-    { label: '24/7 Emergency', variant: 'warning' },
-  ],
-};
+import { useGetHospitalsNearYouQuery } from '@/apis/hospitals/hospitalsApi';
+import { extractApiError } from '@/types/api';
+import type { HospitalsNearYouResponse, Hospital } from '@/types/hospitalsTypes';
+import { useToggleFavoriteMutation } from '@/apis/favorite/favoriteApi';
+import { FAVORITE_ITEM_TYPE } from '@/lib/enums';
+import toast from 'react-hot-toast';
 
 // ============================================
 // CONSTANTS
 // ============================================
-const PAGE_SIZE = 25;
-const TOTAL_HOSPITALS = 200;
+
+const PAGE_SIZE = 24;
 
 // ============================================
 // HOOK
 // ============================================
-export function useSearchedOrDefaultHospitalsNearYou() {
+export const useSearchedOrDefaultHospitalsNearYou = () => {
   const searchParams = useSearchParams();
-
-  // ============================================
-  // PAGINATION STATE & LOGIC
-  // ============================================
   const currentPage = useMemo(() => {
     const page = searchParams.get('page');
     return page ? parseInt(page, 10) : 1;
   }, [searchParams]);
 
-  const isInitialMount = useRef(true);
-  const prevPageRef = useRef(currentPage);
-
-  // ============================================
-  // HOSPITALS DATA
-  // ============================================
-  // Create 200 hospitals by mapping the initial hospital
-  const allHospitals = useMemo(() => {
-    return Array.from({ length: TOTAL_HOSPITALS }, (_, index) => ({
-      ...initialHospital,
-      name: `${initialHospital.name} ${index + 1}`,
-    }));
-  }, []);
-
-  // Calculate pagination
-  const totalPages = Math.ceil(allHospitals.length / PAGE_SIZE);
-  const startIndex = (currentPage - 1) * PAGE_SIZE;
-  const endIndex = startIndex + PAGE_SIZE;
+  const { data, error, isLoading } = useGetHospitalsNearYouQuery({
+    QUERY: { page: currentPage, perPage: PAGE_SIZE },
+    BODY: {},
+  }) as { data?: HospitalsNearYouResponse; error?: any; isLoading: boolean };
+  console.log('🚀 ~ useSearchedOrDefaultHospitalsNearYou ~ data:', data);
+  const [toggleFavorite, { isLoading: isTogglingFavorite }] = useToggleFavoriteMutation();
 
   // ============================================
   // FAVORITES STATE & LOGIC
   // ============================================
   const [favorites, setFavorites] = useState<Record<string, boolean>>({});
 
-  // Get paginated hospitals with favorite state applied
-  const paginatedHospitals = useMemo(() => {
-    return allHospitals.slice(startIndex, endIndex).map((hospital) => ({
-      ...hospital,
-      favorite: favorites[hospital.name] ?? false,
-    }));
-  }, [allHospitals, startIndex, endIndex, favorites]);
+  const paginatedHospitals: HospitalOrPetServicesCardProps[] = useMemo(() => {
+    if (!data?.data) return [];
+    return data.data.map((hospital: Hospital) => {
+      const id = hospital._id;
+      const name = hospital.basicInformation?.name || '';
+      const location = hospital.basicInformation?.address?.address || '';
+      const rating = typeof hospital.ratings === 'number' ? hospital.ratings : 0;
+      const imageSrc = hospital.documents?.profilePicture?.path || undefined;
+      const favorite = typeof hospital.isFavorite === 'boolean' ? hospital.isFavorite : false;
+      const type = hospital.details?.type || undefined;
+      let chips: HospitalOrPetServicesCardProps['chips'] = [];
+      if (Array.isArray(hospital.preferences?.appointmentConsistOf)) {
+        if (hospital.preferences.appointmentConsistOf.includes('emergency')) {
+          chips.push({ label: '24/7 Emergency', variant: 'warning' });
+        }
+        if (hospital.preferences.appointmentConsistOf.includes('openNow')) {
+          chips.push({ label: 'Open Now', variant: 'success' });
+        }
+      }
+      const price = hospital.pricing?.basePrice || 0;
+      const favoriteKey = id || name;
+      const slug = 'hospitals';
+      const hasSessionBooking = false;
+      const servesInArea = undefined;
 
-  const handleFavoriteToggle = (index: number, favorite: boolean) => {
+      return {
+        id,
+        name,
+        location,
+        rating,
+        imageSrc,
+        favorite: favorites[favoriteKey] ?? favorite,
+        chips,
+        price,
+        hasSessionBooking,
+        servesInArea,
+        type,
+        slug,
+        isDynamicWidth: false,
+      };
+    });
+  }, [data, favorites]);
+
+  const handleFavoriteToggle = async (index: number, favorite: boolean) => {
     const hospital = paginatedHospitals[index];
+    const key = hospital.id || hospital.name;
     setFavorites((prev) => ({
       ...prev,
-      [hospital.name]: favorite,
+      [key]: favorite,
     }));
+    if (!hospital.id) return;
+    try {
+      await toggleFavorite({
+        itemType: FAVORITE_ITEM_TYPE.HOSPITAL,
+        item: hospital.id,
+      }).unwrap();
+    } catch (e: any) {
+      toast.error('Failed to update favorite. Please try again.');
+      setFavorites((prev) => ({
+        ...prev,
+        [key]: !favorite,
+      }));
+    }
   };
 
   // ============================================
@@ -85,7 +107,6 @@ export function useSearchedOrDefaultHospitalsNearYou() {
   // ============================================
   const [isNavbarExpanded, setIsNavbarExpanded] = useState(false);
 
-  // Watch for navbar expansion state changes
   useEffect(() => {
     const checkNavbarState = () => {
       if (typeof document !== 'undefined') {
@@ -93,11 +114,7 @@ export function useSearchedOrDefaultHospitalsNearYou() {
         setIsNavbarExpanded(expanded);
       }
     };
-
-    // Check initial state
     checkNavbarState();
-
-    // Watch for changes using MutationObserver
     const observer = new MutationObserver(checkNavbarState);
     if (typeof document !== 'undefined') {
       observer.observe(document.body, {
@@ -105,7 +122,6 @@ export function useSearchedOrDefaultHospitalsNearYou() {
         attributeFilter: ['data-navbar-expanded'],
       });
     }
-
     return () => {
       observer.disconnect();
     };
@@ -116,7 +132,6 @@ export function useSearchedOrDefaultHospitalsNearYou() {
   // ============================================
   const [viewType, setViewType] = useState<ViewType>('list');
 
-  // Watch for view type changes from navbar
   useEffect(() => {
     const checkViewType = () => {
       if (typeof document !== 'undefined') {
@@ -126,11 +141,7 @@ export function useSearchedOrDefaultHospitalsNearYou() {
         }
       }
     };
-
-    // Check initial state
     checkViewType();
-
-    // Watch for changes using MutationObserver
     const observer = new MutationObserver(checkViewType);
     if (typeof document !== 'undefined') {
       observer.observe(document.body, {
@@ -138,7 +149,6 @@ export function useSearchedOrDefaultHospitalsNearYou() {
         attributeFilter: ['data-view-type'],
       });
     }
-
     return () => {
       observer.disconnect();
     };
@@ -148,28 +158,21 @@ export function useSearchedOrDefaultHospitalsNearYou() {
   // SCROLL BEHAVIOR
   // ============================================
   const sectionRef = useRef<HTMLElement | null>(null);
+  const isInitialMount = useRef(true);
+  const prevPageRef = useRef(currentPage);
 
-  // Scroll to top of section when page changes (but not on initial load without page param)
   useEffect(() => {
-    // Check if there's a page param in URL (means user navigated to a specific page)
     const hasPageParam = searchParams.has('page');
-
-    // Skip scroll on initial mount if there's no page param
     if (isInitialMount.current) {
       isInitialMount.current = false;
       prevPageRef.current = currentPage;
-      // If no page param on initial load, don't scroll
       if (!hasPageParam) {
         return;
       }
     }
-
-    // Scroll if page changed and section exists
     if (currentPage !== prevPageRef.current && sectionRef.current) {
-      // Use scrollIntoView which respects scroll-margin-top
       sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-
     prevPageRef.current = currentPage;
   }, [currentPage, searchParams]);
 
@@ -177,26 +180,21 @@ export function useSearchedOrDefaultHospitalsNearYou() {
   // RETURN VALUES
   // ============================================
   return {
-    // Data
-    allHospitals,
     paginatedHospitals,
-    totalHospitals: allHospitals.length,
-
-    // Pagination
     currentPage,
-    totalPages,
     pageSize: PAGE_SIZE,
-
-    // Favorites
     handleFavoriteToggle,
-
-    // Navbar
     isNavbarExpanded,
-
-    // View Type
     viewType,
-
-    // Scroll
     sectionRef,
+    nearYouHospitals: {
+      totalPages: data?.totalPages ?? 1,
+      hospitalsData: data?.data ?? [],
+      totalHospitals: data?.totalCount ?? 0,
+      hospitalsError: extractApiError(error),
+      hospitalsIsLoading: isLoading,
+      page: data?.page ?? 1,
+      perPage: data?.perPage ?? PAGE_SIZE,
+    },
   };
-}
+};

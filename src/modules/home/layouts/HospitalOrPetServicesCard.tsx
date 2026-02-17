@@ -33,6 +33,7 @@ export interface HospitalOrPetServicesCardProps {
   type?: string;
   slug?: string;
   isDynamicWidth?: boolean;
+  id?: string;
 }
 
 export const HospitalOrPetServicesCard: React.FC<HospitalOrPetServicesCardProps> = ({
@@ -50,16 +51,20 @@ export const HospitalOrPetServicesCard: React.FC<HospitalOrPetServicesCardProps>
   type,
   slug = 'hospitals',
   isDynamicWidth = false,
+  id,
 }) => {
-  const handleFavoriteClick = () => {
+  const handleFavoriteClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
     if (onFavoriteToggle) {
       onFavoriteToggle(!favorite);
     }
   };
 
   return (
-    <Link href={`/services/${slug}/${name}`}>
+    <Link href={`/services/${slug}/${id ?? name}`}>
       <article
+        id={id}
         className={cn(
           'flex flex-col gap-3 rounded-2xl bg-transparent',
           isDynamicWidth ? 'min-w-50.75 shrink-0 grow' : 'w-50.75',
@@ -73,6 +78,8 @@ export const HospitalOrPetServicesCard: React.FC<HospitalOrPetServicesCardProps>
           onClick={handleFavoriteClick}
           className="absolute top-3 right-3 z-10 h-8 w-8 overflow-hidden rounded-lg bg-(--bg-glass) p-1.5"
           aria-label={favorite ? 'Remove from favorites' : 'Add to favorites'}
+          type="button"
+          data-no-progress
         >
           <FavoriteIcon favorite={favorite} size={20} />
         </Button>

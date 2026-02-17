@@ -59,6 +59,8 @@ export function NavigationProgress() {
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
+      // Ignore clicks on elements with data-no-progress
+      if (target.closest('[data-no-progress]')) return;
       const link = target.closest('a[href]');
 
       // Only handle internal Next.js links

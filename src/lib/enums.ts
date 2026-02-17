@@ -23,3 +23,12 @@ export const enum PET_GENDER {
   UNKNOWN = 'UNKNOWN',
 }
 export type PET_GENDER_TYPES = keyof typeof PET_GENDER;
+
+// enums for item types in favorites Person, Hospital, Pet
+
+export const enum FAVORITE_ITEM_TYPE {
+  PERSON = 'Person',
+  HOSPITAL = 'Hospital',
+  PET = 'Pet',
+}
+export type FAVORITE_ITEM_TYPE_TYPES = keyof typeof FAVORITE_ITEM_TYPE;

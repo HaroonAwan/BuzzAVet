@@ -4,6 +4,9 @@ export interface HospitalsNearYouQuery {
   withPopulate?: boolean;
   miles?: number;
 }
+export interface HospitalPrice{
+  basePrice: number;
+}
 
 export interface HospitalsNearYouBody {
   minPrice?: number;

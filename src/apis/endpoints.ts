@@ -33,4 +33,7 @@ export const ApiEndpoints = {
       return `/customer/hospitals/near${qs ? `?${qs}` : ''}`;
     },
   },
+  FAVORITE: {
+    TOGGLE: '/customer/favorites/toggle',
+  },
 };
