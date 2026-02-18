@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { store } from './lib/store';
 
 // Only these routes require authentication; all others are public by default
 const privateRoutes = ['/user-menu', '/appointments', '/pets'];

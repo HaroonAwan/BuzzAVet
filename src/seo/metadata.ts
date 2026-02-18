@@ -73,4 +73,7 @@ export const DEFAULT_METADATA = {
   telemedicineMetadata: {
     title: 'Telemedicine',
   },
+  mobileVets: {
+    title: 'Mobile Vets',
+  },
 };

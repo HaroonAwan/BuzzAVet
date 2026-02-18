@@ -2,7 +2,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ApiEndpoints } from '@/apis/endpoints';
 import { setCredentials, logout } from '@/apis/auth/authSlice';
-import { store } from '@/lib/store';
+// Do not import store at the top level to avoid circular dependency
 import { getCookie, setCookie } from 'cookies-next';
 import type { RootState } from '@/lib/store';
 import { API_BASE_URL } from '@/constants';
@@ -11,8 +11,10 @@ import toast from 'react-hot-toast';
 
 function performLogout() {
   const from = getCurrentPathWithQuery();
-
   toast.error('Session expired. Please log in again.');
+  // Lazy import store to avoid circular dependency
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const { store } = require('@/lib/store');
   store.dispatch(logout());
   window.location.href = `/auth/login?from=${encodeURIComponent(from)}`;
 }
@@ -83,6 +85,9 @@ const refreshTokenAndRetry: BaseQueryFn<any, unknown, FetchBaseQueryError, unkno
       const data = refreshResult.data as { accessToken: string; refreshToken: string };
       setCookie('auth_token', data.accessToken);
       setCookie('refresh_token', data.refreshToken);
+      // Lazy import store to avoid circular dependency
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const { store } = require('@/lib/store');
       store.dispatch(setCredentials({ token: data.accessToken, refreshToken: data.refreshToken }));
       let retriedArgs = {
         ...(typeof originalArgs === 'string' ? { url: originalArgs } : originalArgs),

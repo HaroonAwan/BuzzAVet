@@ -3,7 +3,7 @@
 import MainLayout from '@/layouts/MainLayout';
 import ContentBodyWrapper from '@/layouts/ContentBodyWrapper';
 import HospitalService from './sections/HospitalService';
-import TelemedicineService from './sections/TelemedicineService';
+import VetService from './sections/VetService';
 
 interface ViewDetailedServicesProps {
   slug: { slug: string; name: string };
@@ -14,8 +14,7 @@ export default function Services({ slug }: ViewDetailedServicesProps) {
   return (
     <MainLayout>
       <ContentBodyWrapper>
-        {slug.slug === 'hospitals' && <HospitalService slug={slug} />}
-        {slug.slug === 'telemedicine' && <TelemedicineService slug={slug} />}
+        {slug.slug === 'hospitals' ? <HospitalService slug={slug} /> : <VetService slug={slug} />}
       </ContentBodyWrapper>
     </MainLayout>
   );

@@ -42,9 +42,9 @@ export function useNavbar({ onApply, onClearAll }: UseNavbarProps = {}) {
   } else if (pathname.startsWith('/telemedicine')) {
     heading = 'Telemedicine In';
     activeSlug = 'telemedicine';
-  } else if (pathname.startsWith('/mobile-vet')) {
+  } else if (pathname.startsWith('/mobile-vets')) {
     heading = 'Mobile Vets In';
-    activeSlug = 'mobile-vet';
+    activeSlug = 'mobile-vets';
   } else if (pathname.startsWith('/pet-services')) {
     heading = 'Pet Services In';
     activeSlug = 'pet-services';

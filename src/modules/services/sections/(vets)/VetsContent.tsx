@@ -3,17 +3,17 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import TabsLayoutForServicesSection from '../../layouts/TabsLayoutForServicesSection';
 import BookHospitalAppointment from '../(hospital)/BookHospitalAppointment.tsx';
 import ReviewsTab from '../(hospital)/ReviewsTab';
-import OverViewTabTelemedicine from './OverViewTabTelemedicine';
-import BookTelemedicineAppointment from './BookTelemedicineAppointment';
+import VetsOverViewTab from './VetsOverViewTab';
+import BookTelemedicineAppointment from './(bookings)/BookTelemedicineAppointment';
 
 const menu = ['Overview', 'Reviews'];
 
-interface TelemedicineContentProps {
+interface VetsContentProps {
   slug: { slug: string; name: string };
 }
 
-const TelemedicineContent = ({ slug }: TelemedicineContentProps) => {
-  console.log('🚀 ~ TelemedicineContent ~ slug:', slug);
+const VetsContent = ({ slug }: VetsContentProps) => {
+  console.log('🚀 ~ VetsContent ~ slug:', slug);
   const router = useRouter();
   const searchParams = useSearchParams();
   const tabParam = searchParams.get('tab');
@@ -44,10 +44,10 @@ const TelemedicineContent = ({ slug }: TelemedicineContentProps) => {
       activeTab={activeTab}
       actionSection={<BookTelemedicineAppointment onBookAppointment={handleBookAppointment} />}
     >
-      {activeTab === 'Overview' && <OverViewTabTelemedicine />}
+      {activeTab === 'Overview' && <VetsOverViewTab />}
       {activeTab === 'Reviews' && <ReviewsTab />}
     </TabsLayoutForServicesSection>
   );
 };
 
-export default TelemedicineContent;
+export default VetsContent;

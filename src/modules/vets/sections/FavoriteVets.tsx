@@ -7,18 +7,18 @@ import { TelemedicineCard, TelemedicineCardProps } from '@/modules/home/layouts/
 import { extractApiError } from '@/types/api';
 import { useState, useMemo } from 'react';
 
-const RecommendedTeleMedicines = () => {
+const FavoriteVets = () => {
   const { data, isLoading, isError, refetch } = useGetFavoritesByTypeQuery({
     itemType: FAVORITE_ITEM_TYPE.PERSON,
   });
-  console.log('🚀 ~ RecommendedTeleMedicines ~ data:', data);
+
   const [favorites, setFavorites] = useState<Record<string, boolean>>({});
   const [toggleFavorite] = useToggleFavoriteMutation();
   const allowURLOnly = (url: string) => {
     return url.startsWith('http://') || url.startsWith('https://');
   };
 
-  const telemedicineDoctors: TelemedicineCardProps[] = useMemo(() => {
+  const vetPersons: TelemedicineCardProps[] = useMemo(() => {
     if (!Array.isArray(data)) return [];
     return data.map((fav: any) => {
       const vet = fav.item;
@@ -47,7 +47,7 @@ const RecommendedTeleMedicines = () => {
   }, [data, favorites]);
 
   const handleFavoriteToggle = async (index: number, favorite: boolean) => {
-    const vet = telemedicineDoctors[index];
+    const vet = vetPersons[index];
     const key = vet.id || vet.name;
     setFavorites((prev) => ({
       ...prev,
@@ -70,18 +70,18 @@ const RecommendedTeleMedicines = () => {
 
   const vetsIsLoading = isLoading;
   const vetsError = extractApiError(isError);
-  if (!vetsIsLoading && telemedicineDoctors.length === 0 && !vetsError) return null;
+  if (!vetsIsLoading && vetPersons.length === 0 && !vetsError) return null;
   return (
     <SectionsWrapper noContainer className="bg-(--bg-teal)">
       <ScrollableSection className="container" title="Recommended By Dr. Alex / Favorites">
         <ApiResponseWrapper
           isLoading={vetsIsLoading}
           hasError={!!vetsError}
-          hasData={telemedicineDoctors.length > 0}
+          hasData={vetPersons.length > 0}
           loadingSize={{ width: 300, height: 324 }}
           errorSize={{ width: 300, height: 200 }}
         >
-          {telemedicineDoctors.map((doctor, index) => (
+          {vetPersons.map((doctor, index) => (
             <TelemedicineCard
               key={`${doctor.id || doctor.name}-${index}`}
               {...doctor}
@@ -94,4 +94,4 @@ const RecommendedTeleMedicines = () => {
   );
 };
 
-export default RecommendedTeleMedicines;
+export default FavoriteVets;

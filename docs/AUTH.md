@@ -66,7 +66,7 @@ The proxy middleware is a Next.js middleware layer that manages user authenticat
 - `/services` - Service browsing
 - `/explore` - Exploration features
 - `/telemedicine` - Telemedicine consultations
-- `/mobile-vet` - Mobile veterinary services
+- `/mobile-vets` - Mobile veterinary services
 - `/` - Home dashboard
 
 ---
@@ -235,7 +235,7 @@ The proxy middleware is a Next.js middleware layer that manages user authenticat
 - `/hospitals` - Hospital listing and search
 - `/explore` - Explore veterinary services
 - `/telemedicine` - Telemedicine consultations
-- `/mobile-vet` - Mobile veterinary services
+- `/mobile-vets` - Mobile veterinary services
 - `/services/[slug]` - Service details
 - `terms-of-service` and `/privacy-policy` remain accessible even when authenticated
 

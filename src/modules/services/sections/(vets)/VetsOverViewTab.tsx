@@ -26,7 +26,7 @@ const STATE_LICENSES = [
   { name: 'California', number: '#CA-VET-123456' },
 ];
 
-const OverViewTabTelemedicine = () => {
+const VetsOverViewTab = () => {
   return (
     <div className="flex flex-col gap-10">
       {/* INTRO SECTION */}
@@ -78,4 +78,4 @@ const OverViewTabTelemedicine = () => {
   );
 };
 
-export default OverViewTabTelemedicine;
+export default VetsOverViewTab;

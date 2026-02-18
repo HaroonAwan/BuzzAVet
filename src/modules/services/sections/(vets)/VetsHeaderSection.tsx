@@ -22,16 +22,16 @@ const VET_EDUCATION = [
   },
 ];
 
-const TelemedicinesHeaderSection = () => {
+const VetsHeaderSection = () => {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex justify-between gap-4">
         <div className="flex gap-6">
-          <Avatar size="max" url="" name="Telemedicines Logo" />
+          <Avatar size="max" url="" name="Vets Logo" />
           {/* content portion */}
           <div className="flex flex-col justify-between">
             <h1 className="thirty-six leading-none font-semibold">
-              Telemedicines Title Placeholder
+              Vets Title Placeholder
             </h1>
             <p>Dermatology</p>
             <div className="flex items-center gap-4">
@@ -97,4 +97,4 @@ const TelemedicinesHeaderSection = () => {
   );
 };
 
-export default TelemedicinesHeaderSection;
+export default VetsHeaderSection;

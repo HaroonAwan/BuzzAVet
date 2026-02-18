@@ -2,7 +2,7 @@ import { useGetVetsNearYouQuery } from '@/apis/vets/vetsApi';
 import { FAVORITE_ITEM_TYPE, SERVICE_TYPE } from '@/lib/enums';
 import { extractApiError } from '@/types/api';
 import type { TelemedicineCardProps } from '@/modules/home/layouts/TelemedicineCard';
-import { useSearchParams } from 'next/navigation';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useToggleFavoriteMutation } from '@/apis/favorite/favoriteApi';
 
@@ -11,9 +11,13 @@ const MILES = 500000000;
 
 export function useSearchedOrDefaultTelemedicinesNearYou() {
   const searchParams = useSearchParams();
+  const pathname = usePathname();
+
   const [toggleFavorite] = useToggleFavoriteMutation();
 
   const currentPage = useMemo(() => {
+    // get path name from url using next-Navigation
+
     const page = searchParams.get('page');
     return page ? parseInt(page, 10) : 1;
   }, [searchParams]);
@@ -22,7 +26,8 @@ export function useSearchedOrDefaultTelemedicinesNearYou() {
     QUERY: {
       page: currentPage,
       perPage: PAGE_SIZE,
-      serviceType: SERVICE_TYPE.TELEMEDICINE,
+      serviceType:
+        pathname === '/mobile-vets' ? SERVICE_TYPE.MOBILE_VET : SERVICE_TYPE.TELEMEDICINE,
       miles: MILES,
     },
     BODY: {},

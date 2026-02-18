@@ -21,7 +21,7 @@ export const serviceCategories: ServiceCategoryConfig[] = [
     id: 'mobile',
     label: 'Mobile Vet',
     image: HomeVisitImage,
-    route: '/mobile-vet',
+    route: '/mobile-vets',
   },
   {
     id: 'services',

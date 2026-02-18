@@ -7,8 +7,10 @@ import { theme } from '@/lib/theme';
 import { TelemedicineCard } from '@/modules/home/layouts/TelemedicineCard';
 import SectionsWrapper from '@/layouts/SectionsWrapper';
 import ApiResponseWrapper from '@/components/shared/states/ApiResponseWrapper';
+import { usePathname } from 'next/navigation';
 
-const NearYouTeleMedicines = () => {
+const NearYouVets = () => {
+  const pathname = usePathname();
   const {
     paginatedTelemedicines,
     totalTelemedicines,
@@ -26,8 +28,14 @@ const NearYouTeleMedicines = () => {
   return (
     <SectionsWrapper noContainer>
       <div className="flex flex-col gap-6">
-        <p className="font-semibold">{totalTelemedicines} Telemedicine Services Near you</p>
-        <h2 className="twenty-eight font-semibold">Other Telemedicine Services Near You</h2>
+        <p className="font-semibold">
+          {totalTelemedicines} {pathname.includes('/mobile-vets') ? 'Mobile Vet' : 'Telemedicine'}{' '}
+          Services Near you
+        </p>
+        <h2 className="twenty-eight font-semibold">
+          Other {pathname.includes('/mobile-vets') ? 'Mobile Vet' : 'Telemedicine'} Services Near
+          You
+        </h2>
         {viewType === 'list' ? (
           <ApiResponseWrapper
             isLoading={telemedicinesIsLoading}
@@ -53,6 +61,7 @@ const NearYouTeleMedicines = () => {
                     {...service}
                     onFavoriteToggle={(favorite) => handleFavoriteToggle(index, favorite)}
                     className="isDynamicWidth"
+                    pathname={pathname}
                   />
                 ))}
               </section>
@@ -78,4 +87,4 @@ const NearYouTeleMedicines = () => {
   );
 };
 
-export default NearYouTeleMedicines;
+export default NearYouVets;

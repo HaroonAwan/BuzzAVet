@@ -23,6 +23,7 @@ export interface TelemedicineCardProps {
   className?: string;
   slug?: string;
   id?: string;
+  pathname?: string;
 }
 
 export const TelemedicineCard: React.FC<TelemedicineCardProps> = ({
@@ -35,11 +36,11 @@ export const TelemedicineCard: React.FC<TelemedicineCardProps> = ({
   imageSrc,
   favorite = false,
   onFavoriteToggle,
-  slug = 'telemedicine',
+  slug: baseSlug = 'telemedicine',
   className,
   id,
+  pathname,
 }) => {
-  console.log('🔮🔮🔮🔮🔮🔮 ~ TelemedicineCard ~ imageSrc:', imageSrc);
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
@@ -49,6 +50,8 @@ export const TelemedicineCard: React.FC<TelemedicineCardProps> = ({
       onFavoriteToggle(!favorite);
     }
   };
+
+  const slug = pathname?.includes('/mobile-vets') ? 'mobile-vets' : baseSlug;
 
   return (
     <Link href={`services/${slug}/${id ?? name}`}>
