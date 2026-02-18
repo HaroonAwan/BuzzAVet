@@ -1,4 +1,8 @@
-import { HospitalDetailsQuery, HospitalsNearYouQuery } from '@/types/hospitalsTypes';
+import {
+  FavoritesQuery,
+  HospitalDetailsQuery,
+  HospitalsNearYouQuery,
+} from '@/types/hospitalsTypes';
 
 export const ApiEndpoints = {
   AUTH: {
@@ -47,5 +51,17 @@ export const ApiEndpoints = {
   },
   FAVORITE: {
     TOGGLE: '/customer/favorites/toggle',
+    LIST_BY_TYPE: (QUERY: FavoritesQuery) => {
+      const params = new URLSearchParams();
+      if (QUERY) {
+        Object.entries(QUERY).forEach(([key, value]) => {
+          if (value !== undefined && value !== null) {
+            params.append(key, String(value));
+          }
+        });
+      }
+      const qs = params.toString();
+      return `/customer/favorites?${qs}`;
+    },
   },
 };

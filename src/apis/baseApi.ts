@@ -4,7 +4,7 @@ import { getCookie } from 'cookies-next';
 import type { RootState } from '@/lib/store';
 import { API_BASE_URL } from '@/constants';
 
-export type ApiTagType = 'Auth' | 'User' | 'AccountValidity';
+export type ApiTagType = 'Auth' | 'User' | 'AccountValidity' | 'Favorite';
 
 const rawBaseQuery = fetchBaseQuery({
   baseUrl: API_BASE_URL,
@@ -44,6 +44,6 @@ const baseQuery = async (args: any, api: any, extraOptions: any) => {
 export const baseApi = createApi({
   reducerPath: 'api',
   baseQuery,
-  tagTypes: ['User', 'AccountValidity', 'Profile'] as ApiTagType[],
+  tagTypes: ['User', 'AccountValidity', 'Profile', 'Favorite'] as ApiTagType[],
   endpoints: () => ({}),
 });

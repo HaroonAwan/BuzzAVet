@@ -215,3 +215,7 @@ export interface HospitalDetailsQuery {
   withReviews?: boolean;
   withReviewers?: boolean;
 }
+
+export interface FavoritesQuery {
+  itemType: string;
+}
