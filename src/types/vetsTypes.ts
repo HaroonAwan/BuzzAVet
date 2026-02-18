@@ -1,5 +1,143 @@
-import { UploadedDocument } from '@/components/shared/dialogs/home/useAddNotes';
 import { SERVICE_TYPE_TYPES } from '@/lib/enums';
+export interface VetApiResponse {
+  [key: string]: any;
+  _id?: string;
+  email?: string;
+  firstName?: string;
+  lastName?: string;
+  fcmTokens?: string[];
+  portalType?: string;
+  role?: string;
+  savedShifts?: string[];
+  timeZone?: string;
+  stripeCusId?: string;
+  status?: string;
+  stConnectAccountComplete?: boolean;
+  isVerified?: boolean;
+  createdAt?: string;
+  updatedAt?: string;
+  __v?: number;
+  verificationEmailSentAt?: string;
+  profile?: {
+    [key: string]: any;
+    _id?: string;
+    personalInformation?: {
+      [key: string]: any;
+      phone?: string;
+      address?: {
+        [key: string]: any;
+        address?: string;
+        suite?: string;
+        streetName?: string;
+        streetNumber?: string;
+        city?: string;
+        state?: string;
+        zip?: string;
+      };
+    };
+    team?: string[];
+    onBoarding?: {
+      [key: string]: any;
+      completed?: boolean;
+      step?: number;
+    };
+    education?: Array<{
+      [key: string]: any;
+      school?: string;
+      graduationYear?: string;
+      aboutMe?: string;
+    }>;
+    licenses?: Array<{
+      [key: string]: any;
+      state?: string;
+      number?: string;
+      expirationMonth?: string;
+      expirationYear?: string;
+    }>;
+    createdAt?: string;
+    updatedAt?: string;
+    __v?: number;
+    areaOfExpertise?: {
+      [key: string]: any;
+      typesOfAnimals?: string[];
+      typesOfProcedures?: string[];
+    };
+    experience?: {
+      [key: string]: any;
+      yearOfPractice?: string;
+    };
+    specialties?: {
+      [key: string]: any;
+      certifiedVeterinarySpecialist?: string[];
+    };
+    preferences?: {
+      [key: string]: any;
+      latexAllergies?: boolean;
+      canPickMOreThenFiftyPounds?: boolean;
+      sensitiveToLoudNoises?: boolean;
+      anyOtherAllergies?: boolean;
+      comfortableWithEuthanasia?: boolean;
+    };
+    documents?: {
+      [key: string]: any;
+      profilePhoto?: {
+        [key: string]: any;
+        id?: string;
+        path?: string;
+        fileName?: string;
+        fileSize?: number;
+      };
+      drivingLicensePhoto?: {
+        [key: string]: any;
+        id?: string;
+        path?: string;
+        fileName?: string;
+        fileSize?: number;
+      };
+    };
+    techLicenses?: any[];
+    location?: {
+      [key: string]: any;
+      type?: string;
+      coordinates?: number[];
+    };
+    isSearchable?: boolean;
+    businessDetails?: {
+      [key: string]: any;
+      name?: string;
+      number?: string;
+      llcNumber?: string;
+      role?: string;
+    };
+    mobileVet?: {
+      [key: string]: any;
+      isVisible?: boolean;
+      pricing?: {
+        [key: string]: any;
+        per30MinPrice?: number;
+        per10MinPrice?: number;
+      };
+    };
+    telemedicine?: {
+      [key: string]: any;
+      isVisible?: boolean;
+      pricing?: {
+        [key: string]: any;
+        per30MinPrice?: number;
+        per10MinPrice?: number;
+      };
+      businessInfoLink?: string;
+      allowPrescriptions?: boolean;
+    };
+  };
+  profilePicture?: string;
+  profilePictureId?: string;
+  stripeAccId?: string;
+  ratings?: number;
+  noOfTotalReviews?: number;
+  secondCancel?: string;
+  firstCancel?: string;
+}
 
 export interface VetsResponse {
   data: Vet[];

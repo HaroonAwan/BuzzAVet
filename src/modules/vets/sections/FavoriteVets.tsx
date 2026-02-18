@@ -1,16 +1,25 @@
+import { selectIsAuthenticated } from '@/apis/auth/authSlice';
 import { useGetFavoritesByTypeQuery, useToggleFavoriteMutation } from '@/apis/favorite/favoriteApi';
 import { ScrollableSection } from '@/components/shared/ScrollableSection';
 import ApiResponseWrapper from '@/components/shared/states/ApiResponseWrapper';
 import SectionsWrapper from '@/layouts/SectionsWrapper';
 import { FAVORITE_ITEM_TYPE } from '@/lib/enums';
+import { useAppSelector } from '@/lib/hooks';
 import { TelemedicineCard, TelemedicineCardProps } from '@/modules/home/layouts/TelemedicineCard';
 import { extractApiError } from '@/types/api';
 import { useState, useMemo } from 'react';
 
 const FavoriteVets = () => {
-  const { data, isLoading, isError, refetch } = useGetFavoritesByTypeQuery({
-    itemType: FAVORITE_ITEM_TYPE.PERSON,
-  });
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+
+  const { data, isLoading, isError, refetch } = useGetFavoritesByTypeQuery(
+    {
+      itemType: FAVORITE_ITEM_TYPE.PERSON,
+    },
+    {
+      skip: !isAuthenticated,
+    }
+  );
 
   const [favorites, setFavorites] = useState<Record<string, boolean>>({});
   const [toggleFavorite] = useToggleFavoriteMutation();

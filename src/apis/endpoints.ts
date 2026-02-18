@@ -79,5 +79,8 @@ export const ApiEndpoints = {
       const qs = params.toString();
       return `/customer/people/near${qs ? `?${qs}` : ''}`;
     },
+    GET_DETAILS: (vetId: string) => {
+      return `/customer/people/${vetId}`;
+    },
   },
 };

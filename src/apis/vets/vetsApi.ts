@@ -1,8 +1,8 @@
 import { baseApi } from '@/apis/baseApi';
 import { ApiEndpoints } from '../endpoints';
-import { VetsNearYouBody, VetsNearYouQuery, VetsResponse } from '@/types/vetsTypes';
+import { VetApiResponse, VetsNearYouBody, VetsNearYouQuery, VetsResponse } from '@/types/vetsTypes';
 
-const { NEAR_YOU } = ApiEndpoints.VETS;
+const { NEAR_YOU, GET_DETAILS } = ApiEndpoints.VETS;
 
 export const vetsApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
@@ -15,7 +15,18 @@ export const vetsApi = baseApi.injectEndpoints({
         }),
       }
     ),
+    getVetDetails: builder.query<VetApiResponse, string>({
+      query: (vetId) => ({
+        url: GET_DETAILS(vetId),
+        method: 'GET',
+        params: {
+          withPopulate: 'true',
+          withReviewers: 'true',
+          withReviews: 'true',
+        },
+      }),
+    }),
   }),
 });
 
-export const { useGetVetsNearYouQuery } = vetsApi;
+export const { useGetVetsNearYouQuery, useGetVetDetailsQuery } = vetsApi;

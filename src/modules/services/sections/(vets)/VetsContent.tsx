@@ -10,10 +10,11 @@ const menu = ['Overview', 'Reviews'];
 
 interface VetsContentProps {
   slug: { slug: string; name: string };
+  vet: any;
+  mappedData: any;
 }
 
-const VetsContent = ({ slug }: VetsContentProps) => {
-  console.log('🚀 ~ VetsContent ~ slug:', slug);
+const VetsContent = ({ slug, vet, mappedData }: VetsContentProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const tabParam = searchParams.get('tab');
@@ -30,6 +31,7 @@ const VetsContent = ({ slug }: VetsContentProps) => {
     setActiveTab(tab);
     router.push(`?tab=${tab}`, { scroll: false });
   };
+  const reviews = vet.reviews || [];
 
   // console the appointment data when booked
   const handleBookAppointment = (appointmentData: any) => {
@@ -44,8 +46,8 @@ const VetsContent = ({ slug }: VetsContentProps) => {
       activeTab={activeTab}
       actionSection={<BookTelemedicineAppointment onBookAppointment={handleBookAppointment} />}
     >
-      {activeTab === 'Overview' && <VetsOverViewTab />}
-      {activeTab === 'Reviews' && <ReviewsTab />}
+      {activeTab === 'Overview' && <VetsOverViewTab vet={vet} mappedData={mappedData} />}
+      {activeTab === 'Reviews' && <ReviewsTab reviews={reviews} />}
     </TabsLayoutForServicesSection>
   );
 };

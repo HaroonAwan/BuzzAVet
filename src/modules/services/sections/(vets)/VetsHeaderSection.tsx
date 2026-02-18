@@ -8,39 +8,57 @@ import GraduationIcon from '@assets/images/services/graduation.svg';
 import PracticeIcon from '@assets/images/services/practice.svg';
 import Image from 'next/image';
 
-const VET_EDUCATION = [
-  {
-    icon: SchoolIcon,
-    title: "Vet's School Name",
-    description: 'Cornell University',
-  },
-  { icon: GraduationIcon, title: 'Graduation year', description: '2015' },
-  {
-    icon: PracticeIcon,
-    title: 'Years of practice',
-    description: '21 Years',
-  },
-];
+interface VetsHeaderSectionProps {
+  vet: any;
+  mappedData: any;
+}
 
-const VetsHeaderSection = () => {
+const VetsHeaderSection = ({ vet, mappedData }: VetsHeaderSectionProps) => {
+  const profile = vet?.profile || {};
+  const education = profile.education || [];
+  const yearsOfPractice = profile.experience?.yearOfPractice;
+  const schoolName = education[0]?.school || '';
+  const graduationYear = education[0]?.graduationYear || '';
+  const specialties = profile.areaOfExpertise?.typesOfAnimals?.join(', ') || '';
+  const rating = vet?.ratings || '-';
+  const reviews = vet?.noOfTotalReviews || 0;
+  const vetName = `${vet?.firstName || ''} ${vet?.lastName || ''}`.trim();
+  const avatarUrl = profile?.documents?.profilePhoto?.path || '';
+  const businessDetails = vet?.profile?.businessDetails || {};
+  console.log('🚀 ~ VetsHeaderSection ~ businessDetails:', businessDetails);
+
+  const VET_EDUCATION = [
+    {
+      icon: SchoolIcon,
+      title: "Vet's School Name",
+      description: schoolName,
+    },
+    { icon: GraduationIcon, title: 'Graduation year', description: graduationYear },
+    {
+      icon: PracticeIcon,
+      title: 'Years of practice',
+      description: yearsOfPractice ?? 'Fresh Graduate',
+    },
+  ];
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex justify-between gap-4">
         <div className="flex gap-6">
-          <Avatar size="max" url="" name="Vets Logo" />
+          <Avatar size="max" url={avatarUrl} name={vetName || 'Vets Logo'} />
           {/* content portion */}
           <div className="flex flex-col justify-between">
             <h1 className="thirty-six leading-none font-semibold">
-              Vets Title Placeholder
+              {vetName || 'Vets Title Placeholder'}
             </h1>
-            <p>Dermatology</p>
+            <p>{specialties}</p>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-1">
                 <StarIcon />
                 <p className="text-sm font-bold">
-                  4.5{' '}
+                  {rating}{' '}
                   <span className="font-normal" style={{ color: theme.colors.text.tertiary }}>
-                    (200+ reviews)
+                    ({reviews} reviews)
                   </span>
                 </p>
               </div>
@@ -83,15 +101,21 @@ const VetsHeaderSection = () => {
             </div>
           ))}
         </div>
-        <div className="flex items-center gap-4">
-          <Avatar size="lg" url="" name="Clinic Logo" />
-          <div className="flex flex-col gap-1">
-            <p className="text-sm" style={{ color: theme.colors.text.secondary }}>
-              Affiliated Hospital
-            </p>
-            <p className="font-semibold">City Paws Medical Center</p>
+        {businessDetails && (
+          <div className="flex items-center gap-4">
+            <Avatar
+              size="lg"
+              url={businessDetails?.profilePhoto?.path || ''}
+              name={businessDetails?.name || 'Clinic Logo'}
+            />
+            <div className="flex flex-col gap-1">
+              <p className="text-sm" style={{ color: theme.colors.text.secondary }}>
+                Affiliated Hospital
+              </p>
+              <p className="font-semibold">{businessDetails?.name || 'No Hospital Name'}</p>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

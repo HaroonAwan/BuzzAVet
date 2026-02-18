@@ -8,26 +8,30 @@ import { Button } from '@/components/shared/Button';
 import { HospitalDetailsResponse } from '@/types/hospitalsTypes';
 
 interface ReviewsTabProps {
-  hospital: HospitalDetailsResponse;
+  reviews: HospitalDetailsResponse;
 }
 
-const ReviewsTab: React.FC<ReviewsTabProps> = ({ hospital }) => {
+const ReviewsTab: React.FC<ReviewsTabProps> = ({ reviews }) => {
+  console.log('🚀 ~ ReviewsTab ~ reviews:', reviews);
   const [showAllReviews, setShowAllReviews] = React.useState(false);
-  const reviews = Array.isArray(hospital.reviews) ? hospital.reviews : [];
-  const totalReviews = reviews.length;
+  const reviewData = Array.isArray(reviews.reviews) ? reviews.reviews : (reviews ?? []);
+  console.log('🚀 ~ ReviewsTab ~ reviewData:', reviewData);
+  const totalReviews = reviewData.length;
   const totalRating =
     totalReviews > 0
-      ? reviews.reduce((sum, r) => sum + (typeof r.ratings === 'number' ? r.ratings : 0), 0) /
-        totalReviews
+      ? reviewData.reduce(
+          (sum: number, r: any) => sum + (typeof r.ratings === 'number' ? r.ratings : 0),
+          0
+        ) / totalReviews
       : 0;
   // Calculate rating breakdown
   const ratingBreakdown = [5, 4, 3, 2, 1].map((star) => ({
     stars: star,
-    count: reviews.filter((r) => r.ratings === star).length,
+    count: reviewData.filter((r: any) => r.ratings === star).length,
   }));
   const maxCount = Math.max(...ratingBreakdown.map((r) => r.count), 1);
   // Map reviews for display
-  const mappedReviews = reviews.map((r) => ({
+  const mappedReviews = reviewData.map((r: any) => ({
     id: r._id,
     authorName:
       r.reviewer?.firstName || r.reviewer?.lastName
@@ -38,7 +42,9 @@ const ReviewsTab: React.FC<ReviewsTabProps> = ({ hospital }) => {
     text: r.review,
     postedAt: r.createdAt ? new Date(r.createdAt).toLocaleDateString() : '',
   }));
-  const displayedReviews = showAllReviews ? mappedReviews : mappedReviews.slice(0, 5);
+  const displayedReviews: typeof mappedReviews = showAllReviews
+    ? mappedReviews
+    : mappedReviews.slice(0, 5);
 
   return (
     <div className="flex w-full flex-col gap-6">
@@ -110,7 +116,7 @@ const ReviewsTab: React.FC<ReviewsTabProps> = ({ hospital }) => {
 
       {/* Reviews List */}
       <div className="space-y-6">
-        {displayedReviews.map((review) => (
+        {displayedReviews.map((review: (typeof mappedReviews)[number]) => (
           <div
             key={review.id}
             className="border-b pb-6"

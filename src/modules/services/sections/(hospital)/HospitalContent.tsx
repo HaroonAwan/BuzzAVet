@@ -48,7 +48,7 @@ const HospitalContent = ({ slug, hospital }: HospitalContentProps) => {
     >
       {activeTab === 'Overview' && <OverviewTab hospital={hospital} />}
       {activeTab === 'Veterinarians' && <VeterinariansTab />}
-      {activeTab === 'Reviews' && <ReviewsTab hospital={hospital} />}
+      {activeTab === 'Reviews' && <ReviewsTab reviews={hospital} />}
     </TabsLayoutForServicesSection>
   );
 };
