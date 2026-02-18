@@ -39,6 +39,7 @@ export const TelemedicineCard: React.FC<TelemedicineCardProps> = ({
   className,
   id,
 }) => {
+  console.log('🔮🔮🔮🔮🔮🔮 ~ TelemedicineCard ~ imageSrc:', imageSrc);
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
 
   const handleFavoriteClick = (e: React.MouseEvent) => {

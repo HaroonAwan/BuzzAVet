@@ -1,122 +1,94 @@
+import { useGetFavoritesByTypeQuery, useToggleFavoriteMutation } from '@/apis/favorite/favoriteApi';
 import { ScrollableSection } from '@/components/shared/ScrollableSection';
+import ApiResponseWrapper from '@/components/shared/states/ApiResponseWrapper';
 import SectionsWrapper from '@/layouts/SectionsWrapper';
+import { FAVORITE_ITEM_TYPE } from '@/lib/enums';
 import { TelemedicineCard, TelemedicineCardProps } from '@/modules/home/layouts/TelemedicineCard';
-import React, { useState } from 'react';
-
-// DUMMY DATA FOR TOP RATED TELEMEDICINE
-export const initialTelemedicineDoctors: TelemedicineCardProps[] = [
-  {
-    name: 'Dr. Michael Chen',
-    specialization: 'Dermatology',
-    clinicName: 'City Paws Medical Center',
-    nextAvailable: 'Tomorrow, 10:00 AM',
-    rating: 4.8,
-    fee: 50,
-    favorite: false,
-    imageSrc:
-      'https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    name: 'Dr. Sarah Johnson',
-    specialization: 'Cardiology',
-    clinicName: 'Heart & Paw Veterinary',
-    nextAvailable: 'Today, 2:00 PM',
-    rating: 4.9,
-    fee: 75,
-    favorite: false,
-    imageSrc:
-      'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    name: 'Dr. Emily Rodriguez',
-    specialization: 'Oncology',
-    clinicName: 'Paw Care Specialists',
-    nextAvailable: 'Tomorrow, 11:00 AM',
-    rating: 4.7,
-    fee: 60,
-    favorite: true,
-    imageSrc:
-      'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    name: 'Dr. James Wilson',
-    specialization: 'Orthopedics',
-    clinicName: 'Bone & Joint Veterinary',
-    nextAvailable: 'Today, 4:00 PM',
-    rating: 4.9,
-    fee: 80,
-    favorite: false,
-    imageSrc:
-      'https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    name: 'Dr. Lisa Anderson',
-    specialization: 'Neurology',
-    clinicName: 'Brain & Spine Pet Care',
-    nextAvailable: 'Tomorrow, 9:00 AM',
-    rating: 4.8,
-    fee: 70,
-    favorite: false,
-    imageSrc:
-      'https://images.unsplash.com/photo-1582750433449-648ed127bb54?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    name: 'Dr. Robert Martinez',
-    specialization: 'Internal Medicine',
-    clinicName: 'Comprehensive Pet Health',
-    nextAvailable: 'Today, 3:00 PM',
-    rating: 4.9,
-    fee: 65,
-    favorite: false,
-    imageSrc:
-      'https://images.unsplash.com/photo-1646157269839-f722cb7a7df3?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    name: 'Dr. Emily Rodriguez',
-    specialization: 'Internal Medicine',
-    clinicName: 'Comprehensive Pet Health',
-    nextAvailable: 'Today, 3:00 PM',
-    rating: 4.9,
-    fee: 65,
-    favorite: false,
-    imageSrc:
-      'https://images.unsplash.com/photo-1700308436362-04fd247cc35d?q=80&w=774&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-  {
-    name: 'Dr. James Wilson',
-    specialization: 'Internal Medicine',
-    clinicName: 'Comprehensive Pet Health',
-    nextAvailable: 'Today, 3:00 PM',
-    rating: 4.9,
-    fee: 65,
-    favorite: false,
-    imageSrc:
-      'https://images.unsplash.com/photo-1551601651-05a4836d25c2?q=80&w=1207&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-  },
-];
+import { extractApiError } from '@/types/api';
+import { useState, useMemo } from 'react';
 
 const RecommendedTeleMedicines = () => {
-  const [telemedicineDoctors, setTelemedicineDoctors] = useState<TelemedicineCardProps[]>(
-    initialTelemedicineDoctors
-  );
-
-  const handleFavoriteToggle = (index: number, favorite: boolean) => {
-    setTelemedicineDoctors((prev) => {
-      const updated = [...prev];
-      updated[index] = { ...updated[index], favorite };
-      return updated;
-    });
+  const { data, isLoading, isError, refetch } = useGetFavoritesByTypeQuery({
+    itemType: FAVORITE_ITEM_TYPE.PERSON,
+  });
+  console.log('🚀 ~ RecommendedTeleMedicines ~ data:', data);
+  const [favorites, setFavorites] = useState<Record<string, boolean>>({});
+  const [toggleFavorite] = useToggleFavoriteMutation();
+  const allowURLOnly = (url: string) => {
+    return url.startsWith('http://') || url.startsWith('https://');
   };
+
+  const telemedicineDoctors: TelemedicineCardProps[] = useMemo(() => {
+    if (!Array.isArray(data)) return [];
+    return data.map((fav: any) => {
+      const vet = fav.item;
+      const id = vet?._id;
+      const name = `Dr. ${vet?.firstName || ''} ${vet?.lastName || ''}`.trim();
+      return {
+        id,
+        name,
+        specialization:
+          vet?.profile?.specialties?.certifiedVeterinarySpecialist?.[0] ||
+          vet?.profile?.areaOfExpertise?.typesOfProcedures?.[0] ||
+          'General Practice',
+        clinicName: vet?.profile?.businessDetails?.name || 'Telemedicine',
+        nextAvailable: 'See Profile',
+        rating: vet?.ratings || 0,
+        fee:
+          vet?.profile?.telemedicine?.pricing?.per30MinPrice ||
+          vet?.profile?.telemedicine?.pricing?.per10MinPrice ||
+          0,
+        favorite: favorites[id] ?? true,
+        imageSrc: allowURLOnly(fav?.profile?.documents?.profilePhoto?.path ?? vet.profilePicture)
+          ? (fav?.profile?.documents?.profilePhoto?.path ?? vet.profilePicture)
+          : '',
+      };
+    });
+  }, [data, favorites]);
+
+  const handleFavoriteToggle = async (index: number, favorite: boolean) => {
+    const vet = telemedicineDoctors[index];
+    const key = vet.id || vet.name;
+    setFavorites((prev) => ({
+      ...prev,
+      [key]: favorite,
+    }));
+    if (!vet.id) return;
+    try {
+      await toggleFavorite({
+        itemType: FAVORITE_ITEM_TYPE.PERSON,
+        item: vet.id,
+      }).unwrap();
+      refetch();
+    } catch (e) {
+      setFavorites((prev) => ({
+        ...prev,
+        [key]: !favorite,
+      }));
+    }
+  };
+
+  const vetsIsLoading = isLoading;
+  const vetsError = extractApiError(isError);
+  if (!vetsIsLoading && telemedicineDoctors.length === 0 && !vetsError) return null;
   return (
     <SectionsWrapper noContainer className="bg-(--bg-teal)">
       <ScrollableSection className="container" title="Recommended By Dr. Alex / Favorites">
-        {telemedicineDoctors.map((doctor, index) => (
-          <TelemedicineCard
-            key={`${doctor.name}-${index}`}
-            {...doctor}
-            onFavoriteToggle={(favorite) => handleFavoriteToggle(index, favorite)}
-          />
-        ))}
+        <ApiResponseWrapper
+          isLoading={vetsIsLoading}
+          hasError={!!vetsError}
+          hasData={telemedicineDoctors.length > 0}
+          loadingSize={{ width: 300, height: 324 }}
+          errorSize={{ width: 300, height: 200 }}
+        >
+          {telemedicineDoctors.map((doctor, index) => (
+            <TelemedicineCard
+              key={`${doctor.id || doctor.name}-${index}`}
+              {...doctor}
+              onFavoriteToggle={(favorite) => handleFavoriteToggle(index, favorite)}
+            />
+          ))}
+        </ApiResponseWrapper>
       </ScrollableSection>
     </SectionsWrapper>
   );

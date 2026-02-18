@@ -6,6 +6,7 @@ import { useSearchedOrDefaultTelemedicinesNearYou } from '../hooks/useSearchedOr
 import { theme } from '@/lib/theme';
 import { TelemedicineCard } from '@/modules/home/layouts/TelemedicineCard';
 import SectionsWrapper from '@/layouts/SectionsWrapper';
+import ApiResponseWrapper from '@/components/shared/states/ApiResponseWrapper';
 
 const NearYouTeleMedicines = () => {
   const {
@@ -17,6 +18,9 @@ const NearYouTeleMedicines = () => {
     isNavbarExpanded,
     viewType,
     sectionRef,
+    isLoading: telemedicinesIsLoading,
+    error: telemedicinesError,
+    hasMorePages,
   } = useSearchedOrDefaultTelemedicinesNearYou();
 
   return (
@@ -25,27 +29,36 @@ const NearYouTeleMedicines = () => {
         <p className="font-semibold">{totalTelemedicines} Telemedicine Services Near you</p>
         <h2 className="twenty-eight font-semibold">Other Telemedicine Services Near You</h2>
         {viewType === 'list' ? (
-          <>
-            <section
-              ref={sectionRef}
-              className="grid gap-5"
-              style={{
-                scrollMarginTop: isNavbarExpanded ? '230px' : '170px',
-                transition: 'scrollMarginTop 0.3s ease-in-out',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(203px, 1fr))',
-              }}
-            >
-              {paginatedTelemedicines.map((service, index) => (
-                <TelemedicineCard
-                  key={`${service.name}-${index}`}
-                  {...service}
-                  onFavoriteToggle={(favorite) => handleFavoriteToggle(index, favorite)}
-                  className="isDynamicWidth"
-                />
-              ))}
-            </section>
-            <Pagination currentPage={currentPage} totalPages={totalPages} />
-          </>
+          <ApiResponseWrapper
+            isLoading={telemedicinesIsLoading}
+            hasError={!!telemedicinesError}
+            hasData={paginatedTelemedicines.length > 0}
+            loadingSize={{ width: 300, height: 200 }}
+            errorSize={{ width: 300, height: 200 }}
+            hasDataSize={{ width: 300, height: 200 }}
+          >
+            <>
+              <section
+                ref={sectionRef}
+                className="grid gap-5"
+                style={{
+                  scrollMarginTop: isNavbarExpanded ? '230px' : '170px',
+                  transition: 'scrollMarginTop 0.3s ease-in-out',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(203px, 1fr))',
+                }}
+              >
+                {paginatedTelemedicines.map((service, index) => (
+                  <TelemedicineCard
+                    key={`${service.name}-${index}`}
+                    {...service}
+                    onFavoriteToggle={(favorite) => handleFavoriteToggle(index, favorite)}
+                    className="isDynamicWidth"
+                  />
+                ))}
+              </section>
+              {hasMorePages && <Pagination currentPage={currentPage} totalPages={totalPages} />}
+            </>
+          </ApiResponseWrapper>
         ) : (
           <div
             ref={sectionRef as React.RefObject<HTMLDivElement | null>}

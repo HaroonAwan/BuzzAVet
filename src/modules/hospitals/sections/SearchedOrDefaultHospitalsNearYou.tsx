@@ -5,9 +5,7 @@ import { HospitalOrPetServicesCard } from '@/modules/home/layouts/HospitalOrPetS
 import { Pagination } from '@/components/shared/Pagination';
 import { useSearchedOrDefaultHospitalsNearYou } from '../hooks/useSearchedOrDefaultHospitalsNearYou';
 import { theme } from '@/lib/theme';
-import Loading from '@/components/shared/states/Loading';
-import Error from '@/components/shared/states/Error';
-import NoData from '@/components/shared/states/NoData';
+import ApiResponseWrapper from '@/components/shared/states/ApiResponseWrapper';
 
 const SearchedOrDefaultHospitalsNearYou = () => {
   const {
@@ -27,37 +25,38 @@ const SearchedOrDefaultHospitalsNearYou = () => {
         <p className="font-semibold">{totalHospitals} Results Near you</p>
         <h2 className="twenty-eight font-semibold">Other Hospitals Near You</h2>
         {viewType === 'list' ? (
-          <>
-            {hospitalsIsLoading ? (
-              <Loading width={300} height={200} />
-            ) : !hospitalsIsLoading && paginatedHospitals.length === 0 && !hospitalsError ? (
-              <NoData width={300} height={200} />
-            ) : hospitalsError ? (
-              <Error width={300} height={200} message={hospitalsError?.message} />
-            ) : (
-              <>
-                <section
-                  ref={sectionRef}
-                  className="grid gap-5"
-                  style={{
-                    scrollMarginTop: isNavbarExpanded ? '230px' : '170px',
-                    transition: 'scrollMarginTop 0.3s ease-in-out',
-                    gridTemplateColumns: 'repeat(auto-fill, minmax(203px, 1fr))',
-                  }}
-                >
-                  {paginatedHospitals.map((hospital, index) => (
-                    <HospitalOrPetServicesCard
-                      key={`${hospital.name}-${index}`}
-                      {...hospital}
-                      onFavoriteToggle={(favorite) => handleFavoriteToggle(index, favorite)}
-                      isDynamicWidth
-                    />
-                  ))}
-                </section>
-                {hasPages && <Pagination currentPage={currentPage} totalPages={totalPages} />}
-              </>
-            )}
-          </>
+          <ApiResponseWrapper
+            isLoading={hospitalsIsLoading}
+            hasError={!!hospitalsError}
+            isErrorMessage={hospitalsError?.message}
+            hasData={paginatedHospitals.length > 0}
+            hasDataMessage="No hospitals found."
+            loadingSize={{ width: 300, height: 200 }}
+            errorSize={{ width: 300, height: 200 }}
+            hasDataSize={{ width: 300, height: 200 }}
+          >
+            <>
+              <section
+                ref={sectionRef}
+                className="grid gap-5"
+                style={{
+                  scrollMarginTop: isNavbarExpanded ? '230px' : '170px',
+                  transition: 'scrollMarginTop 0.3s ease-in-out',
+                  gridTemplateColumns: 'repeat(auto-fill, minmax(203px, 1fr))',
+                }}
+              >
+                {paginatedHospitals.map((hospital, index) => (
+                  <HospitalOrPetServicesCard
+                    key={`${hospital.name}-${index}`}
+                    {...hospital}
+                    onFavoriteToggle={(favorite) => handleFavoriteToggle(index, favorite)}
+                    isDynamicWidth
+                  />
+                ))}
+              </section>
+              {hasPages && <Pagination currentPage={currentPage} totalPages={totalPages} />}
+            </>
+          </ApiResponseWrapper>
         ) : (
           <div
             ref={sectionRef as React.RefObject<HTMLDivElement | null>}

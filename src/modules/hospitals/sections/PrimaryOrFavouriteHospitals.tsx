@@ -1,8 +1,6 @@
 import { useGetFavoritesByTypeQuery, useToggleFavoriteMutation } from '@/apis/favorite/favoriteApi';
 import { ScrollableSection } from '@/components/shared/ScrollableSection';
-import Error from '@/components/shared/states/Error';
-import Loading from '@/components/shared/states/Loading';
-import NoData from '@/components/shared/states/NoData';
+import ApiResponseWrapper from '@/components/shared/states/ApiResponseWrapper';
 import SectionsWrapper from '@/layouts/SectionsWrapper';
 import { FAVORITE_ITEM_TYPE } from '@/lib/enums';
 import {
@@ -81,21 +79,21 @@ const PrimaryOrFavouriteHospitals = () => {
   return (
     <SectionsWrapper className="bg-(--bg-teal)">
       <ScrollableSection title="Primary/ Favorite Hospitals">
-        {hospitalsIsLoading ? (
-          <div className="mx-auto">
-            <Loading width={300} height={324} />
-          </div>
-        ) : hospitalsError ? (
-          <Error width={300} height={200} message={hospitalsError?.message} />
-        ) : (
-          hospitals.map((hospital, index) => (
+        <ApiResponseWrapper
+          isLoading={hospitalsIsLoading}
+          hasError={!!hospitalsError}
+          hasData={hospitals.length > 0}
+          loadingSize={{ width: 300, height: 324 }}
+          errorSize={{ width: 300, height: 200 }}
+        >
+          {hospitals.map((hospital, index) => (
             <HospitalOrPetServicesCard
               key={`${hospital._id || hospital.name}-${index}`}
               {...hospital}
               onFavoriteToggle={(favorite) => handleFavoriteToggle(index, favorite)}
             />
-          ))
-        )}
+          ))}
+        </ApiResponseWrapper>
       </ScrollableSection>
     </SectionsWrapper>
   );
