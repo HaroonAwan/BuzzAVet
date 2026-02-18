@@ -32,3 +32,9 @@ export const enum FAVORITE_ITEM_TYPE {
   PET = 'Pet',
 }
 export type FAVORITE_ITEM_TYPE_TYPES = keyof typeof FAVORITE_ITEM_TYPE;
+
+export const enum SERVICE_TYPE {
+  TELEMEDICINE = 'TELEMEDICINE',
+  MOBILE_VET = 'MOBILE_VET',
+}
+export type SERVICE_TYPE_TYPES = keyof typeof SERVICE_TYPE;

@@ -4,7 +4,7 @@ import loadingAnimation from '@/assets/animations/Error.json';
 interface ErrorProps {
   width?: number;
   height?: number;
-  message?: string;
+  message?: string | null;
 }
 
 const Error = ({ width = 120, height = 120, message }: ErrorProps) => {

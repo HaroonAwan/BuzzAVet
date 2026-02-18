@@ -58,7 +58,6 @@ export const HospitalOrPetServicesCard: React.FC<HospitalOrPetServicesCardProps>
   _id,
 }) => {
   const isAuthenticated = useAppSelector(selectIsAuthenticated);
-  console.log('PASSWORD😶😶😶😶😶😶 ~ isAuthenticated:', isAuthenticated);
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();

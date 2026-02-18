@@ -4,7 +4,7 @@ import loadingAnimation from '@/assets/animations/No-Data.json';
 interface NoDataProps {
   width?: number;
   height?: number;
-  message?: string;
+  message?: string | null;
 }
 
 const NoData = ({ width = 120, height = 120, message }: NoDataProps) => {

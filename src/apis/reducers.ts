@@ -8,6 +8,7 @@ import onBoardingReducer from '@apis/onBoarding/onBoardingSlice';
 import fileUploadReducer from '@apis/fileUpload/fileUploadSlice';
 import hospitalsReducer from '@apis/hospitals/hospitalsSlice';
 import favoriteReducer from '@apis/favorite/favoriteSlice';
+import vetsReducer from '@apis/vets/vetsSlice';
 
 export const reducers = {
   auth: authReducer,
@@ -15,4 +16,5 @@ export const reducers = {
   fileUpload: fileUploadReducer,
   hospitals: hospitalsReducer,
   favorite: favoriteReducer,
+  vets: vetsReducer,
 };

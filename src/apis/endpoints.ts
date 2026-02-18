@@ -3,6 +3,7 @@ import {
   HospitalDetailsQuery,
   HospitalsNearYouQuery,
 } from '@/types/hospitalsTypes';
+import { VetsNearYouQuery } from '@/types/vetsTypes';
 
 export const ApiEndpoints = {
   AUTH: {
@@ -63,6 +64,20 @@ export const ApiEndpoints = {
       }
       const qs = params.toString();
       return `/customer/favorites?${qs}`;
+    },
+  },
+  VETS: {
+    NEAR_YOU: (QUERY: VetsNearYouQuery) => {
+      const params = new URLSearchParams();
+      if (QUERY) {
+        Object.entries(QUERY).forEach(([key, value]) => {
+          if (value !== undefined && value !== null) {
+            params.append(key, String(value));
+          }
+        });
+      }
+      const qs = params.toString();
+      return `/customer/people/near${qs ? `?${qs}` : ''}`;
     },
   },
 };

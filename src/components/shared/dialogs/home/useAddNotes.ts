@@ -12,7 +12,7 @@ interface AddNotesFormData {
   media: File | null | undefined;
 }
 
-interface UploadedDocument {
+export interface UploadedDocument {
   id: string;
   path: string;
   fileName: string;

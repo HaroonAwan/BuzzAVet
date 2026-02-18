@@ -1,5 +1,5 @@
 import { TelemedicineCard } from '@/modules/home/layouts/TelemedicineCard';
-import { initialTelemedicineDoctors } from '@/modules/home/sections/TopRatedTelemedicineSection';
+import { initialTelemedicineDoctors } from '@/modules/telemedicine/sections/RecommendedTeleMedicines';
 
 const VeterinariansTab = () => {
   return (
