@@ -10,6 +10,8 @@ import {
 import SectionsWrapper from '../../../layouts/SectionsWrapper';
 import { useGetHospitalsNearYou } from '../hooks/useGetHospitalsNearYour';
 import type { HospitalsNearYouQuery, HospitalsNearYouBody, Hospital } from '@/types/hospitalsTypes';
+import { useToggleFavoriteMutation } from '@/apis/favorite/favoriteApi';
+import { FAVORITE_ITEM_TYPE } from '@/lib/enums';
 
 interface RecommendedHospitalsSectionProps {
   query?: HospitalsNearYouQuery;
@@ -49,7 +51,7 @@ const RecommendedHospitalsSection: React.FC<RecommendedHospitalsSectionProps> = 
     query ? { QUERY: query, BODY: body || {} } : undefined
   );
   const { hospitalsData, hospitalsError, hospitalsIsLoading } = nearYouHospitals;
-
+  const [toggleFavorite] = useToggleFavoriteMutation();
   const [hospitals, setHospitals] = useState<HospitalOrPetServicesCardProps[]>([]);
 
   useEffect(() => {
@@ -61,12 +63,26 @@ const RecommendedHospitalsSection: React.FC<RecommendedHospitalsSectionProps> = 
     }
   }, [hospitalsData]);
 
-  const handleFavoriteToggle = (index: number, favorite: boolean) => {
+  const handleFavoriteToggle = async (index: number, favorite: boolean) => {
     setHospitals((prev) => {
       const updated = [...prev];
       updated[index] = { ...updated[index], favorite };
       return updated;
     });
+    console.log('Toggling favorite for hospital:', hospitals[index]);
+    if (!hospitals[index].id) return;
+    try {
+      await toggleFavorite({
+        itemType: FAVORITE_ITEM_TYPE.HOSPITAL,
+        item: hospitals[index].id,
+      }).unwrap();
+    } catch (e) {
+      setHospitals((prev) => {
+        const updated = [...prev];
+        updated[index] = { ...updated[index], favorite: !favorite };
+        return updated;
+      });
+    }
   };
 
   return (

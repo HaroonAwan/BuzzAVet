@@ -54,7 +54,7 @@ export const authSlice = createSlice({
       // Clear localStorage and sessionStorage
       if (typeof window !== 'undefined') {
         localStorage.clear();
-        sessionStorage.clear();
+        // sessionStorage.clear();
         document.cookie.split(';').forEach((cookie) => {
           const eqPos = cookie.indexOf('=');
           const name = eqPos > -1 ? cookie.substr(0, eqPos).trim() : cookie.trim();

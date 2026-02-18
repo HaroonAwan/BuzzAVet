@@ -94,7 +94,13 @@ export const HospitalOrPetServicesCard: React.FC<HospitalOrPetServicesCardProps>
         {/* Hospital image/logo */}
         {imageSrc ? (
           <div className="relative h-51 w-full overflow-hidden rounded-2xl">
-            <Image src={imageSrc} alt={name} fill className="object-cover" />
+            <Image
+              src={imageSrc}
+              alt={name}
+              fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              className="object-cover"
+            />
             <div className="absolute right-0 bottom-0 left-0 flex flex-wrap gap-2 p-2">
               {chips.map((chip) => (
                 <Chip key={chip.label} variant={chip.variant} size="sm">

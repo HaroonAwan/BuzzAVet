@@ -11,6 +11,7 @@ export const ApiEndpoints = {
     VALIDITY_CHECK: (email: string) => `/people/check-account-validity/${email}`,
     RESEND_OTP: '/auth/resend-email',
     VERIFY_OTP: (OTP: string) => `/auth/verify-account/${OTP}`,
+    REFRESH_TOKEN: '/auth/regenerate-tokens',
   },
   USER: {
     USER: (withPopulate = false) => `/auth/profile${withPopulate ? '?withPopulate=true' : ''}`,

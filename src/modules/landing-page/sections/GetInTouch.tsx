@@ -67,8 +67,8 @@ const GetInTouch = () => {
           </div>
         </div>
         <div className="SHADOW flex shrink-0 items-start justify-start overflow-hidden rounded-3xl bg-white md:w-[47%]">
-          <form className="flex flex-col gap-5 p-8" onSubmit={handleSubmit}>
-            <div className="flex items-center gap-4">
+          <form className="flex w-full flex-col gap-5 p-8" onSubmit={handleSubmit}>
+            <div className="flex w-full items-center gap-4">
               <FormInput
                 control={control}
                 name="firstName"

@@ -73,7 +73,13 @@ export const TelemedicineCard: React.FC<TelemedicineCardProps> = ({
       {/* Doctor profile picture */}
       {imageSrc && (
         <div className="relative h-51 w-full overflow-hidden rounded-2xl">
-          <Image src={imageSrc} alt={name} fill className="object-cover" />
+          <Image
+            src={imageSrc}
+            alt={name}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover"
+          />
         </div>
       )}
 

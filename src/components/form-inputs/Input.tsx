@@ -100,7 +100,7 @@ const FormInput = <
         // Render Textarea
         if (isTextarea) {
           return (
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-1 flex-col gap-2">
               {label && (
                 <label htmlFor={inputId} className="block text-sm font-medium">
                   {label}
@@ -335,7 +335,7 @@ const FormInput = <
 
         // Render regular input
         return (
-          <div className="mb-1.5 flex flex-col gap-2">
+          <div className="mb-1.5 flex flex-1 flex-col gap-2">
             {label && (
               <label htmlFor={inputId} className="block text-sm font-medium">
                 {label}

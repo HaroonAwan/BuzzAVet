@@ -31,7 +31,6 @@ export const usePersonalInfo = () => {
   const [updateProfile] = useUpdateProfileMutation();
   const currentUser = useSelector(selectCurrentUser);
   const [getCurrentUser] = useLazyGetCurrentUserQuery();
-  console.log('🚀 ~ usePersonalInfo ~ currentUser:', currentUser);
 
   const {
     control,
@@ -61,7 +60,6 @@ export const usePersonalInfo = () => {
 
   const fullName = watch('fullName');
   const photo = watch('photo');
-  console.log('🚀 ~ usePersonalInfo ~ photo:', photo);
   React.useEffect(() => {
     if (photo && typeof photo === 'string') {
       setAvatarPreview(photo);

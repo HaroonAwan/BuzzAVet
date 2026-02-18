@@ -11,6 +11,7 @@ import { getTimeZone } from '@/lib/timezone';
 import type { LoginRequest } from '@/types/auth';
 import { COOKIE_MAX_AGE } from '@/constants';
 import { emailRule, passwordRule } from '@/lib/validationRules';
+import { redirectToFromOrDefault } from '@/apis/baseApi';
 
 interface LoginFormData {
   email: string;
@@ -80,10 +81,12 @@ export function useLogin() {
 
       await getCurrentUser(true).unwrap();
 
-      const redirectUrl = result.isVerified ? '/' : '/auth/register/email/otp';
-      setTimeout(() => {
-        window.location.href = redirectUrl;
-      }, 100);
+      if (result.isVerified) {
+        const searchParams = new URLSearchParams(window.location.search);
+        redirectToFromOrDefault(searchParams, '/');
+      } else {
+        window.location.href = '/auth/register/email/otp';
+      }
     } catch (err: any) {
       const errorMessage = err?.data?.message || '';
       if (errorMessage.includes('email')) {
