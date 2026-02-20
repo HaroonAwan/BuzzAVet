@@ -115,7 +115,7 @@ export function NavbarFilterMenuPopover({
           <div className={cn('max-h-[80vh] w-127.5 overflow-y-auto', className)}>
             {/* Header */}
             <div className="sticky top-0 z-10 flex items-center justify-between border-b bg-white px-4 py-2">
-              <Button variant="underline" className="px-0" onClick={handleClearAll}>
+              <Button variant="underline" className="px-0" type="button" onClick={handleClearAll}>
                 Clear all
               </Button>
               <h3
@@ -395,7 +395,7 @@ export function NavbarFilterMenuPopover({
               )}
 
               {/* Emergency Services */}
-              {!isMobileOrTele && (
+              {/* {!isMobileOrTele && (
                 <div className="flex items-center justify-between">
                   <div>
                     <h4
@@ -416,7 +416,7 @@ export function NavbarFilterMenuPopover({
                     )}
                   />
                 </div>
-              )}
+              )} */}
 
               {!isMobileOrTele && (
                 <>
@@ -549,17 +549,18 @@ export function NavbarFilterMenuPopover({
               className="sticky bottom-0 border-t bg-white px-4 py-3"
               style={{ borderColor: theme.colors.border.default }}
             >
-              <button
+              <Button
                 type="submit"
-                className="w-full rounded-xl px-4 py-3 text-sm font-semibold transition-opacity hover:opacity-90"
+                className="w-full"
                 style={{
                   backgroundColor: theme.colors.active,
                   color: 'white',
                 }}
+                disabled={getAppliedFiltersCount(filters) === 0}
               >
                 Apply {getAppliedFiltersCount(filters)} Filter
                 {getAppliedFiltersCount(filters) === 1 ? '' : 's'}
-              </button>
+              </Button>
             </div>
           </div>
         </form>

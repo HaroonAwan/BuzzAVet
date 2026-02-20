@@ -58,6 +58,16 @@ export const useSearchedOrDefaultHospitalsNearYou = () => {
       delete params.isAAHAACertified;
     }
 
+    // Remove default maxMiles (don't include default in API body)
+    if (params.maxMiles !== undefined) {
+      const n = Number(params.maxMiles);
+      if (!Number.isNaN(n) && n === 5000) {
+        delete params.maxMiles;
+      } else if (!Number.isNaN(n)) {
+        params.maxMiles = n;
+      }
+    }
+
     return params;
   }, [searchParams]);
   console.log(

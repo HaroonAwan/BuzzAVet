@@ -37,7 +37,7 @@ export function useNavbar({ onApply, onClearAll }: UseNavbarProps = {}) {
       consultationFee: { minPrice: 24, maxPrice: 500 },
       minRating: null,
       maxMiles: 5000,
-      emergencyServices: false,
+      // emergencyServices: false,
       medicalServices: [],
       facilities: [],
       accreditations: { isFearFreeCertified: false, isAAHAACertified: false },
@@ -80,7 +80,7 @@ export function useNavbar({ onApply, onClearAll }: UseNavbarProps = {}) {
       count++;
     if (filters.minRating) count++;
     if (filters.maxMiles !== 5000) count++;
-    if (filters.emergencyServices) count++;
+    // if (filters.emergencyServices) count++;
     if (filters.medicalServices && filters.medicalServices.length > 0) count++;
     if (filters.facilities && filters.facilities.length > 0) count++;
     if (
@@ -168,9 +168,9 @@ export function useNavbar({ onApply, onClearAll }: UseNavbarProps = {}) {
     if (params.has('maxMiles')) {
       newFilters.maxMiles = Number(params.get('maxMiles'));
     }
-    if (params.has('emergencyServices')) {
-      newFilters.emergencyServices = params.get('emergencyServices') === 'true';
-    }
+    // if (params.has('emergencyServices')) {
+    //   newFilters.emergencyServices = params.get('emergencyServices') === 'true';
+    // }
     // Multi-selects: arrays (include languages and gender)
     ['medicalServices', 'facilities', 'insuranceAccepted', 'languages', 'gender'].forEach((key) => {
       if (params.has(key)) {
@@ -178,19 +178,24 @@ export function useNavbar({ onApply, onClearAll }: UseNavbarProps = {}) {
       }
     });
     // Accreditations: individual boolean flags
-    if (params.has('isFearFreeCertified') || params.has('isAAHAACertified')) {
-      (newFilters as any).accreditations = {
-        isFearFreeCertified: params.get('isFearFreeCertified') === 'true',
-        isAAHAACertified: params.get('isAAHAACertified') === 'true',
-      };
+    // Accreditations: individual boolean flags - merge if multiple present
+    const accFlags: any = {};
+    if (params.has('isFearFreeCertified')) {
+      accFlags.isFearFreeCertified = params.get('isFearFreeCertified') === 'true';
+    }
+    if (params.has('isAAHAACertified')) {
+      accFlags.isAAHAACertified = params.get('isAAHAACertified') === 'true';
+    }
+    if (Object.keys(accFlags).length > 0) {
+      (newFilters as any).accreditations = accFlags;
     }
     // Set values if any
     if (Object.keys(newFilters).length > 0) {
       form.reset({
         consultationFee: newFilters.consultationFee || { minPrice: 24, maxPrice: 500 },
         minRating: newFilters.minRating ?? null,
-        maxMiles: newFilters.maxMiles ?? 10000,
-        emergencyServices: newFilters.emergencyServices ?? false,
+        maxMiles: newFilters.maxMiles ?? 5000,
+        // emergencyServices: newFilters.emergencyServices ?? false,
         medicalServices: newFilters.medicalServices || [],
         facilities: newFilters.facilities || [],
         accreditations: newFilters.accreditations || {
@@ -284,8 +289,8 @@ export function useNavbar({ onApply, onClearAll }: UseNavbarProps = {}) {
     reset({
       consultationFee: { minPrice: 24, maxPrice: 500 },
       minRating: null,
-      maxMiles: 10000,
-      emergencyServices: false,
+      maxMiles: 5000,
+      // emergencyServices: false,
       medicalServices: [],
       facilities: [],
       accreditations: { isFearFreeCertified: false, isAAHAACertified: false },
@@ -294,6 +299,41 @@ export function useNavbar({ onApply, onClearAll }: UseNavbarProps = {}) {
       insuranceAccepted: [],
     });
     onClearAll?.();
+    try {
+      const params = new URLSearchParams(searchParams?.toString() || '');
+      [
+        'minPrice',
+        'maxPrice',
+        'minRating',
+        'rating',
+        'medicalServices',
+        'facilities',
+        'accreditations',
+        // 'isFearFreeCertified',
+        // 'isAAHAACertified',
+        'gender',
+        'languages',
+        'insuranceAccepted',
+      ].forEach((k) => params.delete(k));
+
+      // ['emergencyServices'].forEach((k) => {
+      //   if (params.get(k) !== 'true') params.delete(k);
+      // });
+
+      // Remove default maxMiles (don't show default values)
+      if (params.get('maxMiles') === '5000' || params.has('maxMiles')) {
+        params.delete('maxMiles');
+      }
+
+      const queryString = params.toString();
+      if (queryString) {
+        router.push(`${pathname}?${queryString}`);
+      } else {
+        router.push(pathname);
+      }
+    } catch (e) {
+      router.push(pathname);
+    }
   };
 
   // Use dynamic query keys based on filter titles
@@ -329,20 +369,24 @@ export function useNavbar({ onApply, onClearAll }: UseNavbarProps = {}) {
       params.delete('minRating');
     }
     // maxMiles
-    if (roundedData.maxMiles !== 10000) {
+    if (roundedData.maxMiles !== 5000) {
       params.set('maxMiles', String(roundedData.maxMiles));
+      console.log('💉💉💉💉💉💉💉Setting maxMiles to:', roundedData.maxMiles);
     } else {
       params.delete('maxMiles');
+      console.log('💉💉💉💉💉💉💉Removing maxMiles from params');
     }
     // Emergency Services
-    if (roundedData.emergencyServices) {
-      params.set('emergencyServices', 'true');
-    } else {
-      params.delete('emergencyServices');
-    }
+    // if (roundedData.emergencyServices) {
+    //   params.set('emergencyServices', 'true');
+    // } else {
+    //   params.delete('emergencyServices');
+    // }
     // Only push filters relevant to the current route.
     // `consultationFee` is handled above (minPrice/maxPrice), so exclude it here.
-    let keysToProcess = Object.keys(roundedData).filter((k) => k !== 'consultationFee');
+    let keysToProcess = Object.keys(roundedData).filter(
+      (k) => !['consultationFee', 'maxMiles'].includes(k)
+    );
     if (activeSlug === 'telemedicine' || activeSlug === 'mobile-vets') {
       // For telemedicine & mobile-vets only allow rating, gender and languages (and consultationFee handled above)
       keysToProcess = keysToProcess.filter((k) => ['minRating', 'gender', 'languages'].includes(k));
@@ -365,18 +409,24 @@ export function useNavbar({ onApply, onClearAll }: UseNavbarProps = {}) {
       // gender handled as array above (joined with ';')
       // Accreditations object -> serialize as a JSON param and remove any top-level flags
       if (key === 'accreditations' && typeof value === 'object' && value !== null) {
-        try {
-          params.set('accreditations', JSON.stringify(value));
-        } catch (e) {
-          // fallback: set individual flags if serialization fails
-          const acc = value as { [k: string]: boolean };
-          Object.entries(acc).forEach(([k, v]) => {
-            params.set(k, v ? 'true' : 'false');
-          });
+        const acc = value as { [k: string]: boolean };
+        // Only include keys that are true
+        const filteredAccEntries = Object.entries(acc).filter(([_, v]) => v === true);
+        if (filteredAccEntries.length > 0) {
+          const filteredAcc: Record<string, boolean> = Object.fromEntries(filteredAccEntries);
+          try {
+            params.set('accreditations', JSON.stringify(filteredAcc));
+          } catch (e) {
+            // fallback: set individual flags if serialization fails
+            Object.entries(filteredAcc).forEach(([k, v]) => {
+              params.set(k, v ? 'true' : 'false');
+            });
+          }
+        } else {
+          params.delete('accreditations');
+          params.delete('isFearFreeCertified');
+          params.delete('isAAHAACertified');
         }
-        // Ensure we do not leave duplicate top-level accreditation flags
-        params.delete('isFearFreeCertified');
-        params.delete('isAAHAACertified');
         return;
       }
       // Fallback: set primitive values directly
@@ -389,6 +439,7 @@ export function useNavbar({ onApply, onClearAll }: UseNavbarProps = {}) {
     const queryString = Array.from(params.entries())
       .map(([k, v]) => `${encodeURIComponent(k)}=${v.replace(/;/g, ';')}`)
       .join('&');
+    console.log('🤝🤝🤝🤝🤝🤝🤝🤝🤝🤝🤝🤝 ~ onSubmit ~ queryString:', queryString);
 
     // Push to URL
     router.push(`${pathname}?${queryString}`);
