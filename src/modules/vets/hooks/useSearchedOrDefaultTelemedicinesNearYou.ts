@@ -32,6 +32,8 @@ export function useSearchedOrDefaultTelemedicinesNearYou() {
       } else if (key === 'gender') {
         // allow single or semicolon separated genders
         params.gender = value ? value.split(';').filter(Boolean) : [];
+      } else if (key === 'q' || key === 'searchQuery') {
+        params.searchQuery = value;
       } else if (key === 'minPrice') {
         const n = Number(value);
         if (!Number.isNaN(n)) params.minPrice = n;
