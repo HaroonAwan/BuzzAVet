@@ -156,10 +156,23 @@ export function useNavbar({ onApply, onClearAll }: UseNavbarProps = {}) {
     const params = new URLSearchParams(searchParams.toString());
     const newFilters: Partial<FilterState> = {};
     // Dynamic: use all keys in FilterState
-    if (params.has('min') || params.has('max')) {
+    if (
+      params.has('min') ||
+      params.has('max') ||
+      params.has('minPrice') ||
+      params.has('maxPrice')
+    ) {
       newFilters.consultationFee = {
-        minPrice: params.has('min') ? Number(params.get('min')) : 24,
-        maxPrice: params.has('max') ? Number(params.get('max')) : 500,
+        minPrice: params.has('minPrice')
+          ? Number(params.get('minPrice'))
+          : params.has('min')
+            ? Number(params.get('min'))
+            : 24,
+        maxPrice: params.has('maxPrice')
+          ? Number(params.get('maxPrice'))
+          : params.has('max')
+            ? Number(params.get('max'))
+            : 500,
       };
     }
     if (params.has('minRating') || params.has('rating')) {
