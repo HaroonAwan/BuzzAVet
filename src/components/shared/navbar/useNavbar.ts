@@ -5,6 +5,7 @@ import { useAppSelector } from '@/lib/hooks';
 import { selectIsAuthenticated } from '@/apis/auth/authSlice';
 import { FilterState } from '../popover';
 import { useForm } from 'react-hook-form';
+import { useGetHospitalServicesQuery } from '@/apis/dropdownOptions/dropdownOptionsApi';
 
 interface UseNavbarProps {
   onApply?: (filters: FilterState) => void;
@@ -12,15 +13,36 @@ interface UseNavbarProps {
 }
 
 export function useNavbar({ onApply, onClearAll }: UseNavbarProps = {}) {
+  const { data } = useGetHospitalServicesQuery();
+  console.log('🌶️🌶️🌶️🌶️🌶️🌶️🌶️🌶️🌶️🌶️ ~ useNavbar ~ data:', data);
+  // Build medical services and facilities lists from API response
+  const medicalServicesOptions = (data || [])
+    .filter((item: any) => item.type === 'MEDICAL_SERVICES')
+    .map((item: any) => {
+      let title = (item.title || '').trim();
+      // quick fix for common misspellings
+      const id = item._id || item.slug || title.toLowerCase().replace(/\s+/g, '-');
+      return { id, title };
+    });
+
+  const facilitiesOptions = (data || [])
+    .filter((item: any) => item.type === 'FACILITIES')
+    .map((item: any) => {
+      let title = (item.title || '').trim();
+      const id = item._id || item.slug || title.toLowerCase().replace(/\s+/g, '-');
+      return { id, title };
+    });
   const form = useForm<FilterState>({
     defaultValues: {
-      consultationFee: { min: 24, max: 500 },
-      minimumRating: null,
-      distance: 50,
+      consultationFee: { minPrice: 24, maxPrice: 500 },
+      minRating: null,
+      maxMiles: 5000,
       emergencyServices: false,
       medicalServices: [],
       facilities: [],
-      accreditations: [],
+      accreditations: { isFearFreeCertified: false, isAAHAACertified: false },
+      gender: [],
+      languages: [],
       insuranceAccepted: [],
     },
   });
@@ -54,14 +76,21 @@ export function useNavbar({ onApply, onClearAll }: UseNavbarProps = {}) {
 
   const getAppliedFiltersCount = (filters: FilterState) => {
     let count = 0;
-    if (filters.consultationFee.min !== 24 || filters.consultationFee.max !== 500) count++;
-    if (filters.minimumRating) count++;
-    if (filters.distance !== 50) count++;
+    if (filters.consultationFee.minPrice !== 24 || filters.consultationFee.maxPrice !== 500)
+      count++;
+    if (filters.minRating) count++;
+    if (filters.maxMiles !== 5000) count++;
     if (filters.emergencyServices) count++;
     if (filters.medicalServices && filters.medicalServices.length > 0) count++;
     if (filters.facilities && filters.facilities.length > 0) count++;
-    if (filters.accreditations && filters.accreditations.length > 0) count++;
+    if (
+      filters.accreditations &&
+      (filters.accreditations.isAAHAACertified || filters.accreditations.isFearFreeCertified)
+    )
+      count++;
     if (filters.insuranceAccepted && filters.insuranceAccepted.length > 0) count++;
+    if (filters.gender && (filters.gender as any).length > 0) count++;
+    if (filters.languages && filters.languages.length > 0) count++;
     return count;
   };
 
@@ -129,35 +158,47 @@ export function useNavbar({ onApply, onClearAll }: UseNavbarProps = {}) {
     // Dynamic: use all keys in FilterState
     if (params.has('min') || params.has('max')) {
       newFilters.consultationFee = {
-        min: params.has('min') ? Number(params.get('min')) : 24,
-        max: params.has('max') ? Number(params.get('max')) : 500,
+        minPrice: params.has('min') ? Number(params.get('min')) : 24,
+        maxPrice: params.has('max') ? Number(params.get('max')) : 500,
       };
     }
-    if (params.has('minimumRating') || params.has('rating')) {
-      newFilters.minimumRating = params.get('minimumRating') || params.get('rating');
+    if (params.has('minRating') || params.has('rating')) {
+      newFilters.minRating = params.get('minRating') || params.get('rating');
     }
-    if (params.has('distance')) {
-      newFilters.distance = Number(params.get('distance'));
+    if (params.has('maxMiles')) {
+      newFilters.maxMiles = Number(params.get('maxMiles'));
     }
     if (params.has('emergencyServices')) {
       newFilters.emergencyServices = params.get('emergencyServices') === 'true';
     }
-    // Multi-selects: use all keys
-    ['medicalServices', 'facilities', 'accreditations', 'insuranceAccepted'].forEach((key) => {
+    // Multi-selects: arrays (include languages and gender)
+    ['medicalServices', 'facilities', 'insuranceAccepted', 'languages', 'gender'].forEach((key) => {
       if (params.has(key)) {
         (newFilters as any)[key] = params.get(key)?.split(';').filter(Boolean) || [];
       }
     });
+    // Accreditations: individual boolean flags
+    if (params.has('isFearFreeCertified') || params.has('isAAHAACertified')) {
+      (newFilters as any).accreditations = {
+        isFearFreeCertified: params.get('isFearFreeCertified') === 'true',
+        isAAHAACertified: params.get('isAAHAACertified') === 'true',
+      };
+    }
     // Set values if any
     if (Object.keys(newFilters).length > 0) {
       form.reset({
-        consultationFee: newFilters.consultationFee || { min: 24, max: 500 },
-        minimumRating: newFilters.minimumRating ?? null,
-        distance: newFilters.distance ?? 50,
+        consultationFee: newFilters.consultationFee || { minPrice: 24, maxPrice: 500 },
+        minRating: newFilters.minRating ?? null,
+        maxMiles: newFilters.maxMiles ?? 10000,
         emergencyServices: newFilters.emergencyServices ?? false,
         medicalServices: newFilters.medicalServices || [],
         facilities: newFilters.facilities || [],
-        accreditations: newFilters.accreditations || [],
+        accreditations: newFilters.accreditations || {
+          isFearFreeCertified: false,
+          isAAHAACertified: false,
+        },
+        gender: newFilters.gender || [],
+        languages: newFilters.languages || [],
         insuranceAccepted: newFilters.insuranceAccepted || [],
       });
     }
@@ -241,13 +282,15 @@ export function useNavbar({ onApply, onClearAll }: UseNavbarProps = {}) {
 
   const handleClearAll = () => {
     reset({
-      consultationFee: { min: 24, max: 500 },
-      minimumRating: null,
-      distance: 50,
+      consultationFee: { minPrice: 24, maxPrice: 500 },
+      minRating: null,
+      maxMiles: 10000,
       emergencyServices: false,
       medicalServices: [],
       facilities: [],
-      accreditations: [],
+      accreditations: { isFearFreeCertified: false, isAAHAACertified: false },
+      gender: [],
+      languages: [],
       insuranceAccepted: [],
     });
     onClearAll?.();
@@ -259,37 +302,37 @@ export function useNavbar({ onApply, onClearAll }: UseNavbarProps = {}) {
     const roundedData: FilterState = {
       ...data,
       consultationFee: {
-        min: Math.round(data.consultationFee.min),
-        max: Math.round(data.consultationFee.max),
+        minPrice: Math.round(data.consultationFee.minPrice),
+        maxPrice: Math.round(data.consultationFee.maxPrice),
       },
-      distance: Math.round(data.distance),
+      maxMiles: Math.round(data.maxMiles),
     };
 
     const params = new URLSearchParams(searchParams?.toString() || '');
 
     // Use dynamic keys for all filters
     // Consultation Fee
-    if (roundedData.consultationFee.min !== 24) {
-      params.set('min', String(roundedData.consultationFee.min));
+    if (roundedData.consultationFee.minPrice !== 24) {
+      params.set('minPrice', String(roundedData.consultationFee.minPrice));
     } else {
-      params.delete('min');
+      params.delete('minPrice');
     }
-    if (roundedData.consultationFee.max !== 500) {
-      params.set('max', String(roundedData.consultationFee.max));
+    if (roundedData.consultationFee.maxPrice !== 500) {
+      params.set('maxPrice', String(roundedData.consultationFee.maxPrice));
     } else {
-      params.delete('max');
+      params.delete('maxPrice');
     }
-    // Minimum Rating (use minimumRating as key)
-    if (roundedData.minimumRating) {
-      params.set('minimumRating', roundedData.minimumRating);
+    // Minimum Rating (use minRating as key)
+    if (roundedData.minRating) {
+      params.set('minRating', roundedData.minRating);
     } else {
-      params.delete('minimumRating');
+      params.delete('minRating');
     }
-    // Distance
-    if (roundedData.distance !== 50) {
-      params.set('distance', String(roundedData.distance));
+    // maxMiles
+    if (roundedData.maxMiles !== 10000) {
+      params.set('maxMiles', String(roundedData.maxMiles));
     } else {
-      params.delete('distance');
+      params.delete('maxMiles');
     }
     // Emergency Services
     if (roundedData.emergencyServices) {
@@ -297,17 +340,48 @@ export function useNavbar({ onApply, onClearAll }: UseNavbarProps = {}) {
     } else {
       params.delete('emergencyServices');
     }
-    // Multi-selects
-    Object.entries(roundedData).forEach(([key, value]) => {
+    // Only push filters relevant to the current route.
+    // `consultationFee` is handled above (minPrice/maxPrice), so exclude it here.
+    let keysToProcess = Object.keys(roundedData).filter((k) => k !== 'consultationFee');
+    if (activeSlug === 'telemedicine' || activeSlug === 'mobile-vets') {
+      // For telemedicine & mobile-vets only allow rating, gender and languages (and consultationFee handled above)
+      keysToProcess = keysToProcess.filter((k) => ['minRating', 'gender', 'languages'].includes(k));
+    }
+
+    keysToProcess.forEach((key) => {
+      const value: any = (roundedData as any)[key];
       if (Array.isArray(value) && value.length > 0) {
         // Use set with custom encoding to avoid encoding ';'
         params.delete(key); // Remove any existing
         const joined = value.join(';');
         // Manually append to avoid encoding ';'
         params.append(key, joined);
+        return;
       }
       if (Array.isArray(value) && value.length === 0) {
         params.delete(key);
+        return;
+      }
+      // gender handled as array above (joined with ';')
+      // Accreditations object -> serialize as a JSON param and remove any top-level flags
+      if (key === 'accreditations' && typeof value === 'object' && value !== null) {
+        try {
+          params.set('accreditations', JSON.stringify(value));
+        } catch (e) {
+          // fallback: set individual flags if serialization fails
+          const acc = value as { [k: string]: boolean };
+          Object.entries(acc).forEach(([k, v]) => {
+            params.set(k, v ? 'true' : 'false');
+          });
+        }
+        // Ensure we do not leave duplicate top-level accreditation flags
+        params.delete('isFearFreeCertified');
+        params.delete('isAAHAACertified');
+        return;
+      }
+      // Fallback: set primitive values directly
+      if (value !== undefined && value !== null && typeof value !== 'object') {
+        params.set(key, String(value));
       }
     });
 
@@ -324,13 +398,24 @@ export function useNavbar({ onApply, onClearAll }: UseNavbarProps = {}) {
 
   const toggleService = (
     serviceId: string,
-    category: 'medicalServices' | 'facilities' | 'accreditations' | 'insuranceAccepted'
+    category: 'medicalServices' | 'facilities' | 'insuranceAccepted' | 'languages' | 'gender'
   ) => {
-    const currentValues = filters[category] || [];
+    const currentValues = (filters as any)[category] || [];
     const newValues = currentValues.includes(serviceId)
-      ? currentValues.filter((id) => id !== serviceId)
+      ? currentValues.filter((id: string) => id !== serviceId)
       : [...currentValues, serviceId];
-    setValue(category, newValues);
+    setValue(category as any, newValues);
+  };
+
+  const toggleAccreditation = (key: 'isFearFreeCertified' | 'isAAHAACertified') => {
+    const current = (filters as any).accreditations || {
+      isFearFreeCertified: false,
+      isAAHAACertified: false,
+    };
+    setValue('accreditations' as any, {
+      ...current,
+      [key]: !current[key],
+    });
   };
 
   const dummyUser =
@@ -379,6 +464,9 @@ export function useNavbar({ onApply, onClearAll }: UseNavbarProps = {}) {
     toggleSection,
     onSubmitForm: handleSubmit(onSubmit),
     toggleService,
+    medicalServicesOptions,
+    facilitiesOptions,
+    toggleAccreditation,
     getAppliedFiltersCount,
     filters,
     handleClearAll,

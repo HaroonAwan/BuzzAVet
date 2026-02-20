@@ -28,9 +28,7 @@ const SearchedOrDefaultHospitalsNearYou = () => {
           <ApiResponseWrapper
             isLoading={hospitalsIsLoading}
             hasError={!!hospitalsError}
-            isErrorMessage={hospitalsError?.message}
             hasData={paginatedHospitals.length > 0}
-            hasDataMessage="No hospitals found."
             loadingSize={{ width: 300, height: 200 }}
             errorSize={{ width: 300, height: 200 }}
             hasDataSize={{ width: 300, height: 200 }}

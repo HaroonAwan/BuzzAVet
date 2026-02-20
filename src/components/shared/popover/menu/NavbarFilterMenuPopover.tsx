@@ -16,15 +16,19 @@ import DollarIcon from '@/assets/images/home/dollar.svg';
 import Image from 'next/image';
 import { useNavbar } from '../../navbar/useNavbar';
 
+export type Gender = 'MALE' | 'FEMALE' | 'UNKNOWN';
+
 export interface FilterState {
-  consultationFee: { min: number; max: number };
-  minimumRating: string | null;
-  distance: number;
+  consultationFee: { minPrice: number; maxPrice: number };
+  minRating: string | null;
+  maxMiles: number;
   emergencyServices: boolean;
   medicalServices: string[];
   facilities: string[];
-  accreditations: string[];
+  accreditations: { isFearFreeCertified: boolean; isAAHAACertified: boolean };
   insuranceAccepted: string[];
+  gender?: Gender[];
+  languages?: string[];
 }
 
 export interface NavbarFilterMenuPopoverProps {
@@ -59,7 +63,11 @@ export function NavbarFilterMenuPopover({
     handleClearAll,
     expandedSections,
     control,
+    medicalServicesOptions,
+    facilitiesOptions,
+    toggleAccreditation,
   } = useNavbar({ onApply, onClearAll });
+  const isMobileOrTele = activeSlug === 'mobile-vets' || activeSlug === 'telemedicine';
   // Collapsible Section
   const CollapsibleSection = ({
     id,
@@ -90,21 +98,6 @@ export function NavbarFilterMenuPopover({
       </div>
     );
   };
-
-  const medicalServicesOptions = [
-    'Ultrasound',
-    'Surgery',
-    'Dental',
-    'Emergency',
-    'In-house Lab',
-    'Pharmacy',
-    'X-Ray',
-    'ICU',
-    'Boarding',
-    'Microchipping',
-    'Vaccinations',
-    'Wellness Exams',
-  ];
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -164,8 +157,8 @@ export function NavbarFilterMenuPopover({
                       const max = 500;
                       const valueAtPos = min + (index / (array.length - 1)) * (max - min);
                       const isInRange =
-                        valueAtPos >= filters.consultationFee.min &&
-                        valueAtPos <= filters.consultationFee.max;
+                        valueAtPos >= filters.consultationFee.minPrice &&
+                        valueAtPos <= filters.consultationFee.maxPrice;
                       return (
                         <div
                           key={index}
@@ -203,8 +196,8 @@ export function NavbarFilterMenuPopover({
                           style={{
                             backgroundColor: theme.colors.background.range,
                             height: '2px',
-                            left: `${((field.value.min - 0) / (500 - 0)) * 100}%`,
-                            width: `${((field.value.max - field.value.min) / (500 - 0)) * 100}%`,
+                            left: `${((field.value.minPrice - 0) / (500 - 0)) * 100}%`,
+                            width: `${((field.value.maxPrice - field.value.minPrice) / (500 - 0)) * 100}%`,
                             top: '50%',
                             transform: 'translateY(-50%)',
                             zIndex: 1,
@@ -215,13 +208,13 @@ export function NavbarFilterMenuPopover({
                           type="range"
                           min={0}
                           max={500}
-                          value={field.value.min}
+                          value={field.value.minPrice}
                           onChange={(e) => {
                             const newMin = Math.min(
                               parseInt(e.target.value, 10),
-                              field.value.max - 1
+                              field.value.maxPrice - 1
                             );
-                            field.onChange({ ...field.value, min: newMin });
+                            field.onChange({ ...field.value, minPrice: newMin });
                           }}
                           className="slider-input absolute h-2 w-full cursor-pointer"
                           style={{ zIndex: 10 }}
@@ -231,13 +224,13 @@ export function NavbarFilterMenuPopover({
                           type="range"
                           min={0}
                           max={500}
-                          value={field.value.max}
+                          value={field.value.maxPrice}
                           onChange={(e) => {
                             const newMax = Math.max(
                               parseInt(e.target.value, 10),
-                              field.value.min + 1
+                              field.value.minPrice + 1
                             );
-                            field.onChange({ ...field.value, max: newMax });
+                            field.onChange({ ...field.value, maxPrice: newMax });
                           }}
                           className="slider-input absolute h-2 w-full cursor-pointer"
                           style={{ zIndex: 10 }}
@@ -269,16 +262,19 @@ export function NavbarFilterMenuPopover({
                           />
                           <Input
                             type="number"
-                            value={field.value.min}
+                            value={field.value.minPrice}
                             onChange={(e) => {
                               const numValue = parseInt(e.target.value, 10);
                               if (!isNaN(numValue)) {
-                                const newMin = Math.max(0, Math.min(numValue, field.value.max - 1));
-                                field.onChange({ ...field.value, min: newMin });
+                                const newMin = Math.max(
+                                  0,
+                                  Math.min(numValue, field.value.maxPrice - 1)
+                                );
+                                field.onChange({ ...field.value, minPrice: newMin });
                               }
                             }}
                             min={0}
-                            max={field.value.max - 1}
+                            max={field.value.maxPrice - 1}
                             className="w-full pl-10 font-semibold"
                             style={{ color: theme.colors.text.default }}
                           />
@@ -310,18 +306,18 @@ export function NavbarFilterMenuPopover({
                           />
                           <Input
                             type="number"
-                            value={field.value.max}
+                            value={field.value.maxPrice}
                             onChange={(e) => {
                               const numValue = parseInt(e.target.value, 10);
                               if (!isNaN(numValue)) {
                                 const newMax = Math.min(
                                   500,
-                                  Math.max(numValue, field.value.min + 1)
+                                  Math.max(numValue, field.value.minPrice + 1)
                                 );
-                                field.onChange({ ...field.value, max: newMax });
+                                field.onChange({ ...field.value, maxPrice: newMax });
                               }
                             }}
-                            min={field.value.min + 1}
+                            min={field.value.minPrice + 1}
                             max={500}
                             className="w-full pl-10 font-semibold"
                             style={{ color: theme.colors.text.default }}
@@ -344,7 +340,7 @@ export function NavbarFilterMenuPopover({
                 <h4 className="mb-4 text-lg font-semibold">Minimum Rating</h4>
                 <Controller
                   control={control}
-                  name="minimumRating"
+                  name="minRating"
                   render={({ field }) => {
                     const ratings = ['4.5', '4', '3.5'];
                     return (
@@ -367,104 +363,176 @@ export function NavbarFilterMenuPopover({
               </div>
 
               {/* Distance */}
-              <div>
-                <h4 className="mb-4 text-lg font-semibold">Distance</h4>
-                <div className="flex items-center gap-3">
-                  <Controller
-                    control={control}
-                    name="distance"
-                    render={({ field }) => (
-                      <input
-                        type="range"
-                        min={0}
-                        max={100}
-                        value={field.value}
-                        onChange={(e) => field.onChange(parseInt(e.target.value, 10))}
-                        className="range-slider h-2 flex-1 cursor-pointer appearance-none rounded-full"
-                        style={{
-                          background: `linear-gradient(to right, #14B8A6 0%, #14B8A6 ${((field.value - 0) / (100 - 0)) * 100}%, ${theme.colors.background.tertiary} ${((field.value - 0) / (100 - 0)) * 100}%, ${theme.colors.background.tertiary} 100%)`,
-                        }}
-                      />
-                    )}
-                  />
-                  <span className="min-w-15 text-sm" style={{ color: theme.colors.text.secondary }}>
-                    {filters.distance} miles
-                  </span>
+              {!isMobileOrTele && (
+                <div>
+                  <h4 className="mb-4 text-lg font-semibold">Distance</h4>
+                  <div className="flex items-center gap-3">
+                    <Controller
+                      control={control}
+                      name="maxMiles"
+                      render={({ field }) => (
+                        <input
+                          type="range"
+                          min={0}
+                          max={10000}
+                          value={field.value}
+                          onChange={(e) => field.onChange(parseInt(e.target.value, 10))}
+                          className="range-slider h-2 flex-1 cursor-pointer appearance-none rounded-full"
+                          style={{
+                            background: `linear-gradient(to right, #14B8A6 0%, #14B8A6 ${((field.value - 0) / (10000 - 0)) * 100}%, ${theme.colors.background.tertiary} ${((field.value - 0) / (10000 - 0)) * 100}%, ${theme.colors.background.tertiary} 100%)`,
+                          }}
+                        />
+                      )}
+                    />
+                    <span
+                      className="min-w-15 text-sm"
+                      style={{ color: theme.colors.text.secondary }}
+                    >
+                      {filters.maxMiles} miles
+                    </span>
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Emergency Services */}
-              <div className="flex items-center justify-between">
-                <div>
-                  <h4
-                    className="text-sm font-semibold"
-                    style={{ color: theme.colors.text.default }}
-                  >
-                    Emergency Services
-                  </h4>
-                  <p className="mt-0.5 text-xs" style={{ color: theme.colors.text.secondary }}>
-                    Only show 24/7 emergency hospitals
-                  </p>
+              {!isMobileOrTele && (
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h4
+                      className="text-sm font-semibold"
+                      style={{ color: theme.colors.text.default }}
+                    >
+                      Emergency Services
+                    </h4>
+                    <p className="mt-0.5 text-xs" style={{ color: theme.colors.text.secondary }}>
+                      Only show 24/7 emergency hospitals
+                    </p>
+                  </div>
+                  <Controller
+                    control={control}
+                    name="emergencyServices"
+                    render={({ field }) => (
+                      <Switch checked={field.value} onCheckedChange={field.onChange} size="md" />
+                    )}
+                  />
                 </div>
-                <Controller
-                  control={control}
-                  name="emergencyServices"
-                  render={({ field }) => (
-                    <Switch checked={field.value} onCheckedChange={field.onChange} size="md" />
-                  )}
-                />
-              </div>
+              )}
 
-              {/* Medical Services */}
-              <CollapsibleSection id="medical-services" title="Medical Services">
-                <div className="flex flex-wrap gap-2">
-                  {medicalServicesOptions.map((service) => {
-                    const serviceId = service.toLowerCase().replace(/\s+/g, '-');
-                    return (
+              {!isMobileOrTele && (
+                <>
+                  {/* Medical Services */}
+                  <CollapsibleSection id="medical-services" title="Medical Services">
+                    <div className="flex flex-wrap gap-2">
+                      {medicalServicesOptions.map((service) => (
+                        <CheckTag
+                          key={service.id}
+                          active={filters.medicalServices?.includes(service.id) || false}
+                          onClick={() => toggleService(service.id, 'medicalServices')}
+                        >
+                          {service.title}
+                        </CheckTag>
+                      ))}
+                    </div>
+                  </CollapsibleSection>
+
+                  {/* Facilities */}
+                  <CollapsibleSection id="facilities" title="Facilities">
+                    <div className="flex flex-wrap gap-2">
+                      {facilitiesOptions.length > 0 ? (
+                        facilitiesOptions.map((f) => (
+                          <CheckTag
+                            key={f.id}
+                            active={filters.facilities?.includes(f.id) || false}
+                            onClick={() => toggleService(f.id, 'facilities')}
+                          >
+                            {f.title}
+                          </CheckTag>
+                        ))
+                      ) : (
+                        <>
+                          <CheckTag
+                            active={filters.facilities?.includes('parking') || false}
+                            onClick={() => toggleService('parking', 'facilities')}
+                          >
+                            Parking
+                          </CheckTag>
+                          <CheckTag
+                            active={filters.facilities?.includes('waiting-room') || false}
+                            onClick={() => toggleService('waiting-room', 'facilities')}
+                          >
+                            Waiting Room
+                          </CheckTag>
+                        </>
+                      )}
+                    </div>
+                  </CollapsibleSection>
+                </>
+              )}
+
+              {!isMobileOrTele && (
+                <CollapsibleSection id="accreditations" title="Accreditations">
+                  <div className="flex flex-wrap gap-2">
+                    <CheckTag
+                      active={filters.accreditations?.isAAHAACertified || false}
+                      onClick={() => toggleAccreditation('isAAHAACertified')}
+                    >
+                      AAHA
+                    </CheckTag>
+                    <CheckTag
+                      active={filters.accreditations?.isFearFreeCertified || false}
+                      onClick={() => toggleAccreditation('isFearFreeCertified')}
+                    >
+                      Fear Free
+                    </CheckTag>
+                  </div>
+                </CollapsibleSection>
+              )}
+
+              {/* Gender (mobile/telemedicine specific) */}
+              {isMobileOrTele && (
+                <CollapsibleSection id="gender" title="Gender">
+                  <div className="flex gap-2">
+                    <CheckTag
+                      active={filters.gender?.includes('MALE') || false}
+                      onClick={() => toggleService('MALE', 'gender')}
+                    >
+                      Male
+                    </CheckTag>
+                    <CheckTag
+                      active={filters.gender?.includes('FEMALE') || false}
+                      onClick={() => toggleService('FEMALE', 'gender')}
+                    >
+                      Female
+                    </CheckTag>
+                    <CheckTag
+                      active={filters.gender?.includes('UNKNOWN') || false}
+                      onClick={() => toggleService('UNKNOWN', 'gender')}
+                    >
+                      Unknown
+                    </CheckTag>
+                  </div>
+                </CollapsibleSection>
+              )}
+
+              {/* Languages (mobile/telemedicine specific) */}
+              {isMobileOrTele && (
+                <CollapsibleSection id="languages" title="Languages">
+                  <div className="flex flex-wrap gap-2">
+                    {['English', 'Spanish', 'French', 'Arabic'].map((lang) => (
                       <CheckTag
-                        key={serviceId}
-                        active={filters.medicalServices?.includes(serviceId) || false}
-                        onClick={() => toggleService(serviceId, 'medicalServices')}
+                        key={lang}
+                        active={filters.languages?.includes(lang) || false}
+                        onClick={() => toggleService(lang, 'languages')}
                       >
-                        {service}
+                        {lang}
                       </CheckTag>
-                    );
-                  })}
-                </div>
-              </CollapsibleSection>
-
-              {/* Facilities */}
-              <CollapsibleSection id="facilities" title="Facilities">
-                <div className="flex flex-wrap gap-2">
-                  <CheckTag
-                    active={filters.facilities?.includes('parking') || false}
-                    onClick={() => toggleService('parking', 'facilities')}
-                  >
-                    Parking
-                  </CheckTag>
-                  <CheckTag
-                    active={filters.facilities?.includes('waiting-room') || false}
-                    onClick={() => toggleService('waiting-room', 'facilities')}
-                  >
-                    Waiting Room
-                  </CheckTag>
-                </div>
-              </CollapsibleSection>
-
-              {/* Accreditations */}
-              <CollapsibleSection id="accreditations" title="Accreditations">
-                <div className="flex flex-wrap gap-2">
-                  <CheckTag
-                    active={filters.accreditations?.includes('aaha') || false}
-                    onClick={() => toggleService('aaha', 'accreditations')}
-                  >
-                    AAHA
-                  </CheckTag>
-                </div>
-              </CollapsibleSection>
+                    ))}
+                  </div>
+                </CollapsibleSection>
+              )}
 
               {/* Insurance Accepted */}
-              <CollapsibleSection id="insurance-accepted" title="Insurance Accepted">
+              {/* <CollapsibleSection id="insurance-accepted" title="Insurance Accepted">
                 <div className="flex flex-wrap gap-2">
                   <CheckTag
                     active={filters.insuranceAccepted?.includes('pet-insurance') || false}
@@ -473,7 +541,7 @@ export function NavbarFilterMenuPopover({
                     Pet Insurance
                   </CheckTag>
                 </div>
-              </CollapsibleSection>
+              </CollapsibleSection> */}
             </div>
 
             {/* Footer */}

@@ -3,7 +3,7 @@ import { SERVICE_TYPE } from '@/lib/enums';
 import { extractApiError } from '@/types/api';
 import { VetsNearYouBody, VetsNearYouQuery } from '@/types/vetsTypes';
 
-const MILES = 500000000;
+const MILES = 10000000;
 export const useVetsNearYou = (query?: { QUERY: VetsNearYouQuery; BODY: VetsNearYouBody }) => {
   const { data, isLoading, error } = useGetVetsNearYouQuery(
     query || {

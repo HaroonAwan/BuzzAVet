@@ -7,7 +7,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { useToggleFavoriteMutation } from '@/apis/favorite/favoriteApi';
 
 const PAGE_SIZE = 25;
-const MILES = 500000000;
+const MILES = 10000000;
 
 export function useSearchedOrDefaultTelemedicinesNearYou() {
   const searchParams = useSearchParams();
@@ -22,6 +22,32 @@ export function useSearchedOrDefaultTelemedicinesNearYou() {
     return page ? parseInt(page, 10) : 1;
   }, [searchParams]);
 
+  // build active params for vets (only include relevant filters)
+  const activeParams = useMemo(() => {
+    const params: Record<string, any> = {};
+    if (!searchParams) return params;
+    searchParams.forEach((value, key) => {
+      if (key === 'languages') {
+        params.languages = value ? value.split(';').filter(Boolean) : [];
+      } else if (key === 'gender') {
+        // allow single or semicolon separated genders
+        params.gender = value ? value.split(';').filter(Boolean) : [];
+      } else if (key === 'minPrice') {
+        const n = Number(value);
+        if (!Number.isNaN(n)) params.minPrice = n;
+      } else if (key === 'maxPrice') {
+        const n = Number(value);
+        if (!Number.isNaN(n)) params.maxPrice = n;
+      } else if (key === 'minRating' || key === 'rating') {
+        const n = Number(value);
+        if (!Number.isNaN(n)) params.minRating = n;
+      }
+    });
+    return params;
+  }, [searchParams]);
+
+  console.log('useSearchedOrDefaultTelemedicinesNearYou activeParams:', activeParams);
+
   const { data, isLoading, error } = useGetVetsNearYouQuery({
     QUERY: {
       page: currentPage,
@@ -30,7 +56,7 @@ export function useSearchedOrDefaultTelemedicinesNearYou() {
         pathname === '/mobile-vets' ? SERVICE_TYPE.MOBILE_VET : SERVICE_TYPE.TELEMEDICINE,
       miles: MILES,
     },
-    BODY: {},
+    BODY: { ...activeParams },
   });
 
   const vets = data?.data || [];

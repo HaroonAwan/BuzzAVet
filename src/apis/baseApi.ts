@@ -2,7 +2,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { ApiEndpoints } from '@/apis/endpoints';
 import { setCredentials, logout } from '@/apis/auth/authSlice';
-// Do not import store at the top level to avoid circular dependency
+// ***Do not import store at the top level to avoid circular dependency
 import { getCookie, setCookie } from 'cookies-next';
 import type { RootState } from '@/lib/store';
 import { API_BASE_URL } from '@/constants';
@@ -58,7 +58,43 @@ const refreshTokenAndRetry: BaseQueryFn<any, unknown, FetchBaseQueryError, unkno
     performLogout();
     return { error: { status: 406, data: 'No refresh token' } };
   }
-  try {
+
+  // Single-refresh lock to avoid multiple simultaneous refresh calls.
+  // Other callers will await `refreshPromise` and then retry using the new token.
+  // This prevents a race where multiple 401s trigger multiple refreshes and
+  // invalidate each other's refresh tokens.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  (globalThis as any).__rtk_refresh_promise = (globalThis as any).__rtk_refresh_promise || null;
+  let refreshPromise: Promise<{ accessToken: string; refreshToken: string }> | null = (
+    globalThis as any
+  ).__rtk_refresh_promise;
+
+  if (refreshPromise) {
+    try {
+      const data = await refreshPromise;
+      const token = data?.accessToken || (getCookie('auth_token') as string | undefined);
+      if (!token) {
+        performLogout();
+        return { error: { status: 401, data: 'No token after refresh' } };
+      }
+      let retriedArgs = {
+        ...(typeof originalArgs === 'string' ? { url: originalArgs } : originalArgs),
+      };
+      retriedArgs.headers = {
+        ...(retriedArgs.headers || {}),
+        authorization: `Bearer ${token}`,
+      };
+      const portalType = getCookie('portal_type') || 'CUSTOMER';
+      retriedArgs.headers['x-portal-type'] = portalType;
+      return await rawBaseQuery(retriedArgs, api, extraOptions);
+    } catch (err) {
+      performLogout();
+      return { error: { status: 401, data: 'Refresh failed while waiting' } };
+    }
+  }
+
+  // create a new refresh promise and store it globally so other requests can await it
+  const doRefresh = async () => {
     const refreshBaseQuery = fetchBaseQuery({
       baseUrl: API_BASE_URL,
       prepareHeaders: (headers, { getState }) => {
@@ -81,6 +117,7 @@ const refreshTokenAndRetry: BaseQueryFn<any, unknown, FetchBaseQueryError, unkno
     };
 
     const refreshResult = await refreshBaseQuery(refreshPayload, api, extraOptions);
+    console.log('🚨 refreshTokenAndRetry ~ refreshResult:', refreshResult);
     if (refreshResult.data && (refreshResult as any).meta?.response?.status === 200) {
       const data = refreshResult.data as { accessToken: string; refreshToken: string };
       setCookie('auth_token', data.accessToken);
@@ -89,42 +126,56 @@ const refreshTokenAndRetry: BaseQueryFn<any, unknown, FetchBaseQueryError, unkno
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const { store } = require('@/lib/store');
       store.dispatch(setCredentials({ token: data.accessToken, refreshToken: data.refreshToken }));
-      let retriedArgs = {
-        ...(typeof originalArgs === 'string' ? { url: originalArgs } : originalArgs),
-      };
-      retriedArgs.headers = {
-        ...(retriedArgs.headers || {}),
-        authorization: `Bearer ${data.accessToken}`,
-      };
-      const portalType = getCookie('portal_type') || 'CUSTOMER';
-      retriedArgs.headers['x-portal-type'] = portalType;
-
-      const retryResult = await rawBaseQuery(retriedArgs, api, extraOptions);
-
-      return retryResult;
-    } else if (
-      (refreshResult as any).meta?.response?.status === 406 ||
-      (refreshResult as any).meta?.response?.status === 401
-    ) {
-      performLogout();
-      return {
-        error: {
-          status: (refreshResult as any).meta?.response?.status,
-          data:
-            (refreshResult as any).meta?.response?.status === 401
-              ? 'Unauthorized refresh token'
-              : 'Invalid or expired refresh token',
-        },
-      };
+      return data;
     }
 
-    return {
-      error: { status: (refreshResult as any).meta?.response?.status, data: refreshResult.error },
+    // any non-200 is considered a failure that should log the user out
+    const status = (refreshResult as any).meta?.response?.status;
+    if (status === 406 || status === 401) {
+      throw {
+        status,
+        data: status === 401 ? 'Unauthorized refresh token' : 'Invalid or expired refresh token',
+      };
+    }
+    throw { status: status || 406, data: refreshResult.error || 'Refresh failed' };
+  };
+
+  // store the promise globally so other callers can await it
+  const globalRef: any = globalThis as any;
+  globalRef.__rtk_refresh_promise = doRefresh();
+  try {
+    const data = await globalRef.__rtk_refresh_promise;
+    // clear the global promise
+    globalRef.__rtk_refresh_promise = null;
+
+    const token = data?.accessToken || (getCookie('auth_token') as string | undefined);
+    if (!token) {
+      performLogout();
+      return { error: { status: 401, data: 'No token after refresh' } };
+    }
+    let retriedArgs = {
+      ...(typeof originalArgs === 'string' ? { url: originalArgs } : originalArgs),
     };
+    retriedArgs.headers = {
+      ...(retriedArgs.headers || {}),
+      authorization: `Bearer ${token}`,
+    };
+    const portalType = getCookie('portal_type') || 'CUSTOMER';
+    retriedArgs.headers['x-portal-type'] = portalType;
+
+    const retryResult = await rawBaseQuery(retriedArgs, api, extraOptions);
+    return retryResult;
   } catch (e) {
+    // clear the global promise on error
+    (globalThis as any).__rtk_refresh_promise = null;
     console.error('[refreshTokenAndRetry] Exception during refresh:', e);
     performLogout();
-    return { error: { status: 406, data: 'Refresh token failed' } };
+    return {
+      error: {
+        status: (e as any)?.status || 406,
+        data: (e as any)?.data || 'Refresh token failed',
+      },
+    };
   }
 };
 

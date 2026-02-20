@@ -50,12 +50,48 @@ export function ServiceTypeInput({
     setInputValue(value);
   }, [value]);
 
+  // On mount, if no `value` provided, prepopulate from URL query params (`q` or `searchQuery`).
+  useEffect(() => {
+    if (value) return;
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    const q = params.get('q') || params.get('searchQuery');
+    if (q) {
+      setInputValue(q);
+      // inform parent of the initial value
+      onChange(q);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     if (debounceTimeout.current) clearTimeout(debounceTimeout.current);
-    if (!inputValue) return;
+    // Preserve other query params; set or remove the `q` param based on inputValue
+    if (!inputValue) {
+      // remove q param
+      if (typeof window !== 'undefined') {
+        const params = new URLSearchParams(window.location.search);
+        params.delete('q');
+        const qs = params.toString();
+        const pathname = window.location.pathname || `/${activeSlug}`;
+        const url = `${pathname}${qs ? `?${qs}` : ''}`;
+        router.push(url);
+      }
+      return;
+    }
+
     debounceTimeout.current = setTimeout(() => {
-      const url = `/${activeSlug}?q=${encodeURIComponent(inputValue)}`;
-      router.push(url);
+      if (typeof window !== 'undefined') {
+        const params = new URLSearchParams(window.location.search);
+        params.set('q', inputValue);
+        const qs = params.toString();
+        const pathname = window.location.pathname || `/${activeSlug}`;
+        const url = `${pathname}${qs ? `?${qs}` : ''}`;
+        router.push(url);
+      } else {
+        const url = `/${activeSlug}?q=${encodeURIComponent(inputValue)}`;
+        router.push(url);
+      }
     }, 1000);
     return () => {
       if (debounceTimeout.current) clearTimeout(debounceTimeout.current);

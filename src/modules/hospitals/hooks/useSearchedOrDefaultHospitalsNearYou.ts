@@ -24,10 +24,50 @@ export const useSearchedOrDefaultHospitalsNearYou = () => {
     const page = searchParams.get('page');
     return page ? parseInt(page, 10) : 1;
   }, [searchParams]);
+  // get all active params
+  const activeParams = useMemo(() => {
+    const params: Record<string, any> = {};
+    searchParams.forEach((value, key) => {
+      if (key === 'medicalServices' || key === 'facilities') {
+        params[key] = value ? value.split(';').filter(Boolean) : [];
+      } else if (key === 'q') {
+        params.searchQuery = value;
+      } else {
+        params[key] = value;
+      }
+    });
+
+    // If accreditation flags are present as individual params, merge them into an object
+    if (searchParams.has('accreditations')) {
+      try {
+        const raw = searchParams.get('accreditations') || '';
+        params.accreditations = raw
+          ? JSON.parse(raw)
+          : { isFearFreeCertified: false, isAAHAACertified: false };
+        delete params.isFearFreeCertified;
+        delete params.isAAHAACertified;
+      } catch (e) {
+        params.accreditations = { isFearFreeCertified: false, isAAHAACertified: false };
+      }
+    } else if (searchParams.has('isFearFreeCertified') || searchParams.has('isAAHAACertified')) {
+      params.accreditations = {
+        isFearFreeCertified: searchParams.get('isFearFreeCertified') === 'true',
+        isAAHAACertified: searchParams.get('isAAHAACertified') === 'true',
+      };
+      delete params.isFearFreeCertified;
+      delete params.isAAHAACertified;
+    }
+
+    return params;
+  }, [searchParams]);
+  console.log(
+    '🦊🦊🦊🦊🦊🦊🦊🦊 ~ useSearchedOrDefaultHospitalsNearYou ~ activeParams:',
+    activeParams
+  );
 
   const { data, error, isLoading } = useGetHospitalsNearYouQuery({
     QUERY: { page: currentPage, perPage: PAGE_SIZE },
-    BODY: {},
+    BODY: { ...activeParams },
   }) as { data?: HospitalsNearYouResponse; error?: any; isLoading: boolean };
   console.log('🚀 ~ useSearchedOrDefaultHospitalsNearYou ~ error:', extractApiError(error));
   console.log('🚀 ~ useSearchedOrDefaultHospitalsNearYou ~ data:', data);

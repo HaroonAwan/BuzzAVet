@@ -223,39 +223,39 @@ export default function Navbar({ className }: NavbarProps) {
               <Logo isUrl="/" />
             </div>
 
-            {isAuthenticated && (
-              <SearchBar
-                isExpanded={false}
-                locationValue={locationValue}
-                serviceTypeValue={serviceTypeValue}
-                showLocationDropdown={showLocationDropdown}
-                showServiceTypeDropdown={showServiceTypeDropdown}
-                isServiceTypeFocused={isServiceTypeFocused}
-                viewType={viewType}
-                recentSearches={recentSearches}
-                recentServiceSearches={recentServiceSearches}
-                onLocationChange={setLocationValue}
-                onLocationFocus={handleLocationFocus}
-                onLocationClick={handleLocationClick}
-                onLocationSelect={handleLocationSelect}
-                onLocationClear={handleClearLocation}
-                onNearbyClick={handleNearbyClick}
-                onClearRecentSearches={handleClearRecentSearches}
-                onServiceTypeChange={setServiceTypeValue}
-                onServiceTypeFocus={handleServiceTypeFocus}
-                onServiceTypeClick={handleServiceTypeClick}
-                onServiceTypeSelect={handleServiceTypeSelect}
-                onClearRecentServiceSearches={handleClearRecentServiceSearches}
-                onViewChange={setViewType}
-                locationInputRef={locationInputRef}
-                locationDropdownRef={locationDropdownRef}
-                serviceTypeInputRef={serviceTypeInputRef}
-                serviceTypeDropdownRef={serviceTypeDropdownRef}
-                heading={heading}
-                activeSlug={activeSlug}
-                activeCount={getAppliedFiltersCount(filters)}
-              />
-            )}
+            {/* {isAuthenticated && ( */}
+            <SearchBar
+              isExpanded={false}
+              locationValue={locationValue}
+              serviceTypeValue={serviceTypeValue}
+              showLocationDropdown={showLocationDropdown}
+              showServiceTypeDropdown={showServiceTypeDropdown}
+              isServiceTypeFocused={isServiceTypeFocused}
+              viewType={viewType}
+              recentSearches={recentSearches}
+              recentServiceSearches={recentServiceSearches}
+              onLocationChange={setLocationValue}
+              onLocationFocus={handleLocationFocus}
+              onLocationClick={handleLocationClick}
+              onLocationSelect={handleLocationSelect}
+              onLocationClear={handleClearLocation}
+              onNearbyClick={handleNearbyClick}
+              onClearRecentSearches={handleClearRecentSearches}
+              onServiceTypeChange={setServiceTypeValue}
+              onServiceTypeFocus={handleServiceTypeFocus}
+              onServiceTypeClick={handleServiceTypeClick}
+              onServiceTypeSelect={handleServiceTypeSelect}
+              onClearRecentServiceSearches={handleClearRecentServiceSearches}
+              onViewChange={setViewType}
+              locationInputRef={locationInputRef}
+              locationDropdownRef={locationDropdownRef}
+              serviceTypeInputRef={serviceTypeInputRef}
+              serviceTypeDropdownRef={serviceTypeDropdownRef}
+              heading={heading}
+              activeSlug={activeSlug}
+              activeCount={getAppliedFiltersCount(filters)}
+            />
+            {/* )} */}
 
             <div className="flex shrink-0 items-center gap-3">
               {isAuthenticated ? (

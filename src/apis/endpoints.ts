@@ -83,4 +83,7 @@ export const ApiEndpoints = {
       return `/customer/people/${vetId}`;
     },
   },
+  DROPDOWN_OPTIONS: {
+    HOSPITAL_SERVICES: '/general-services',
+  },
 };
